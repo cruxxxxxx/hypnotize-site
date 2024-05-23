@@ -42,6 +42,7 @@ img {
   height: auto;
 
   border-top:5px solid black;
+  -webkit-touch-callout:none;
 }
 
 .inner-project {
