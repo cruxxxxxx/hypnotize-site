@@ -52,10 +52,7 @@ function Project(props) {
     <div
       className="outer-project"
       ref={outerProject}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseLeave}
-      onMouseMove={onMouseMove}
+      onDoubleClick={onClick}
     >
       <div className="inner-project" ref={innerProject}>
         <img src={project.imgSrc} alt={project.name} />
