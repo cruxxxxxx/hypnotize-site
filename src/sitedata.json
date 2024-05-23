@@ -1,0 +1,43 @@
+{
+	"projects": [
+		{
+			"name": "pulsync",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-55%",
+			"marginBottomClose": "-35%",
+			"imgSrc": "pulsync.png",
+			"category": "game",
+			"startDate": "11-2017",
+			"endDate": "09-2024",
+			"description": "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz",
+			"forFansOf": "lumines, tetris attack, rez"
+		},
+		{
+			"name": "pulsync2",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-55%",
+			"marginBottomClose": "-35%",
+			"imgSrc": "pulsync.png",
+			"category": "game",
+			"startDate": "11-2017",
+			"endDate": "09-2024",
+			"description": "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz",
+			"forFansOf": "lumines, tetris attack, rez"
+		},
+		{
+			"name": "pulsync3",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-55%",
+			"marginBottomClose": "-35%",
+			"imgSrc": "pulsync.png",
+			"category": "game",
+			"startDate": "11-2017",
+			"endDate": "09-2024",
+			"description": "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz",
+			"forFansOf": "lumines, tetris attack, rez"
+		}
+	]
+}

@@ -1,0 +1,40 @@
+
+tooltip window animation:
+	https://tympanus.net/Development/PixelGooeyTooltip/ 
+
+
+animated 'spiral' of images with wobbly borders:
+	https://codepen.io/yoksel/pen/ZyqLGv
+
+noise animations on buttons:
+	https://codepen.io/multum/pen/Mrrrgg
+
+swiss style gfx design:
+	https://codepen.io/petebarr/details/BaymYWg
+
+image transition animation slices:
+	https://tympanus.net/Tutorials/ClipHoverEffect/
+
+mask text dissolve animation:
+	https://codepen.io/martifenosa/pen/OBbQYr 
+
+
+ribbon particle text animation:
+	https://codepen.io/birjolaxew/pen/nbvWpj
+
+
+pixel transition from center:
+	https://tympanus.net/Development/PixelTransition/index2.html
+
+image appears squash and stretch:
+	https://tympanus.net/Development/3DLettersMenuHover/
+
+simple svg mask:
+	https://codepen.io/web-tiki/pen/LGYBrQ
+
+svg masks:
+	https://codepen.io/yoksel/pen/GRodvp
+
+
+deer hover show:
+	https://codepen.io/wngus3277/pen/gzJGGZ
