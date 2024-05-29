@@ -15,22 +15,19 @@ const useMouseEvents = (onClick) => {
 
       updateCursorPosition(e);
 
-      holdTimeoutRef.current = setTimeout(() => { onClick() }, 2000);
-    }, 300);
+      holdTimeoutRef.current = setTimeout(() => { onClick() }, 200);
+
+  }, 100);
 
   };
 
   const onMouseUp = () => {
-    console.log('mouse up');
     clearTimeout(holdTimeoutRef.current);
-
     cursorCircleRef.current.style.display = 'none';
   };
 
   const onMouseLeave = () => {
-    console.log('mouse leave');
     clearTimeout(holdTimeoutRef.current);
-
     cursorCircleRef.current.style.display = 'none';
   };
 

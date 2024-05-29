@@ -21,3 +21,10 @@ d._.b
 border around window
 menu that fills in like a bar
 geometry slide into position 
+
+
+
+    background: linear-gradient(45deg, #888, #fff), 
+    radial-gradient(closest-side, #777, #fff) 0/ 1em 1em;
+    background-blend-mode: multiply;
+    filter: contrast(20)
