@@ -1,51 +1,59 @@
 import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 import SiteData from './sitedata.json';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 const projectData = SiteData['projects'];
 
-gsap.registerPlugin(useGSAP);
+// Define the enum-like object for project states
+const ProjectStates = {
+  LOADING: 'LOADING',
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+};
 
 function Project(props) {
-  const project = props.project;
-  const isActive = props.isActive;
+  const { project, state } = props;
 
   const outerProject = useRef();
   const innerProject = useRef();
   const projectInfo = useRef();
 
-  const { contextSafe } = useGSAP({ scope: outerProject });
-
   useEffect(() => {
-    if (isActive) {
-      const marginTop = project.marginTopOpen;
-      const marginBottom = project.marginBottomOpen;
+    const projectInfoElem = projectInfo.current;
+    const innerProjectElem = innerProject.current;
 
-      gsap.to(projectInfo.current, { opacity: '100%' });
-
-      gsap.to(innerProject.current, { marginTop: marginTop });
-      gsap.to(innerProject.current, {
-        marginBottom: marginBottom,
-        onComplete: () => innerProject.current.scrollIntoView({ behavior: 'smooth', block: 'center' }),
-      });
-    } else {
-      const marginTop = project.marginTopClose;
-      const marginBottom = project.marginBottomClose;
-
-      gsap.to(projectInfo.current, { opacity: '0%' });
-
-      gsap.to(innerProject.current, { marginTop: marginTop });
-      gsap.to(innerProject.current, { marginBottom: marginBottom });
+    if (state === ProjectStates.LOADING) {
+      // Directly set CSS values without animation for the loading state
+      projectInfoElem.style.opacity = '0%';
+      innerProjectElem.style.marginTop = project.marginTopClose;
+      innerProjectElem.style.marginBottom = project.marginBottomClose;
+    } else if (state === ProjectStates.OPEN) {
+      projectInfoElem.classList.remove('fade-out');
+      projectInfoElem.classList.add('fade-in');
+      innerProjectElem.classList.remove('margin-revert');
+      innerProjectElem.classList.add('margin-change');
+    } else if (state === ProjectStates.CLOSED) {
+      projectInfoElem.classList.remove('fade-in');
+      projectInfoElem.classList.add('fade-out');
+      innerProjectElem.classList.remove('margin-change');
+      innerProjectElem.classList.add('margin-revert');
     }
-  });
+  }, [state]);
 
   return (
     <div className="outer-project" ref={outerProject}>
-      <div className="inner-project" ref={innerProject}>
+      <div
+        className="inner-project"
+        ref={innerProject}
+        style={{
+          '--margin-top-open': project.marginTopOpen,
+          '--margin-bottom-open': project.marginBottomOpen,
+          '--margin-top-close': project.marginTopClose,
+          '--margin-bottom-close': project.marginBottomClose,
+        }}
+      >
         <img src={project.imgSrc} alt={project.name} />
         <br />
         <div className="project-info" ref={projectInfo}>
@@ -68,19 +76,19 @@ const CircleCursor = forwardRef((props, ref) => {
   const cursorCircleRef = useRef();
 
   useImperativeHandle(ref, () => ({
-      enable() {
-        cursorCircleRef.current.style.display = 'block';
-        cursorCircleRef.current.style.animation = `wipe ${props.duration || '1.5s'} linear`;
-      },
-      disable() {
-        cursorCircleRef.current.style.display = 'none';
-        cursorCircleRef.current.style.animation = '';
-      },
-      updateCursorPosition(e) {
-        svgContainerRef.current.style.left = `${e.nativeEvent.pageX - 50}px`;
-        svgContainerRef.current.style.top = `${e.nativeEvent.pageY - 50}px`;
-      },
-    }));
+    enable() {
+      svgContainerRef.current.classList.add('active');
+      cursorCircleRef.current.style.animation = `wipe ${props.duration || '1.5s'} linear`;
+    },
+    disable() {
+      svgContainerRef.current.classList.remove('active');
+      cursorCircleRef.current.style.animation = '';
+    },
+    updateCursorPosition(e) {
+      svgContainerRef.current.style.left = `${e.nativeEvent.pageX - 50}px`;
+      svgContainerRef.current.style.top = `${e.nativeEvent.pageY - 50}px`;
+    },
+  }));
 
   return (
     <div ref={svgContainerRef} className="svg-container">
@@ -93,12 +101,24 @@ const CircleCursor = forwardRef((props, ref) => {
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [projectStates, setProjectStates] = useState(
+    projectData.map(() => ProjectStates.LOADING)
+  );
 
   const circleCursorRef = useRef();
 
+  useEffect(() => {
+    // Set all projects to CLOSED after initial loading
+    setProjectStates(projectData.map(() => ProjectStates.CLOSED));
+  }, []);
+
   const onClick = (index) => {
-    console.log(activeIndex === index ? null : index);
     setActiveIndex(activeIndex === index ? null : index);
+    setProjectStates((prev) =>
+      prev.map((state, i) =>
+        i === index ? (state === ProjectStates.OPEN ? ProjectStates.CLOSED : ProjectStates.OPEN) : ProjectStates.CLOSED
+      )
+    );
   };
 
   const onPressIn = (e) => {
@@ -113,23 +133,27 @@ function App() {
   const onLongPress = (e, index) => {
     circleCursorRef.current.enable();
     onClick(index);
-  };      
+  };
 
   return (
     <React.StrictMode>
       <div id="header">hypnotize inc.</div>
       <div id="main">
-
-      <CircleCursor ref={circleCursorRef}/>
+        <CircleCursor ref={circleCursorRef} />
 
         <div className="row">
           <div className="column">
             {projectData.map((project, index) => (
-              <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onLongPress={(event) => onLongPress(event, index)}>
+              <Pressable
+                key={project.name}
+                onPressIn={onPressIn}
+                onPressOut={onPressOut}
+                onLongPress={(event) => onLongPress(event, index)}
+              >
                 <Project
-                  key={project.name}
                   project={project}
-                  isActive={activeIndex === index}/> 
+                  state={projectStates[index]}
+                />
               </Pressable>
             ))}
           </div>
