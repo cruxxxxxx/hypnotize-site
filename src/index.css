@@ -55,7 +55,16 @@ img {
   text-align: center;
 }
 
+.inner-project.margin-change {
+  animation: marginChange 0.5s forwards;
+}
+
+.inner-project.margin-revert {
+  animation: marginRevert 0.5s forwards;
+}
+
 .project-info {
+  opacity: 0;
   margin-top: -50%;
   padding: 1vh;
   position: absolute;
@@ -69,29 +78,25 @@ img {
   border: 1px solid white;
 }
 
+.project-info.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+.project-info.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
 .project-info-text {
   text-align: left;
   color: white;
 }
 
 circle {
-  stroke: white;
+  stroke: red;
   fill: none;
   stroke-dasharray: 314; /* equal to circumference of circle 2 * 3.14 * 50 */
   animation-direction: reverse;
   stroke-width: 10px;
-}
-
-@keyframes wipe {
-  0% {
-    stroke-dashoffset: 314;
-  }
-  30%, 50% {
-    stroke-dashoffset: 0;
-  }
-  80%, 100% {
-    stroke-dashoffset: 314;
-  } 
 }
 
 svg {
@@ -106,7 +111,19 @@ svg {
   position: absolute;
   z-index: 9999;
   pointer-events: none;
-  mix-blend-mode: additive;
+  mix-blend-mode: multiply;
+}
+
+@keyframes wipe {
+  0% {
+    stroke-dashoffset: 314;
+  }
+  30%, 50% {
+    stroke-dashoffset: 0;
+  }
+  80%, 100% {
+    stroke-dashoffset: 314;
+  } 
 }
 
 @keyframes fadeIn {
@@ -147,41 +164,4 @@ svg {
     margin-top: var(--margin-top-close);
     margin-bottom: var(--margin-bottom-close);
   }
-}
-
-.outer-project {
-  /* Add any required styling here */
-}
-
-.inner-project {
-  /* Add any required styling here */
-}
-
-.project-info {
-  opacity: 0; /* Start with hidden project info */
-}
-
-.project-info.fade-in {
-  animation: fadeIn 0.5s forwards;
-}
-
-.project-info.fade-out {
-  animation: fadeOut 0.5s forwards;
-}
-
-.inner-project.margin-change {
-  animation: marginChange 0.5s forwards;
-}
-
-.inner-project.margin-revert {
-  animation: marginRevert 0.5s forwards;
-}
-
-.svg-container {
-  position: absolute;
-  display: none;
-}
-
-.svg-container.active {
-  display: block;
 }
