@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { useState, useRef, useEffect } from 'react';
 
 export const ProjectStates = {
   LOADING: 'LOADING',
@@ -13,6 +12,7 @@ export function Project(props) {
   const outerProject = useRef();
   const innerProject = useRef();
   const projectInfo = useRef();
+  const prevState = useRef(state);
 
   useEffect(() => {
     const projectInfoElem = projectInfo.current;
@@ -22,18 +22,21 @@ export function Project(props) {
       projectInfoElem.style.opacity = '0%';
       innerProjectElem.style.marginTop = project.marginTopClose;
       innerProjectElem.style.marginBottom = project.marginBottomClose;
-    } else if (state === ProjectStates.OPEN) {
+    } else if (state === ProjectStates.OPEN && prevState.current !== ProjectStates.OPEN) {
       projectInfoElem.classList.remove('fade-out');
       projectInfoElem.classList.add('fade-in');
       innerProjectElem.classList.remove('margin-revert');
       innerProjectElem.classList.add('margin-change');
-    } else if (state === ProjectStates.CLOSED) {
+    } else if (state === ProjectStates.CLOSED && prevState.current !== ProjectStates.LOADING) {
       projectInfoElem.classList.remove('fade-in');
       projectInfoElem.classList.add('fade-out');
       innerProjectElem.classList.remove('margin-change');
       innerProjectElem.classList.add('margin-revert');
     }
-  }, [state]);
+
+    // Update the previous state
+    prevState.current = state;
+  }, [state, project.marginTopClose, project.marginBottomClose]);
 
   return (
     <div className="outer-project" ref={outerProject}>

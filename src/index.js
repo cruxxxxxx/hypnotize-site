@@ -29,9 +29,14 @@ function App() {
     );
   };
 
-  const onPressIn = (e) => {
-    circleCursorRef.current.enable();
-    circleCursorRef.current.updateCursorPosition(e);
+  const onPressIn = (e, index) => {
+    console.log(index);
+    if(index === activeIndex) {
+      circleCursorRef.current.enable();
+      circleCursorRef.current.updateCursorPosition(e);
+    } else {
+      onClick(index);
+    }
   };
 
   const onPressOut = (e) => {
@@ -39,7 +44,9 @@ function App() {
   };
 
   const onLongPress = (e, index) => {
-    onClick(index);
+    if(index === activeIndex) {
+      onClick(index);
+    }
   };
 
   return (
@@ -53,7 +60,7 @@ function App() {
             {projectData.map((project, index) => (
               <Pressable
                 key={project.name}
-                onPressIn={onPressIn}
+                onPressIn={(event) => onPressIn(event, index)}
                 onPressOut={onPressOut}
                 onLongPress={(event) => onLongPress(event, index)}>
                   <Project

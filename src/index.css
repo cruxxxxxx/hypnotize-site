@@ -1,6 +1,7 @@
 html,body {
     margin: 0;
     height:100%;
+    user-select: none
 }
 
 img {
@@ -92,18 +93,18 @@ img {
 }
 
 circle {
-  stroke: red;
+  stroke: white;
   fill: none;
   stroke-dasharray: 314; /* equal to circumference of circle 2 * 3.14 * 50 */
   animation-direction: reverse;
-  stroke-width: 10px;
+  stroke-width: 5px;
 }
 
 svg {
   position: relative;
   display: none;
-  height: 100px;
-  width: 100px;
+  height: 50%;
+  width: 50%;
   transform: rotate(-90deg);
 }
 
@@ -111,7 +112,7 @@ svg {
   position: absolute;
   z-index: 9999;
   pointer-events: none;
-  mix-blend-mode: multiply;
+  mix-blend-mode: difference;
 }
 
 @keyframes wipe {
