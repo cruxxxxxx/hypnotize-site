@@ -1,0 +1,95 @@
+.outer-project {
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  height: auto;
+
+  border-top:5px solid black;
+  -webkit-touch-callout:none;
+}
+
+.inner-project {
+  position: relative;
+  margin-top:-55%;
+  margin-bottom: -35%;
+  text-align: center;
+}
+
+.project-info {
+  opacity: 0;
+  margin-top: -100%;
+  padding: 1vh;
+  position: absolute;
+  left: 0%;
+  width: 40%;
+  height: 100%;
+  
+  background:  linear-gradient(rgba(0,0,0,1), rgba(0,0,0,.5));
+  backdrop-filter: blur(2px);
+  image-rendering: crisp-edges;
+  border: 1px solid white;
+}
+
+.project-info-text {
+  text-align: left;
+  color: white;
+  font-size: 5em;
+}
+
+
+
+.inner-project.margin-change {
+  animation: marginChange 0.5s forwards;
+}
+
+.inner-project.margin-revert {
+  animation: marginRevert 0.5s forwards;
+}
+
+.project-info.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+.project-info.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes marginChange {
+  from {
+    margin-top: var(--margin-top-close);
+    margin-bottom: var(--margin-bottom-close);
+  }
+  to {
+    margin-top: var(--margin-top-open);
+    margin-bottom: var(--margin-bottom-open);
+  }
+}
+
+@keyframes marginRevert {
+  from {
+    margin-top: var(--margin-top-open);
+    margin-bottom: var(--margin-bottom-open);
+  }
+  to {
+    margin-top: var(--margin-top-close);
+    margin-bottom: var(--margin-bottom-close);
+  }
+}

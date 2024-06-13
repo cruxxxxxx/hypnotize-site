@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './project.css';
+import './circleCursor.css';
 import SiteData from './sitedata.json';
 import {ProjectStates, Project} from './project.js';
 import {CircleCursor} from './circleCursor.js';

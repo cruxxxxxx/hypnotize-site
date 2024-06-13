@@ -1,0 +1,49 @@
+circle {
+  stroke: white;
+  fill: none;
+  stroke-dasharray: 314; /* equal to circumference of circle 2 * 3.14 * 50 */
+  animation-direction: reverse;
+  stroke-width: 5px;
+}
+
+svg {
+  position: relative;
+  display: none;
+  height: 50%;
+  width: 50%;
+  transform: rotate(-90deg);
+}
+
+.svg-container {
+  position: absolute;
+  z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  width: 400px;
+  height: 400px;
+}
+
+.svg-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .svg-container {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+
+@keyframes wipe {
+  0% {
+    stroke-dashoffset: 314;
+  }
+  30%, 50% {
+    stroke-dashoffset: 0;
+  }
+  80%, 100% {
+    stroke-dashoffset: 314;
+  } 
+}

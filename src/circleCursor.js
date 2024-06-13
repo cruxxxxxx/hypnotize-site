@@ -28,8 +28,13 @@ export const CircleCursor = forwardRef((props, ref) => {
       if (largeCircleRef.current) largeCircleRef.current.style.animation = '';
     },
     updateCursorPosition(e) {
-      svgContainerRef.current.style.left = `${e.nativeEvent.pageX - 70}px`;
-      svgContainerRef.current.style.top = `${e.nativeEvent.pageY - 70}px`;
+      const svgContainer = svgContainerRef.current;
+      const containerRect = svgContainer.getBoundingClientRect();
+      const containerWidth = containerRect.width;
+      const containerHeight = containerRect.height;
+
+      svgContainer.style.left = `${e.nativeEvent.pageX - containerWidth / 2}px`;
+      svgContainer.style.top = `${e.nativeEvent.pageY - containerHeight / 2}px`;
     },
   }));
 
