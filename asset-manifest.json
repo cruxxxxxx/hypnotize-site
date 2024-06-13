@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/hypnotize-site/static/css/main.e4310dee.css",
-    "main.js": "/hypnotize-site/static/js/main.8de9e716.js",
+    "main.css": "/hypnotize-site/static/css/main.a1822e54.css",
+    "main.js": "/hypnotize-site/static/js/main.17575c26.js",
     "index.html": "/hypnotize-site/index.html",
-    "main.e4310dee.css.map": "/hypnotize-site/static/css/main.e4310dee.css.map",
-    "main.8de9e716.js.map": "/hypnotize-site/static/js/main.8de9e716.js.map"
+    "main.a1822e54.css.map": "/hypnotize-site/static/css/main.a1822e54.css.map",
+    "main.17575c26.js.map": "/hypnotize-site/static/js/main.17575c26.js.map"
   },
   "entrypoints": [
-    "static/css/main.e4310dee.css",
-    "static/js/main.8de9e716.js"
+    "static/css/main.a1822e54.css",
+    "static/js/main.17575c26.js"
   ]
 }
