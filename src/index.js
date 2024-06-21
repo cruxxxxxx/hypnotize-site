@@ -5,7 +5,8 @@ import './project.css';
 import './circleCursor.css';
 import './marquee.css';
 import SiteData from './sitedata.json';
-import { ProjectStates, Project } from './project.js';
+import {ProjectStates} from './projectStatesHandler.js';
+import { Project } from './project.js';
 import { CircleCursor } from './circleCursor.js';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -19,30 +20,12 @@ function App() {
   );
 
   const [columnWidth, setColumnWidth] = useState(0);
-  const [maxColumnWidth, setMaxColumnWidth] = useState(0);
 
   const circleCursorRef = useRef();
   const columnRef = useRef();
 
   useEffect(() => {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
-  }, []);
-
-  useLayoutEffect(() => {
-    const handleResize = () => {
-      const computedStyle = window.getComputedStyle(columnRef.current);
-      const maxWidth = parseFloat(computedStyle.maxWidth); 
-      const minWidth = parseFloat(computedStyle.minWidth);
-      const width = parseFloat(computedStyle.width);
-      const p = (width - minWidth) / (maxWidth - minWidth);
-      //console.log(p);
-      setColumnWidth(1-p);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const onClick = (index) => {
@@ -76,7 +59,7 @@ function App() {
                 onPressOut={onPressOut}
                 onLongPress={(event) => onLongPress(event, index)}
               >
-                <Project project={project} state={projectStates[index]} columnWidth={columnWidth} maxColumnWidth={maxColumnWidth}/>
+                <Project project={project} state={projectStates[index]}/>
               </Pressable>
             ))}
           </div>
