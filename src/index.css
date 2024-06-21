@@ -37,7 +37,8 @@ img {
   margin: 0 auto; 
   margin-top: 2em;
 
-  width: 75vh;
+  min-width: 33vh;
+  max-width: 75vh;
 
   height: 100%;
   display: flex;
