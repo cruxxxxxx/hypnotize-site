@@ -2,42 +2,45 @@
   text-align: center;
   cursor: pointer;
   overflow: hidden;
-  height: auto;
-
-  border-top:5px solid black;
-  -webkit-touch-callout:none;
+  height: 100%;
+  border-top: 5px solid black;
+  -webkit-touch-callout: none;
 }
 
 .inner-project {
   position: relative;
-  margin-top:-55%;
-  margin-bottom: -35%;
-  text-align: center;
 }
 
 .project-info {
   opacity: 0;
-  margin-top: -100%;
+  margin-top: 0%;
   padding: 1vh;
-  position: absolute;
-  left: 0%;
-  width: 40%;
+  width: 100%;
   height: 100%;
-  
-  background:  linear-gradient(rgba(0,0,0,1), rgba(0,0,0,.5));
-  backdrop-filter: blur(2px);
-  image-rendering: crisp-edges;
-  border: 1px solid white;
+  overflow: hidden;
 }
 
 .project-info-text {
   text-align: left;
-  color: white;
-  font-size: 5em;
+  color: black;
+  font-size: 3em;
 }
 
+.project-info-text.left {
+  padding-left: 2%;
+  text-align: left;
+}
 
+.project-info-text.right {
+  padding-right: 2%;
+  text-align: right;
+}
 
+.label {
+  color: red;
+}
+
+/* Animation classes */
 .inner-project.margin-change {
   animation: marginChange 0.5s forwards;
 }
@@ -54,6 +57,7 @@
   animation: fadeOut 0.5s forwards;
 }
 
+/* Keyframes */
 @keyframes fadeIn {
   from {
     opacity: 0;

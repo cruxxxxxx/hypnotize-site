@@ -18,6 +18,14 @@ img {
   background: black;
   color: white;
   text-align: center;
+  font-size: 5em;
+  z-index: 9999;
+}
+
+@media (min-width: 1000px) {
+  #header {
+    font-size: 2em;
+  }
 }
 
 .row:after {
@@ -27,10 +35,9 @@ img {
 
 .column {
   margin: 0 auto; 
-  margin-top: 10vh;
+  margin-top: 2em;
 
-  min-width: 33vh;
-  max-width: 75vh;
+  width: 75vh;
 
   height: 100%;
   display: flex;
@@ -38,3 +45,4 @@ img {
 
   vertical-align: top; 
 }
+

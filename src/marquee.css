@@ -1,0 +1,24 @@
+.marquee-wrapper .container{
+  text-align: left;
+}
+
+.marquee-inner span{
+  height:50%;
+}
+
+.marquee-inner{
+  display: block;
+  height: 200%;
+  width:50%;
+  position: absolute;
+  animation: marqueeTop 15s linear infinite;
+}
+
+@keyframes marqueeTop{
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -100%;
+  }
+}
