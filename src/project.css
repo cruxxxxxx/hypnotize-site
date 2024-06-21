@@ -15,8 +15,15 @@
   opacity: 0;
   margin-top: 0%;
   padding: 1vh;
-  height: 0;
   overflow: hidden;
+}
+
+.hidden {
+  height: 0;
+}
+
+.visible {
+  height: auto; 
 }
 
 .project-info-text {

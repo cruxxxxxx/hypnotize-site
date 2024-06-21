@@ -18,6 +18,7 @@ export class ProjectStateHandler {
 
   onLoading() {
     this.projectInfoElem.style.opacity = '0%';
+    this.projectInfoElem.classList.add('hidden');
     this.innerProjectElem.style.marginTop = this.project.marginTopClose;
     this.innerProjectElem.style.marginBottom = this.project.marginBottomClose;
   }
@@ -28,12 +29,15 @@ export class ProjectStateHandler {
     }
     this.projectInfoElem.classList.remove('fade-out');
     this.projectInfoElem.classList.add('fade-in');
+    this.projectInfoElem.classList.add('visible');
     this.innerProjectElem.classList.remove('margin-revert');
     this.innerProjectElem.classList.add('margin-change');
   }
 
   onClosed() {
     this.projectInfoElem.classList.remove('fade-in');
+    this.projectInfoElem.classList.remove('visible');
+    this.projectInfoElem.classList.add('hidden');
     this.projectInfoElem.classList.add('fade-out');
     this.innerProjectElem.classList.remove('margin-change');
     this.innerProjectElem.classList.add('margin-revert');
