@@ -32,6 +32,12 @@
   font-size: 3em;
 }
 
+@media (min-width: 1000px) {
+  .project-info-text {
+    font-size: 1.5em;
+  }
+}
+
 .project-info-text.left {
   padding-left: 2%;
   text-align: left;

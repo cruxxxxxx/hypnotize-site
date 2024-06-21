@@ -1,7 +1,8 @@
 html,body {
     margin: 0;
     height:100%;
-    user-select: none
+    user-select: none;
+    scrollbar-gutter: stable; 
 }
 
 img {
@@ -37,7 +38,7 @@ img {
   margin: 0 auto; 
 
   min-width: 33vh;
-  max-width: 75vh;
+  max-width: 60vh;
 
   height: 100%;
   display: flex;
