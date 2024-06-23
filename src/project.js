@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useLayoutEffect } from 'react';
-import {ProjectStates, ProjectStateHandler} from './projectStatesHandler';
-import {scrollToElementWithPadding} from './util.js';
+import React, { useEffect, useRef } from 'react';
+import { ProjectStates, ProjectStateHandler } from './projectStatesHandler';
+import { scrollToElementWithPadding } from './util.js';
+import Slideshow from './slideshow';
 
 const scrollToPadding = 60;
 
@@ -10,12 +11,18 @@ export function Project(props) {
   const outerProject = useRef();
   const innerProject = useRef();
   const projectInfo = useRef();
+  const slideshowRef = useRef();
   const prevState = useRef(state);
+
+  const handleTransitionComplete = () => {
+    const innerProjectElem = innerProject.current;
+    innerProjectElem.classList.remove('closing-animation');
+    innerProjectElem.classList.add('closed');
+  };
 
   useEffect(() => {
     const projectInfoElem = projectInfo.current;
     const innerProjectElem = innerProject.current;
-    
 
     const scrollToCallback = () => {
       scrollToElementWithPadding(innerProjectElem, scrollToPadding);
@@ -23,10 +30,16 @@ export function Project(props) {
 
     const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, project);
 
-    if(prevState.current === ProjectStates.LOADING && state === ProjectStates.CLOSED){}
-    else {
+    if (prevState.current === ProjectStates.LOADING && state === ProjectStates.CLOSED) {
+    } else {
       stateHandler.onStateChange(state, scrollToCallback);
     }
+
+    if (prevState.current === ProjectStates.OPEN && state === ProjectStates.CLOSED && slideshowRef.current) {
+      innerProjectElem.classList.add('closing-animation');
+      slideshowRef.current.resetSlideIndex();
+    }
+
     prevState.current = state;
 
     return () => {
@@ -57,7 +70,13 @@ export function Project(props) {
           </div>
         </div>
 
-        <img src={project.imgSrc} alt={project.name} />
+        <Slideshow 
+          ref={slideshowRef}
+          mediaSrcs={project.mediaSrcs} 
+          projectName={project.name} 
+          isProjectOpen={state === ProjectStates.OPEN}
+          onTransitionComplete={handleTransitionComplete}
+        />
       </div>
     </div>
   );

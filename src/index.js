@@ -4,6 +4,7 @@ import './index.css';
 import './project.css';
 import './circleCursor.css';
 import './marquee.css';
+import './slideshow.css';
 import SiteData from './sitedata.json';
 import {ProjectStates} from './projectStatesHandler.js';
 import { Project } from './project.js';
