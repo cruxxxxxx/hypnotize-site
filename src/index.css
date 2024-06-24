@@ -31,6 +31,30 @@ video {
   z-index: 9999;
 }
 
+#header img {
+  padding-top: 20px;
+  margin-bottom: -10px;
+  height: 10%;
+  width: 10%;
+  filter: invert(1);
+}
+
+@keyframes strobe {
+  0% {
+    filter: invert(0);
+  }
+  50% {
+    filter: invert(1);
+  }
+  100% {
+    filter: invert(0);
+  }
+}
+
+.strobing {
+  animation: strobe 0.15s infinite;
+}
+
 @media (min-width: 1000px) {
   #header {
     font-size: 2em;

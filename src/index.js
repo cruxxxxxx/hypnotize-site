@@ -24,10 +24,22 @@ function App() {
 
   const circleCursorRef = useRef();
   const columnRef = useRef();
+  const headerImgRef = useRef();
 
   useEffect(() => {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
   }, []);
+
+  useEffect(() => {
+    const allClosed = projectStates.every(state => state === ProjectStates.CLOSED);
+    if (headerImgRef.current) {
+      if (allClosed) {
+        headerImgRef.current.classList.add('strobing');
+      } else {
+        headerImgRef.current.classList.remove('strobing');
+      }
+    }
+  }, [projectStates]);
 
   const onClick = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -73,7 +85,9 @@ function App() {
 
   return (
     <React.StrictMode>
-      <div id="header">hypnotize inc.</div>
+      <div id="header">
+        <img ref={headerImgRef} className="strobing" src="logo.png" alt="Logo" />
+      </div>
       <div id="main">
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
