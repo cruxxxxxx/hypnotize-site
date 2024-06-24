@@ -14,12 +14,6 @@ export function Project(props) {
   const slideshowRef = useRef();
   const prevState = useRef(state);
 
-  const handleTransitionComplete = () => {
-    const innerProjectElem = innerProject.current;
-    innerProjectElem.classList.remove('closing-animation');
-    innerProjectElem.classList.add('closed');
-  };
-
   useEffect(() => {
     const projectInfoElem = projectInfo.current;
     const innerProjectElem = innerProject.current;
@@ -36,8 +30,8 @@ export function Project(props) {
     }
 
     if (prevState.current === ProjectStates.OPEN && state === ProjectStates.CLOSED && slideshowRef.current) {
-      innerProjectElem.classList.add('closing-animation');
       slideshowRef.current.resetSlideIndex();
+      innerProjectElem.classList.add('closing-animation');
     }
 
     prevState.current = state;
@@ -75,7 +69,6 @@ export function Project(props) {
           mediaSrcs={project.mediaSrcs} 
           projectName={project.name} 
           isProjectOpen={state === ProjectStates.OPEN}
-          onTransitionComplete={handleTransitionComplete}
         />
       </div>
     </div>

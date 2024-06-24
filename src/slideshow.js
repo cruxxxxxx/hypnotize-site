@@ -5,22 +5,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
   const [isFading, setIsFading] = useState(false);
 
   useImperativeHandle(ref, () => ({
-    resetSlideIndex: () => {
-      if (slideIndex !== 0) {
-        setIsFading(true);
-        setTimeout(() => {
-          setSlideIndex(0);
-          setIsFading(false);
-          if (onTransitionComplete) {
-            onTransitionComplete();
-          }
-        }, 500); // Duration should match the CSS transition duration
-      } else {
-        if (onTransitionComplete) {
-          onTransitionComplete();
-        }
-      }
-    }
+    resetSlideIndex: () => { setSlideIndex(0);}
   }));
 
   const plusDivs = (n) => {
@@ -50,14 +35,14 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
         return mediaType === 'image' ? (
           <img
             key={index}
-            className={`mySlides ${index === slideIndex ? (isFading ? 'fade-out' : 'fade-in') : ''}`}
+            className={`mySlides ${index === slideIndex ? 'fade-in' : 'fade-out'}`}
             src={src}
             alt={projectName}
           />
         ) : mediaType === 'video' ? (
           <video
             key={index}
-            className={`mySlides ${index === slideIndex ? (isFading ? 'fade-out' : 'fade-in') : ''}`}
+            className={`mySlides ${index === slideIndex ? 'fade-in' : 'fade-out'}`}
             controls
           >
             <source src={src} type="video/mp4" />

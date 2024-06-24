@@ -21,7 +21,7 @@
 			"marginTopClose": "-10%",
 			"marginBottomClose": "-35%",
 			"marginCloseDiff": "0",
-			"mediaSrcs": ["pps.png", "pps-more2.png"],
+			"mediaSrcs": ["pps.png", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/pps.mp4"],
 			"category": "audio-visual",
 			"startDate": "01-2023",
 			"endDate": "07-2023",

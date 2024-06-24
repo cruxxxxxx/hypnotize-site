@@ -39,12 +39,25 @@ function App() {
   };
 
   const onPressIn = (e, index) => {
-    onClick(index);
+    /*if(index === activeIndex) {
+      circleCursorRef.current.enable();
+      circleCursorRef.current.updateCursorPosition(e);
+    } else {
+      onClick(index);
+    }*/
+
+      onClick(index);
   };
 
-  const onPressOut = (e) => {};
+  const onPressOut = (e) => {
+    //circleCursorRef.current.disable();
+  };
 
-  const onLongPress = (e, index) => {};
+  const onLongPress = (e, index) => {
+    /*if(index === activeIndex) {
+      onClick(index);
+    }*/
+  };
 
   return (
     <React.StrictMode>

@@ -10,6 +10,7 @@
 }
 
 .mySlides.fade-out {
+      position:absolute;
   opacity: 0;
   display: block;
 }
