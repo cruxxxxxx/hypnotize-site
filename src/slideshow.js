@@ -13,7 +13,6 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
     videoRefs.current.forEach((video, index) => {
       if (video) {
         if (index === slideIndex) {
-          video.play();
         } else {
           video.pause();
           video.currentTime = 0;

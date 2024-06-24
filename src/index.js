@@ -38,6 +38,15 @@ function App() {
     );
   };
 
+  const onClose = (index) => {
+    setActiveIndex(null);
+    setProjectStates((prev) =>
+      prev.map((state, i) =>
+        i === index ? ProjectStates.CLOSED : state
+      )
+    );
+  };
+
   const onPressIn = (e, index) => {
     /*if(index === activeIndex) {
       circleCursorRef.current.enable();
@@ -46,6 +55,9 @@ function App() {
       onClick(index);
     }*/
 
+    if(index !== activeIndex) {
+      onClick(index);
+    } 
   };
 
   const onPressOut = (e) => {
@@ -56,7 +68,7 @@ function App() {
     /*if(index === activeIndex) {
       onClick(index);
     }*/
-    onClick(index);
+    //onClick(index);
   };
 
   return (
@@ -74,7 +86,7 @@ function App() {
                 onLongPress={(event) => onLongPress(event, index)}
                 delayLongPress={100}
               >
-                <Project project={project} state={projectStates[index]}/>
+                <Project project={project} state={projectStates[index]} onClose={() => onClose(index)}/>
               </Pressable>
             ))}
           </div>

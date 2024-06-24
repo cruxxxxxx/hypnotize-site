@@ -6,7 +6,7 @@ import Slideshow from './slideshow';
 const scrollToPadding = 60;
 
 export function Project(props) {
-  const { project, state } = props;
+  const { project, state, onClose} = props;
 
   const outerProject = useRef();
   const innerProject = useRef();
@@ -54,12 +54,8 @@ export function Project(props) {
         }}
       >
         <div className="project-info" ref={projectInfo}>
+                    <button onClick={onClose}> {project.name} </button>
           <div className="project-info-text left">
-            <span className="label">title: </span> <span>{project.name}</span><br />
-            <span className="label">category: </span> <span>{project.category}</span>
-          </div>
-          <div className="project-info-text right">
-            <span className="label">date: </span> <span>{project.endDate}</span><br />
             <span className="label">description: </span> <span>{project.description}</span>
           </div>
         </div>

@@ -2,6 +2,7 @@
   opacity: 0;
   transition: opacity 0.5s;
   display: none;
+  position: relative; /* Ensure .mySlides is a positioned element */
 }
 
 .mySlides.fade-in {
@@ -10,14 +11,14 @@
 }
 
 .mySlides.fade-out {
-  position:absolute;
+  position: absolute;
   opacity: 0;
   display: block;
 }
 
 .slideshow-button {
-  position: relative;
-  top: 0%;
+  position: relative; /* Change to absolute positioning */
+  top: 100%;
   width: auto;
   color: white;
   font-weight: bold;
@@ -26,14 +27,15 @@
   border-radius: 0 3px 3px 0;
   user-select: none;
   background-color: rgba(0,0,0,0.5);
+  z-index: 1; /* Ensure buttons appear above slides */
 }
 
 .slideshow-button.display-left {
-  left: -46%;
+  left: -47%; /* Adjust for perfect horizontal placement */
   border-radius: 3px 0 0 3px;
 }
 
 .slideshow-button.display-right {
-  right: -46%;
-  border-radius: 3px 0 0 3px;
+  right: -47%; /* Adjust for perfect horizontal placement */
+  border-radius: 0 3px 3px 0;
 }

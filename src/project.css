@@ -39,12 +39,12 @@
 }
 
 .project-info-text.left {
-  padding-left: 2%;
+  margin-left: -1%;
   text-align: left;
 }
 
 .project-info-text.right {
-  padding-right: 2%;
+  padding-right: -2%;
   text-align: right;
 }
 
