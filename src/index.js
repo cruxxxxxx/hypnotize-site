@@ -46,7 +46,6 @@ function App() {
       onClick(index);
     }*/
 
-      onClick(index);
   };
 
   const onPressOut = (e) => {
@@ -57,6 +56,7 @@ function App() {
     /*if(index === activeIndex) {
       onClick(index);
     }*/
+    onClick(index);
   };
 
   return (
@@ -72,6 +72,7 @@ function App() {
                 onPressIn={(event) => onPressIn(event, index)}
                 onPressOut={onPressOut}
                 onLongPress={(event) => onLongPress(event, index)}
+                delayLongPress={100}
               >
                 <Project project={project} state={projectStates[index]}/>
               </Pressable>

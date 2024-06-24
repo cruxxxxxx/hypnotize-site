@@ -1,12 +1,26 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useImperativeHandle, forwardRef, useEffect, useRef } from 'react';
 
 const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransitionComplete }, ref) => {
   const [slideIndex, setSlideIndex] = useState(0);
-  const [isFading, setIsFading] = useState(false);
+  const videoRefs = useRef([]);
 
   useImperativeHandle(ref, () => ({
-    resetSlideIndex: () => { setSlideIndex(0);}
+    resetSlideIndex: () => { setSlideIndex(0); }
   }));
+
+  useEffect(() => {
+    // Pause and reset videos when they are not the active slide
+    videoRefs.current.forEach((video, index) => {
+      if (video) {
+        if (index === slideIndex) {
+          video.play();
+        } else {
+          video.pause();
+          video.currentTime = 0;
+        }
+      }
+    });
+  }, [slideIndex]);
 
   const plusDivs = (n) => {
     let newIndex = slideIndex + n;
@@ -19,6 +33,9 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
   };
 
   const getMediaType = (src) => {
+    if (src.includes('youtube.com') || src.includes('youtu.be')) {
+      return 'youtube';
+    }
     const extension = src.split('.').pop().toLowerCase();
     if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
       return 'image';
@@ -26,6 +43,14 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
       return 'video';
     }
     return 'unknown';
+  };
+
+  const getYouTubeEmbedUrl = (url) => {
+    const urlObj = new URL(url);
+    if (urlObj.hostname === 'youtu.be') {
+      return `https://www.youtube.com/embed/${urlObj.pathname.slice(1)}`;
+    }
+    return `https://www.youtube.com/embed/${urlObj.searchParams.get('v')}`;
   };
 
   return (
@@ -42,12 +67,23 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
         ) : mediaType === 'video' ? (
           <video
             key={index}
+            ref={(el) => videoRefs.current[index] = el}
             className={`mySlides ${index === slideIndex ? 'fade-in' : 'fade-out'}`}
             controls
           >
             <source src={src} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+        ) : mediaType === 'youtube' ? (
+          <iframe
+            key={index}
+            className={`mySlides ${index === slideIndex ? 'fade-in' : 'fade-out'}`}
+            src={src}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={projectName}
+          ></iframe>
         ) : null;
       })}
 
