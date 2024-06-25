@@ -28,14 +28,13 @@ video {
   color: white;
   text-align: center;
   font-size: 5em;
+  height: 2em;
   z-index: 9999;
 }
 
 #header img {
-  padding-top: 20px;
-  margin-bottom: -10px;
-  height: 10%;
-  width: 10%;
+  height: 100%;
+  width: auto;
   filter: invert(1);
 }
 
@@ -58,6 +57,7 @@ video {
 @media (min-width: 1000px) {
   #header {
     font-size: 2em;
+    height: 2em;
   }
 }
 
