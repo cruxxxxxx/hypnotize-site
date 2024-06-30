@@ -3,7 +3,7 @@ import { ProjectStates, ProjectStateHandler } from './projectStatesHandler';
 import { scrollToElementWithPadding } from './util.js';
 import Slideshow from './slideshow';
 
-const scrollToPadding = 60;
+const scrollToPadding = 100;
 
 export function Project(props) {
   const { project, state, onClose} = props;
@@ -19,7 +19,7 @@ export function Project(props) {
     const innerProjectElem = innerProject.current;
 
     const scrollToCallback = () => {
-      scrollToElementWithPadding(innerProjectElem, scrollToPadding);
+      scrollToElementWithPadding(outerProject.current, scrollToPadding);
     };
 
     const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, project);

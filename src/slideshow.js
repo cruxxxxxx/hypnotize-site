@@ -2,6 +2,7 @@ import React, { useState, useImperativeHandle, forwardRef, useEffect, useRef } f
 
 const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransitionComplete }, ref) => {
   const [slideIndex, setSlideIndex] = useState(0);
+  const [loaded, setLoaded] = useState(new Array(mediaSrcs.length).fill(false));
   const videoRefs = useRef([]);
 
   useImperativeHandle(ref, () => ({
@@ -13,6 +14,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
     videoRefs.current.forEach((video, index) => {
       if (video) {
         if (index === slideIndex) {
+          video.play();
         } else {
           video.pause();
           video.currentTime = 0;
@@ -52,6 +54,14 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
     return `https://www.youtube.com/embed/${urlObj.searchParams.get('v')}`;
   };
 
+  const handleLoad = (index) => {
+    setLoaded(prevLoaded => {
+      const newLoaded = [...prevLoaded];
+      newLoaded[index] = true;
+      return newLoaded;
+    });
+  };
+
   return (
     <div className="slideshow-container">
       {mediaSrcs.map((src, index) => {
@@ -59,16 +69,20 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
         return mediaType === 'image' ? (
           <img
             key={index}
-            className={`mySlides ${index === slideIndex ? 'fade-in' : 'fade-out'}`}
+            className={`mySlides ${index === slideIndex && loaded[index] ? 'fade-in' : 'fade-out'}`}
             src={src}
             alt={projectName}
+            onLoad={() => handleLoad(index)}
+            style={{ display: loaded[index] ? 'block' : 'none' }}
           />
         ) : mediaType === 'video' ? (
           <video
             key={index}
             ref={(el) => videoRefs.current[index] = el}
-            className={`mySlides ${index === slideIndex ? 'fade-in' : 'fade-out'}`}
+            className={`mySlides ${index === slideIndex && loaded[index] ? 'fade-in' : 'fade-out'}`}
             controls
+            onLoadedData={() => handleLoad(index)}
+            style={{ display: loaded[index] ? 'block' : 'none' }}
           >
             <source src={src} type="video/mp4" />
             Your browser does not support the video tag.
@@ -76,12 +90,14 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onTransit
         ) : mediaType === 'youtube' ? (
           <iframe
             key={index}
-            className={`mySlides ${index === slideIndex ? 'fade-in' : 'fade-out'}`}
-            src={src}
+            className={`mySlides ${index === slideIndex && loaded[index] ? 'fade-in' : 'fade-out'}`}
+            src={getYouTubeEmbedUrl(src)}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             title={projectName}
+            onLoad={() => handleLoad(index)}
+            style={{ display: loaded[index] ? 'block' : 'none' }}
           ></iframe>
         ) : null;
       })}

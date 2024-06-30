@@ -5,10 +5,15 @@
   height: auto;
   border-top: 5px solid white;
   -webkit-touch-callout: none;
+  border-radius: 0px;
 }
 
 .inner-project {
   position: relative;
+}
+
+.inner-project img {
+  border-radius: 0px;
 }
 
 .project-info {
