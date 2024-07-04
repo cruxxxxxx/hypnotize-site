@@ -31,11 +31,31 @@
 }
 
 .slideshow-button.display-left {
-  left: -47%; /* Adjust for perfect horizontal placement */
   border-radius: 3px 0 0 3px;
 }
 
 .slideshow-button.display-right {
-  right: -47%; /* Adjust for perfect horizontal placement */
   border-radius: 0 3px 3px 0;
+}
+
+.open {
+  animation: scaleWidth 10s ease-out forwards, scaleHeight 10s 10s ease-out forwards;
+}
+
+@keyframes scaleWidth {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes scaleHeight {
+  0% {
+    transform: scaleY(0.2);
+  }
+  100% {
+    transform: scaleY(1);
+  }
 }

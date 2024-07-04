@@ -15,6 +15,8 @@ const projectData = SiteData['projects'];
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [loaded, setLoaded] = useState(new Array(projectData.length).fill(false));
+  const [startAnimation, setStartAnimation] = useState(null);
 
   const [projectStates, setProjectStates] = useState(
     projectData.map(() => ProjectStates.LOADING)
@@ -30,6 +32,20 @@ function App() {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
   }, []);
 
+  const onMediaLoaded = (index) => {
+    setLoaded(prevLoaded => {
+      const newLoaded = [...prevLoaded];
+      newLoaded[index] = true;
+      return newLoaded;
+    });
+  };
+
+  useEffect(() => {
+    if (loaded.every(item => item)) {
+      setStartAnimation(1);
+    }
+  }, loaded)
+
   useEffect(() => {
     const allClosed = projectStates.every(state => state === ProjectStates.CLOSED);
     if (headerImgRef.current) {
@@ -40,6 +56,8 @@ function App() {
       }
     }
   }, [projectStates]);
+
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const onClick = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -98,9 +116,13 @@ function App() {
                 onPressIn={(event) => onPressIn(event, index)}
                 onPressOut={onPressOut}
                 onLongPress={(event) => onLongPress(event, index)}
-                delayLongPress={100}
-              >
-                <Project project={project} state={projectStates[index]} onClose={() => onClose(index)}/>
+                delayLongPress={100}>
+                  <Project 
+                  project={project} 
+                  state={projectStates[index]} 
+                  onClose={() => onClose(index)}
+                  onMediaLoaded={() => onMediaLoaded(index)}
+                  startAnimationTime={startAnimation ? startAnimation * index * 150 : null}/>
               </Pressable>
             ))}
           </div>

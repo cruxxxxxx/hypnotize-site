@@ -21,6 +21,15 @@ video {
   user-select: none;
 }
 
+@font-face {
+    font-family: 'arrayregular';
+    src: url('array.woff2') format('woff2'),
+         url('array.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 #header {
   position: sticky;
   top:0;

@@ -6,7 +6,7 @@ circle {
   stroke-width: 5px;
 }
 
-svg {
+.svg-circle {
   position: relative;
   display: none;
   height: 50%;

@@ -15,7 +15,7 @@
 			"forFansOf": "lumines, tetris attack, rez"
 		},
 		{
-			"name": "public phone school - the write to bear claws",
+			"name": "\"The Write to Bear Claws\"\nPublic Phone School",
 			"marginTopOpen": "2%",
 			"marginBottomOpen": "2%",
 			"marginTopClose": "-10%",
@@ -35,7 +35,7 @@
 			"marginTopClose": "-25%",
 			"marginBottomClose": "-20%",
 			"marginCloseDiff": "-100",
-			"mediaSrcs": ["vjx7.png", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/vjx.mp4"],
+			"mediaSrcs": ["vjx7.png", "vjx7.png", "vjx7.png", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/vjx.mp4"],
 			"category": "audio-visual",
 			"startDate": "07-2020",
 			"endDate": "09-2020",
@@ -43,7 +43,7 @@
 			"forFansOf": ""
 		},
 		{
-			"name": "peace enforcer visuals",
+			"name": "Visuals: Peace Enforcer",
 			"marginTopOpen": "2%",
 			"marginBottomOpen": "2%",
 			"marginTopClose": "-45%",
@@ -57,7 +57,7 @@
 			"forFansOf": ""
 		},
 		{
-			"name": "skylar spence visuals",
+			"name": "Visuals: Skylar Spence",
 			"marginTopOpen": "2%",
 			"marginBottomOpen": "2%",
 			"marginTopClose": "-8%",

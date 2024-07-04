@@ -40,7 +40,7 @@ export const CircleCursor = forwardRef((props, ref) => {
 
   return (
     <div ref={svgContainerRef} className="svg-container">
-      <svg ref={cursorCircleRef} viewBox="0 0 140 140">
+      <svg class="svg-circle" ref={cursorCircleRef} viewBox="0 0 140 140">
         <circle id="smallCircleRef" ref={smallCircleRef} cx="70" cy="70" r="20" />
         <text x="70" y="70" text-anchor="middle" dominant-baseline="middle" font-size="16" fill="black">close</text>
 
