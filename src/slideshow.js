@@ -93,8 +93,8 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
       )}
       <Carousel
         responsive={responsive}
-        infinite
-        afterChange={(previousSlide, { currentSlide }) => handleSlideChange(currentSlide)}
+          customTransition="all"
+        beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(currentSlide)}
         customButtonGroup={isProjectOpen && mediaSrcs.length > 1 ? (
           <div>
             <button className="slideshow-button display-left" onClick={() => handleSlideChange((slideIndex - 1 + mediaSrcs.length) % mediaSrcs.length)}>&#10094;</button>
@@ -117,10 +117,6 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
               ) : mediaType === 'video' ? (
                 <video
                   ref={(el) => videoRefs.current[index] = el}
-                  className={`mySlides ${loaded[index] ? 'fade-in' : 'fade-out'}`}
-                  controls
-                  onLoadedData={() => handleLoad(index)}
-                  style={{ display: loaded[index] ? 'block' : 'none' }}
                 >
                   <source src={src} type="video/mp4" />
                   Your browser does not support the video tag.
