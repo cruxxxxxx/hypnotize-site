@@ -93,8 +93,14 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
       )}
       <Carousel
         responsive={responsive}
-          customTransition="all"
+        arrows={isProjectOpen && mediaSrcs.length > 1 }
+        showDots={true}
+        renderDotsOutside={true}
+        draggable={false}
+        swipeable={false}
+        customTransition="all"
         beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(currentSlide)}
+        dotListClass="custom-dot-list-style"
         customButtonGroup={isProjectOpen && mediaSrcs.length > 1 ? (
           <div>
             <button className="slideshow-button display-left" onClick={() => handleSlideChange((slideIndex - 1 + mediaSrcs.length) % mediaSrcs.length)}>&#10094;</button>
@@ -116,6 +122,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                 />
               ) : mediaType === 'video' ? (
                 <video
+                  controls
                   ref={(el) => videoRefs.current[index] = el}
                 >
                   <source src={src} type="video/mp4" />
