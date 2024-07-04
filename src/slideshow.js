@@ -7,9 +7,10 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
   const [slideIndex, setSlideIndex] = useState(0);
   const [showStatic, setShowStatic] = useState(false);
   const videoRefs = useRef([]);
+  const carousel = useRef();
 
   useImperativeHandle(ref, () => ({
-    resetSlideIndex: () => setSlideIndex(0)
+    resetSlideIndex: () => carousel.current.goToSlide(0, true)
   }));
 
   useEffect(() => {
@@ -91,7 +92,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
           }}
         />
       )}
-      <Carousel
+      <Carousel ref={carousel}
         responsive={responsive}
         arrows={isProjectOpen && mediaSrcs.length > 1 }
         showDots={true}
