@@ -125,6 +125,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                 <video
                   controls
                   playsInline
+                  autobuffer={true}
                   ref={(el) => videoRefs.current[index] = el}
                 >
                   <source src={src} type="video/mp4" />
