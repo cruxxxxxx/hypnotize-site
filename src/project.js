@@ -14,6 +14,7 @@ export function Project(props) {
   const projectInfo = useRef();
   const slideshowRef = useRef();
   const prevState = useRef(state);
+  const projectTitle = useRef();
 
   useEffect(() => {
     const projectInfoElem = projectInfo.current;
@@ -42,6 +43,20 @@ export function Project(props) {
     };
   }, [state]);
 
+  useEffect(() => {
+    if (state === ProjectStates.OPEN) {
+      const lineContainer = document.querySelector('.line-container svg');
+      if (lineContainer) {
+        //lineContainer.classList.add('animate-lines');
+      }
+    } else {
+      const lineContainer = document.querySelector('.line-container svg');
+      if (lineContainer) {
+        //lineContainer.classList.remove('animate-lines');
+      }
+    }
+  }, [state]);
+
   return (
     <div className="outer-project" ref={outerProject}>
       <div
@@ -56,14 +71,18 @@ export function Project(props) {
         }}
       >
         <div className="project-info" ref={projectInfo}>
+          <div className="project-title">
+            <span ref={projectTitle} >{project.name} </span>
+          </div>
+
           <Pressable onPressIn={onClose}>
-            <span class="project-title">{project.name} </span>
+          <span className="open-mark"> &#9658; </span>
           </Pressable>
 
-          <div class="line-container">
+          <div className="line-container">
             <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-              <line x1="0" y1="0" x2="240" y2="0" stroke="black" />
-              <line x1="240" y1="0" x2="290" y2="60" stroke="black" />
+              <line className="line-horizontal" x1="0" y1="0" x2="240" y2="0" stroke="black" />
+              <line className="line-diagonal" x1="240" y1="0" x2="290" y2="60" stroke="black" />
             </svg>
           </div>
 
@@ -71,7 +90,6 @@ export function Project(props) {
           <br/>
           </div>
         </div>
-
 
         <Slideshow 
           ref={slideshowRef}

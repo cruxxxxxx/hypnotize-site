@@ -1,6 +1,5 @@
 .outer-project {
   text-align: center;
-  cursor: pointer;
   overflow: hidden;
   height: auto;
   border-top: 5px solid white;
@@ -32,11 +31,22 @@
   white-space: pre-line;
 }
 
+.open-mark {
+  position: fixed;
+  text-align: left;
+  font-size: 2em;
+  margin-top: -0.55em;
+  margin-left: -1em;
+  overflow: visible;
+}
+
 .project-info {
   opacity: 0;
   margin-top: 0%;
   padding: 1vh;
   overflow: hidden;
+  animation-delay: 3.5s;
+  animation: fadeIn 3s forwards;
 }
 
 .hidden {
@@ -57,7 +67,7 @@
   .project-title {
     font-size: 2em;
   }
-  
+
   .project-info-text {
     font-size: 1.5em;
   }
@@ -73,11 +83,6 @@
   text-align: right;
 }
 
-.label {
-  color: red;
-}
-
-/* Animation classes */
 .inner-project.margin-change {
   animation: marginChange 0.5s forwards;
 }
@@ -87,14 +92,15 @@
 }
 
 .project-info.fade-in {
+  animation-delay: 0.5s;
   animation: fadeIn 0.5s forwards;
 }
 
 .project-info.fade-out {
+  animation-delay: 0.5s;
   animation: fadeOut 0.5s forwards;
 }
 
-/* Keyframes */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -133,4 +139,41 @@
     margin-top: var(--margin-top-close);
     margin-bottom: var(--margin-bottom-close);
   }
+}
+
+@keyframes drawHorizontal {
+  from {
+    stroke-dasharray: 240;
+    stroke-dashoffset: 240;
+  }
+  to {
+    stroke-dasharray: 240;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawDiagonal {
+  from {
+    stroke-dasharray: 75;
+    stroke-dashoffset: 75;
+  }
+  to {
+    stroke-dasharray: 75;
+    stroke-dashoffset: 0;
+  }
+}
+
+.line-horizontal {
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+  animation: drawHorizontal 0.5s forwards;
+  animation-delay: 1s;
+}
+
+.line-diagonal {
+  stroke-width: 0.5;
+  stroke-dasharray: 75;
+  stroke-dashoffset: 75;
+  animation: drawDiagonal 1s forwards;
+  animation-delay: 1.5s;
 }

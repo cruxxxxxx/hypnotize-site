@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './project.css';
@@ -6,10 +6,10 @@ import './circleCursor.css';
 import './marquee.css';
 import './slideshow.css';
 import SiteData from './sitedata.json';
-import {ProjectStates} from './projectStatesHandler.js';
+import { ProjectStates } from './projectStatesHandler.js';
 import { Project } from './project.js';
 import { CircleCursor } from './circleCursor.js';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 const projectData = SiteData['projects'];
 
@@ -21,8 +21,6 @@ function App() {
   const [projectStates, setProjectStates] = useState(
     projectData.map(() => ProjectStates.LOADING)
   );
-
-  const [columnWidth, setColumnWidth] = useState(0);
 
   const circleCursorRef = useRef();
   const columnRef = useRef();
@@ -44,7 +42,7 @@ function App() {
     if (loaded.every(item => item)) {
       setStartAnimation(1);
     }
-  }, loaded)
+  }, [loaded]);
 
   useEffect(() => {
     const allClosed = projectStates.every(state => state === ProjectStates.CLOSED);
@@ -56,8 +54,6 @@ function App() {
       }
     }
   }, [projectStates]);
-
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const onClick = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -78,16 +74,9 @@ function App() {
   };
 
   const onPressIn = (e, index) => {
-    /*if(index === activeIndex) {
-      circleCursorRef.current.enable();
-      circleCursorRef.current.updateCursorPosition(e);
-    } else {
+    if (index !== activeIndex) {
       onClick(index);
-    }*/
-
-    if(index !== activeIndex) {
-      onClick(index);
-    } 
+    }
   };
 
   const onPressOut = (e) => {
@@ -95,9 +84,6 @@ function App() {
   };
 
   const onLongPress = (e, index) => {
-    /*if(index === activeIndex) {
-      onClick(index);
-    }*/
     //onClick(index);
   };
 
@@ -116,8 +102,9 @@ function App() {
                 onPressIn={(event) => onPressIn(event, index)}
                 onPressOut={onPressOut}
                 onLongPress={(event) => onLongPress(event, index)}
-                delayLongPress={100}>
-                  <Project 
+                delayLongPress={100}
+                disabled={projectStates[index] === ProjectStates.OPEN}>
+                <Project 
                   project={project} 
                   state={projectStates[index]} 
                   onClose={() => onClose(index)}
