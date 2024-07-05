@@ -32,14 +32,27 @@
   margin-bottom: 0.3em;
 }
 
-.open-mark {
+.open-mark-container {
   position: absolute;
   text-align: left;
   font-size: 1. 5em;
   margin-left: -0.6em;
   margin-top: -0.5em;
   overflow: visible;
-  transform: rotate(90deg);
+}
+
+@keyframes rotateElement {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+.rotating-element {
+  animation: rotateElement 0.5s forwards; /* Adjust the duration as needed */
+  animation-delay: 0.2s;
 }
 
 .project-info {
@@ -171,14 +184,20 @@
 .line-horizontal {
   stroke-dasharray: 240;
   stroke-dashoffset: 240;
+}
+
+.line-horizontal.animation {
   animation: drawHorizontal 0.5s forwards;
-  animation-delay: 1s;
+  animation-delay: 0.2s;
 }
 
 .line-diagonal {
   stroke-width: 0.5;
   stroke-dasharray: 75;
   stroke-dashoffset: 75;
+}
+
+.line-diagonal.animation {
   animation: drawDiagonal 1s forwards;
-  animation-delay: 1.5s;
+  animation-delay: 0.7s;
 }
