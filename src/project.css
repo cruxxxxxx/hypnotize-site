@@ -29,15 +29,17 @@
   font-size: 4.5em;
   font-family: 'arrayregular';
   white-space: pre-line;
+  margin-bottom: 0.3em;
 }
 
 .open-mark {
-  position: fixed;
+  position: absolute;
   text-align: left;
-  font-size: 2em;
-  margin-top: -0.55em;
-  margin-left: -1em;
+  font-size: 1. 5em;
+  margin-left: -0.6em;
+  margin-top: -0.5em;
   overflow: visible;
+  transform: rotate(90deg);
 }
 
 .project-info {
@@ -57,30 +59,33 @@
   height: auto; 
 }
 
-.project-info-text {
-  text-align: left;
+.project-info-text-container {
+  padding-top: 0.2em;
+  padding-left: 0.2em;
   color: black;
   font-size: 3em;
+  width: 83%;
 }
 
 @media (min-width: 1000px) {
   .project-title {
-    font-size: 2em;
+    font-size: 2.5em;
   }
 
-  .project-info-text {
+  .project-info-text-container {
     font-size: 1.5em;
+    padding-top: 0.4em;
   }
 }
 
 .project-info-text.left {
-  margin-left: -1%;
-  text-align: left;
+    display:inline;
+    float: left;
 }
 
 .project-info-text.right {
-  padding-right: -2%;
-  text-align: right;
+    display: inline;
+    float: right;
 }
 
 .inner-project.margin-change {

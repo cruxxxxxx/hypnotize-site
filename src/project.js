@@ -71,12 +71,14 @@ export function Project(props) {
         }}
       >
         <div className="project-info" ref={projectInfo}>
+
+
           <div className="project-title">
             <span ref={projectTitle} >{project.name} </span>
           </div>
 
           <Pressable onPressIn={onClose}>
-          <span className="open-mark"> &#9658; </span>
+            <span className="open-mark"> &#9658; </span>
           </Pressable>
 
           <div className="line-container">
@@ -86,9 +88,11 @@ export function Project(props) {
             </svg>
           </div>
 
-          <div className="project-info-text left">
-          <br/>
+          <div className="project-info-text-container">
+            <span className="project-info-text left">{project.category} </span>
+            <span className="project-info-text right">{project.year} </span> <br/>
           </div>
+
         </div>
 
         <Slideshow 
