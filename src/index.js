@@ -89,7 +89,7 @@ function App() {
       const swipeDistance = Math.abs(touchEnd - touchStartRef.current);
       
       // If swipe distance is greater than a threshold (e.g., 10 pixels), treat it as a swipe
-      if (swipeDistance > 10) {
+      if (swipeDistance > 30) {
         // Do not trigger onClick
       } else {
         onClick(index); // Trigger onClick if not considered a swipe
