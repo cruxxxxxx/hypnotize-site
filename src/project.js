@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { ProjectStates, ProjectStateHandler } from './projectStatesHandler';
 import { scrollToElementWithPadding } from './util.js';
 import Slideshow from './slideshow';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { OpenMark } from './openmark';
 
 const scrollToPadding = 100;
 
@@ -18,8 +19,6 @@ export function Project(props) {
   const lineContainerRef = useRef();
   const lineHorizontalRef = useRef();
   const lineVerticalRef = useRef();
-
-  const openMarkRef = useRef();
 
   useEffect(() => {
     const projectInfoElem = projectInfo.current;
@@ -49,32 +48,19 @@ export function Project(props) {
   }, [state]);
 
   useEffect(() => {
-    const openMark = openMarkRef.current;
     const lineContainer = lineContainerRef.current;
     const lineHorizontal = lineHorizontalRef.current;
     const lineVertical = lineVerticalRef.current;
 
-    
-    if(openMark) {
-      if(state === ProjectStates.OPEN) {
-        openMark.classList.add('rotating-element');
-
-      } else {
-        openMark.classList.remove('rotating-element');
-      }
-    }
-
-    if(lineContainer) {
-      if(state === ProjectStates.OPEN) {
+    if (lineContainer) {
+      if (state === ProjectStates.OPEN) {
         lineHorizontal.classList.add('line-horizontal', 'animation');
         lineVertical.classList.add('line-vertical', 'animation');
-
       } else {
-        //lineHorizontal.classList.remove('line-horizontal', 'animation');
-        //lineVertical.classList.remove('line-vertical', 'animation');      
+        // lineHorizontal.classList.remove('line-horizontal', 'animation');
+        // lineVertical.classList.remove('line-vertical', 'animation');
       }
     }
-
   }, [state]);
 
   return (
@@ -87,7 +73,7 @@ export function Project(props) {
           '--margin-bottom-open': project.marginBottomOpen,
           '--margin-top-close': project.marginTopClose,
           '--margin-bottom-close': project.marginBottomClose,
-          'display': startAnimationTime >= 0 ? 'block' : 'none'
+          display: startAnimationTime >= 0 ? 'block' : 'none',
         }}
       >
         <div className="project-info" ref={projectInfo}>
@@ -95,29 +81,41 @@ export function Project(props) {
             <span ref={projectTitle}>{project.name} </span>
           </div>
 
-          <div className="open-mark-container">
-            <Pressable ref={openMarkRef} onPressIn={onClose}>
-              <span className="open-mark"> &#9658; </span>
-            </Pressable>
-          </div>
+          <OpenMark state={state} onClose={onClose} />
 
           <div className="line-container" ref={lineContainerRef}>
             <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-              <line ref={lineHorizontalRef} className="line-horizontal" x1="0" y1="0" x2="240" y2="0" stroke="black" />
-              <line ref={lineVerticalRef} className="line-diagonal" x1="240" y1="0" x2="290" y2="60" stroke="black" />
+              <line
+                ref={lineHorizontalRef}
+                className="line-horizontal"
+                x1="0"
+                y1="0"
+                x2="240"
+                y2="0"
+                stroke="black"
+              />
+              <line
+                ref={lineVerticalRef}
+                className="line-diagonal"
+                x1="240"
+                y1="0"
+                x2="290"
+                y2="60"
+                stroke="black"
+              />
             </svg>
           </div>
 
           <div className="project-info-text-container">
             <span className="project-info-text left">{project.category} </span>
-            <span className="project-info-text right">{project.year} </span> <br/>
+            <span className="project-info-text right">{project.year} </span> <br />
           </div>
         </div>
 
-        <Slideshow 
+        <Slideshow
           ref={slideshowRef}
-          mediaSrcs={project.mediaSrcs} 
-          projectName={project.name} 
+          mediaSrcs={project.mediaSrcs}
+          projectName={project.name}
           isProjectOpen={state === ProjectStates.OPEN}
           onMediaLoaded={onMediaLoaded}
         />

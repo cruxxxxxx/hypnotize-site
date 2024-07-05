@@ -32,29 +32,6 @@
   margin-bottom: 0.3em;
 }
 
-.open-mark-container {
-  position: absolute;
-  text-align: left;
-  font-size: 1. 5em;
-  margin-left: -0.6em;
-  margin-top: -0.5em;
-  overflow: visible;
-}
-
-@keyframes rotateElement {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(90deg);
-  }
-}
-
-.rotating-element {
-  animation: rotateElement 0.5s forwards; /* Adjust the duration as needed */
-  animation-delay: 0.2s;
-}
-
 .project-info {
   opacity: 0;
   margin-top: 0%;

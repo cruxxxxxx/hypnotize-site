@@ -5,6 +5,7 @@ import './project.css';
 import './circleCursor.css';
 import './marquee.css';
 import './slideshow.css';
+import './openmark.css';
 import SiteData from './sitedata.json';
 import { ProjectStates } from './projectStatesHandler.js';
 import { Project } from './project.js';
