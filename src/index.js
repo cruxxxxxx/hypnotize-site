@@ -80,21 +80,21 @@ function App() {
 
   const onPressIn = (e, index) => {
     if (index !== activeIndex) {
-      touchStartRef.current = [e.nativeEvent.locationX, e.nativeEvent.locationY]; 
+      touchStartRef.current = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
     }
   };
 
   const onPressOut = (e, index) => {
     if (index !== activeIndex) {
-      const touchEnd = [e.nativeEvent.locationX, e.nativeEvent.locationY];
-
-      const swipeDistanceX = Math.abs(touchEnd[0] - touchStartRef.current[0]);
-      const swipeDistanceY = Math.abs(touchEnd[1] - touchStartRef.current[1]);
-      const swipeDistance = swipeDistanceX + swipeDistanceY;
+      const touchEnd = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
+      const swipeDistanceX = Math.abs(touchEnd.x - touchStartRef.current.x);
+      const swipeDistanceY = Math.abs(touchEnd.y - touchStartRef.current.y);
       
-      if (swipeDistance > 1) {
+      // If swipe distance is greater than a threshold (e.g., 10 pixels), treat it as a swipe
+      if (swipeDistanceX > 10 || swipeDistanceY > 10) {
+        // Do not trigger onClick
       } else {
-        onClick(index);
+        onClick(index); // Trigger onClick if not considered a swipe
       }
 
       touchStartRef.current = null; 
