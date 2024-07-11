@@ -92,7 +92,7 @@ function App() {
       const swipeDistanceY = Math.abs(touchEnd[1] - touchStartRef.current[1]);
       const swipeDistance = swipeDistanceX + swipeDistanceY;
       
-      if (swipeDistance > 200) {
+      if (swipeDistance > 1) {
       } else {
         onClick(index);
       }
@@ -107,6 +107,9 @@ function App() {
 
   return (
     <React.StrictMode>
+      <div id="canvasDiv">
+        <WebGLCanvas texture1={texture1} texture2={texture2} />
+      </div>
       <div id="header">
         <img ref={headerImgRef} className="strobing" src="logo.png" alt="Logo" />
       </div>
