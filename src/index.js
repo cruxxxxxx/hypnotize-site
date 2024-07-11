@@ -12,8 +12,11 @@ import { ProjectStates } from './projectStatesHandler.js';
 import { Project } from './project.js';
 import { CircleCursor } from './circleCursor.js';
 import { Pressable } from 'react-native';
+import WebGLCanvas from './webglCanvas.js';
 
 const projectData = SiteData['projects'];
+const texture1 = 'tex1.png';
+const texture2 = 'tex2.png';
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -77,25 +80,24 @@ function App() {
 
   const onPressIn = (e, index) => {
     if (index !== activeIndex) {
-      // Record touch start coordinates
-      touchStartRef.current = e.nativeEvent.locationY; // You might need to adjust how you get coordinates depending on your specific needs
+      touchStartRef.current = [e.nativeEvent.locationX, e.nativeEvent.locationY]; 
     }
   };
 
   const onPressOut = (e, index) => {
     if (index !== activeIndex) {
-      // Calculate the difference between start and end coordinates
-      const touchEnd = e.nativeEvent.locationY; // Again, adjust as needed
-      const swipeDistance = Math.abs(touchEnd - touchStartRef.current);
+      const touchEnd = [e.nativeEvent.locationX, e.nativeEvent.locationY];
+
+      const swipeDistanceX = Math.abs(touchEnd[0] - touchStartRef.current[0]);
+      const swipeDistanceY = Math.abs(touchEnd[1] - touchStartRef.current[1]);
+      const swipeDistance = swipeDistanceX + swipeDistanceY;
       
-      // If swipe distance is greater than a threshold (e.g., 10 pixels), treat it as a swipe
       if (swipeDistance > 200) {
-        // Do not trigger onClick
       } else {
-        onClick(index); // Trigger onClick if not considered a swipe
+        onClick(index);
       }
 
-      touchStartRef.current = null; // Reset touch start reference
+      touchStartRef.current = null; 
     }
   };
 
@@ -111,7 +113,7 @@ function App() {
       <div id="main">
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
-          <div className="column" ref={columnRef}>
+          <div id="projects" className="column" ref={columnRef}>
             {projectData.map((project, index) => (
               <Pressable
                 key={project.name}
