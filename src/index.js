@@ -80,13 +80,15 @@ function App() {
 
   const onPressIn = (e, index) => {
     if (index !== activeIndex) {
-      touchStartRef.current = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
+      console.log(e.nativeEvent);
+      touchStartRef.current = { x: e.nativeEvent.locationX, y: e.nativeEvent.locationY };
     }
   };
 
   const onPressOut = (e, index) => {
     if (index !== activeIndex) {
-      const touchEnd = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
+            console.log(e.nativeEvent);
+      const touchEnd = { x: e.nativeEvent.locationX, y: e.nativeEvent.locationY };
       const swipeDistanceX = Math.abs(touchEnd.x - touchStartRef.current.x);
       const swipeDistanceY = Math.abs(touchEnd.y - touchStartRef.current.y);
       
