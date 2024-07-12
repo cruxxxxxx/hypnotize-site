@@ -124,6 +124,7 @@ function App() {
                 onPressOut={(event) => onPressOut(event, index)}
                 onLongPress={(event) => onLongPress(event, index)}
                 delayLongPress={100}
+                unstable_pressDelay={200}
                 disabled={projectStates[index] === ProjectStates.OPEN}>
                 <Project 
                   project={project} 

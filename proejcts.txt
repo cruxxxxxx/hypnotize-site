@@ -25,3 +25,30 @@ geometry slide into position
     radial-gradient(closest-side, #777, #fff) 0/ 1em 1em;
     background-blend-mode: multiply;
     filter: contrast(20)
+
+
+
+
+https://gsap.com/community/forums/topic/17566-create-a-radial-wipe/
+
+  background:  linear-gradient(rgba(0,0,0,1), rgba(0,0,0,.5));
+  backdrop-filter: blur(2px);
+  image-rendering:crisp-edges;
+  border: 1px solid white;
+
+
+
+
+
+https://www.myfonts.com/products/regular-tachyon-91752?queryId=ea403bfe1a6949a4b2427d6b877df574&index=universal_search_data&objectIDs=8562251001
+
+
+https://www.myfonts.com/products/bold-oblique-serpentine-368313?queryId=c83be8c6befe8d05da1b6c368e9b01b9&index=universal_search_data&objectIDs=5834119000
+
+https://www.myfonts.com/products/book-korataki-229049?queryId=98be291aa8cfa02287ed451aaf6868e8&index=universal_search_data&objectIDs=8604119001
+
+https://www.myfonts.com/products/regular-korataki-229070?queryId=74f209b9da3e84e0ad0a0ee6f380f117&index=universal_search_data&objectIDs=8604125001
+
+https://www.myfonts.com/products/fold-blinkhead-505642?queryId=74f209b9da3e84e0ad0a0ee6f380f117&index=universal_search_data&objectIDs=5835748000
+
+523e591129dd18f495f963eec5c1ba93108b6bf2
