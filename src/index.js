@@ -91,7 +91,7 @@ function App() {
       const swipeDistanceY = Math.abs(touchEnd.y - touchStartRef.current.y);
       
       // If swipe distance is greater than a threshold (e.g., 10 pixels), treat it as a swipe
-      if (swipeDistanceX > 10 || swipeDistanceY > 10) {
+      if (swipeDistanceX > 1 || swipeDistanceY > 1) {
         // Do not trigger onClick
       } else {
         onClick(index); // Trigger onClick if not considered a swipe
@@ -124,7 +124,7 @@ function App() {
                 onPressOut={(event) => onPressOut(event, index)}
                 onLongPress={(event) => onLongPress(event, index)}
                 delayLongPress={100}
-                unstable_pressDelay={200}
+                unstable_pressDelay={1000}
                 disabled={projectStates[index] === ProjectStates.OPEN}>
                 <Project 
                   project={project} 

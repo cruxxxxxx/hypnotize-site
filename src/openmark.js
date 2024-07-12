@@ -5,6 +5,7 @@ import { ProjectStates } from './projectStatesHandler';
 export function OpenMark({ state, onClose }) {
   const openMarkRef = useRef();
   const [hoverState, setHoverState] = useState(0);
+  const isProjectOpen = state === ProjectStates.OPEN;
 
   const onHoverIn = () => {
     setHoverState(1); // Hover in state
@@ -35,7 +36,7 @@ export function OpenMark({ state, onClose }) {
   }, [state, hoverState]);
 
   return (
-    <div className="open-mark-container">
+    <div className="open-mark-container" style={{display: isProjectOpen ? 'block' : 'none'}}>
       <Pressable
         ref={openMarkRef}
         hitSlop={300}
