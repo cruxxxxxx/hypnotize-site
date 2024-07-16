@@ -47,6 +47,12 @@ function App() {
     if (loaded.every(item => item)) {
       setStartAnimation(1);
     }
+
+    const loadedItems = loaded.filter(item => item).length;
+    const totalItems = loaded.length;
+    const percentageLoaded = (loadedItems / totalItems) * 100;
+
+    //console.log(`Percentage loaded: ${percentageLoaded}%`);
   }, [loaded]);
 
   useEffect(() => {
@@ -80,19 +86,17 @@ function App() {
 
   const onPressIn = (e, index) => {
     if (index !== activeIndex) {
-      console.log(e.nativeEvent);
       touchStartRef.current = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
     }
   };
 
   const onPressOut = (e, index) => {
     if (index !== activeIndex) {
-      console.log(e.nativeEvent);
       const touchEnd = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
       const swipeDistanceX = Math.abs(touchEnd.x - touchStartRef.current.x);
       const swipeDistanceY = Math.abs(touchEnd.y - touchStartRef.current.y);
       
-      if (swipeDistanceX > 1 || swipeDistanceY > 1) {
+      if (swipeDistanceX > 5 || swipeDistanceY > 5) {
 
       } 
       else if(!touchEnd.x || !touchEnd.y) {
@@ -112,9 +116,7 @@ function App() {
 
   return (
     <React.StrictMode>
-      <div id="canvasDiv">
-        <WebGLCanvas texture1={texture1} texture2={texture2} />
-      </div>
+      <WebGLCanvas texture1={texture1} texture2={texture2} />
       <div id="header">
         <img ref={headerImgRef} className="strobing" src="logo.png" alt="Logo" />
       </div>
@@ -129,7 +131,6 @@ function App() {
                 onPressOut={(event) => onPressOut(event, index)}
                 onLongPress={(event) => onLongPress(event, index)}
                 delayLongPress={100}
-                unstable_pressDelay={1000}
                 disabled={projectStates[index] === ProjectStates.OPEN}>
                 <Project 
                   project={project} 

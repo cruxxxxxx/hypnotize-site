@@ -1,36 +1,43 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-const StaticTexture = ({ texturePath }) => {
-  const meshRef = useRef();
-
-  useEffect(() => {
-    const textureLoader = new THREE.TextureLoader().load(texturePath);
-    meshRef.current.material = new THREE.MeshBasicMaterial({
-      map: textureLoader,
-            color: new THREE.Color('white').multiplyScalar(20), // Adjust brightness
-    });
-  }, [texturePath]);
-
-  return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
-      <planeGeometry args={[15, 10]} />
-    </mesh>
-  );
-};
-
-const ScrollingTexture = ({ texturePath }) => {
-  const meshRef = useRef();
+const MoirePattern = ({ bottomTexturePath, topTexturePath, onLoadComplete }) => {
+  const bottomMeshRef = useRef();
+  const topMeshRef = useRef();
   const [texture, setTexture] = useState();
 
   useEffect(() => {
-    const textureLoader = new THREE.TextureLoader().load(texturePath, (loadedTexture) => {
-      loadedTexture.wrapS = THREE.RepeatWrapping;
-      loadedTexture.wrapT = THREE.RepeatWrapping;
-      setTexture(loadedTexture);
+    const textureLoader = new THREE.TextureLoader();
+
+    textureLoader.load(bottomTexturePath, (bottomTexture) => {
+      if (bottomMeshRef.current) {
+        bottomMeshRef.current.material = new THREE.MeshBasicMaterial({
+          map: bottomTexture,
+          color: new THREE.Color('white').multiplyScalar(20),
+        });
+      }
+
+      textureLoader.load(topTexturePath, (topTexture) => {
+        topTexture.wrapS = THREE.RepeatWrapping;
+        topTexture.wrapT = THREE.RepeatWrapping;
+        setTexture(topTexture);
+
+        if (topMeshRef.current) {
+          topMeshRef.current.material = new THREE.MeshBasicMaterial({
+            map: topTexture,
+            transparent: true,
+            color: new THREE.Color('white').multiplyScalar(20),
+          });
+        }
+
+        // Notify that textures have been loaded
+        if (onLoadComplete) {
+          onLoadComplete();
+        }
+      });
     });
-  }, [texturePath]);
+  }, [bottomTexturePath, topTexturePath, onLoadComplete]);
 
   useFrame(() => {
     if (texture) {
@@ -38,29 +45,39 @@ const ScrollingTexture = ({ texturePath }) => {
     }
   });
 
-  useEffect(() => {
-    if (texture && meshRef.current) {
-      meshRef.current.material = new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true,
-              color: new THREE.Color('white').multiplyScalar(20), // Adjust brightness
-      });
-    }
-  }, [texture]);
-
   return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
-      <planeGeometry args={[15, 10]} />
-    </mesh>
+    <>
+      <mesh ref={bottomMeshRef} position={[0, 0, 0]}>
+        <planeGeometry args={[15, 10]} />
+      </mesh>
+      <mesh ref={topMeshRef} position={[0, 0, 0]}>
+        <planeGeometry args={[15, 10]} />
+      </mesh>
+    </>
   );
 };
 
 const WebGLCanvas = ({ texture1, texture2 }) => {
+  const [loading, setLoading] = useState(true);
+  const coverDivRef = useRef();
+
+  const handleLoadComplete = () => {
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (!loading && coverDivRef.current) {
+      coverDivRef.current.style.display = 'none';
+    }
+  }, [loading]);
+
   return (
-    <Canvas>
-      <StaticTexture texturePath={texture1} />
-      <ScrollingTexture texturePath={texture2} />
-    </Canvas>
+    <div id="canvasDiv">
+      <div ref={coverDivRef} className="cover-div" style={{ display: loading ? 'block' : 'none' }}></div>
+      <Canvas>
+        <MoirePattern bottomTexturePath={texture1} topTexturePath={texture2} onLoadComplete={handleLoadComplete} />
+      </Canvas>
+    </div>
   );
 };
 

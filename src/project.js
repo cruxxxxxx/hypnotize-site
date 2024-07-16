@@ -10,6 +10,8 @@ const scrollToPadding = 100;
 export function Project(props) {
   const { project, state, onClose, onMediaLoaded, startAnimationTime } = props;
 
+  //console.log(startAnimationTime);
+
   const outerProject = useRef();
   const innerProject = useRef();
   const projectInfo = useRef();

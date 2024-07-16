@@ -28,6 +28,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
 
   useEffect(() => {
     if (loaded.every(item => item)) {
+      //console.log(projectName + ' loaded');
       onMediaLoaded();
     }
   }, [loaded]);
@@ -109,9 +110,9 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
         showDots={true}
         renderDotsOutside={true}
         draggable={false}
-        swipeable={true}
+        swipeable={false}
         customTransition="all"
-        removeArrowOnDeviceType={["tablet", "mobile"]}
+        removeArrowOnDeviceType={[]}
         beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(currentSlide)}
         dotListClass="custom-dot-list-style"
         customButtonGroup={isProjectOpen && mediaSrcs.length > 1 ? (
@@ -137,6 +138,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                 <video
                   controls
                   playsInline
+                  onLoadedData={() => handleLoad(index)}
                   autobuffer={true}
                   ref={(el) => videoRefs.current[index] = el}
                 >

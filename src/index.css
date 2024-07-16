@@ -28,6 +28,16 @@ video {
     z-index:-1;
 }
 
+.cover-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 1; /* Ensure it covers the canvas */
+}
+
 @font-face {
     font-family: 'arrayregular';
     src: url('array.woff2') format('woff2'),

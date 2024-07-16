@@ -9,6 +9,7 @@
 
 .inner-project {
   position: relative;
+  display: none;
 }
 
 .inner-project img {
