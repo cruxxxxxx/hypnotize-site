@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "http://localhost:3000/static/css/main.faa3b813.css",
-    "main.js": "http://localhost:3000/static/js/main.259517b4.js",
+    "main.css": "http://localhost:3000/static/css/main.acc6873f.css",
+    "main.js": "http://localhost:3000/static/js/main.370b7160.js",
     "static/media/array.woff": "http://localhost:3000/static/media/array.a2151ef66a470264e164.woff",
     "static/media/revicons.eot": "http://localhost:3000/static/media/revicons.a77de540a38981833f9e.eot",
     "static/media/revicons.ttf": "http://localhost:3000/static/media/revicons.57fd05d4ae650374c8de.ttf",
     "static/media/array.woff2": "http://localhost:3000/static/media/array.bc06ce4122c3ef8be562.woff2",
     "static/media/revicons.woff": "http://localhost:3000/static/media/revicons.e8746a624ed098489406.woff",
     "index.html": "http://localhost:3000/index.html",
-    "main.faa3b813.css.map": "http://localhost:3000/static/css/main.faa3b813.css.map",
-    "main.259517b4.js.map": "http://localhost:3000/static/js/main.259517b4.js.map"
+    "main.acc6873f.css.map": "http://localhost:3000/static/css/main.acc6873f.css.map",
+    "main.370b7160.js.map": "http://localhost:3000/static/js/main.370b7160.js.map"
   },
   "entrypoints": [
-    "static/css/main.faa3b813.css",
-    "static/js/main.259517b4.js"
+    "static/css/main.acc6873f.css",
+    "static/js/main.370b7160.js"
   ]
 }
