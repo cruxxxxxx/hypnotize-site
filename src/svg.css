@@ -1,0 +1,23 @@
+path {
+    fill: none;
+    stroke: black;
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
+    fill: transparent;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.project-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+.project-line.animation {
+  animation: draw 1.5s forwards;
+  animation-delay: 0.2s;
+}

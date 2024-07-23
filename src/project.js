@@ -19,18 +19,19 @@ export function Project(props) {
   const prevState = useRef(state);
   const projectTitle = useRef();
   const lineContainerRef = useRef();
-  const lineHorizontalRef = useRef();
-  const lineVerticalRef = useRef();
+  const projectLineRef = useRef();
+  const projectDescriptionRef = useRef();
 
   useEffect(() => {
     const projectInfoElem = projectInfo.current;
     const innerProjectElem = innerProject.current;
+    const projectDescriptionElem = projectDescriptionRef.current;
 
     const scrollToCallback = () => {
       //scrollToElementWithPadding(outerProject.current, scrollToPadding);
     };
 
-    const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, project);
+    const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, projectDescriptionElem, project);
 
     if (prevState.current === ProjectStates.LOADING && state === ProjectStates.CLOSED) {
     } else {
@@ -51,16 +52,11 @@ export function Project(props) {
 
   useEffect(() => {
     const lineContainer = lineContainerRef.current;
-    const lineHorizontal = lineHorizontalRef.current;
-    const lineVertical = lineVerticalRef.current;
+    const projectLine = projectLineRef.current;
 
     if (lineContainer) {
       if (state === ProjectStates.OPEN) {
-        lineHorizontal.classList.add('line-horizontal', 'animation');
-        lineVertical.classList.add('line-vertical', 'animation');
-      } else {
-        // lineHorizontal.classList.remove('line-horizontal', 'animation');
-        // lineVertical.classList.remove('line-vertical', 'animation');
+        projectLine.classList.add('project-line', 'animation');
       }
     }
   }, [state]);
@@ -87,30 +83,19 @@ export function Project(props) {
 
           <div className="line-container" ref={lineContainerRef}>
             <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-              <line
-                ref={lineHorizontalRef}
-                className="line-horizontal"
-                x1="0"
-                y1="0"
-                x2="240"
-                y2="0"
-                stroke="black"
-              />
-              <line
-                ref={lineVerticalRef}
-                className="line-diagonal"
-                x1="240"
-                y1="0"
-                x2="290"
-                y2="60"
-                stroke="black"
-              />
+              <path ref={projectLineRef} d="M0,1h240.07c3.12,0,6.03,1.55,7.78,4.14l64.64,95.88"/>
             </svg>
           </div>
 
           <div className="project-info-text-container">
-            <span className="project-info-text left">{project.category} </span>
-            <span className="project-info-text right">{project.year} </span> <br />
+            <div class="project-info-text-container-inner">
+              <div class="project-info-text-labels-column">
+              type
+              foo
+              </div>
+              <div class="project-info-text-values-column">{project.category} <br/>{project.category}</div>
+            </div>
+            <div class="project-info-text-year-column">{project.year}</div>
           </div>
         </div>
 
@@ -122,6 +107,10 @@ export function Project(props) {
           onMediaLoaded={onMediaLoaded}
         />
       </div>
+      <div ref={projectDescriptionRef} class="project-description">
+        {project.description}
+      </div>
+
     </div>
   );
 }

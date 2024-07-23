@@ -5,9 +5,10 @@ export const ProjectStates = {
 };
 
 export class ProjectStateHandler {
-  constructor(projectInfoElem, innerProjectElem, project) {
+  constructor(projectInfoElem, innerProjectElem, projectDescriptionElem, project) {
     this.projectInfoElem = projectInfoElem;
     this.innerProjectElem = innerProjectElem;
+    this.projectDescriptionElem = projectDescriptionElem;
     this.project = project;
     this.stateActions = new Map([
       [ProjectStates.LOADING, this.onLoading.bind(this)],
@@ -19,6 +20,9 @@ export class ProjectStateHandler {
   onLoading() {
     this.projectInfoElem.style.opacity = '0%';
     this.projectInfoElem.classList.add('hidden');
+
+    this.projectDescriptionElem.classList.add('hidden');
+
     this.innerProjectElem.style.marginTop = this.project.marginTopClose;
     this.innerProjectElem.style.marginBottom = this.project.marginBottomClose;
   }
@@ -30,6 +34,10 @@ export class ProjectStateHandler {
     this.projectInfoElem.classList.remove('fade-out');
     this.projectInfoElem.classList.add('fade-in');
     this.projectInfoElem.classList.add('visible');
+
+    this.projectDescriptionElem.classList.remove('hidden');
+    this.projectDescriptionElem.classList.add('visible');
+
     this.innerProjectElem.classList.remove('margin-revert');
     this.innerProjectElem.classList.add('margin-change');
   }
@@ -39,6 +47,10 @@ export class ProjectStateHandler {
     this.projectInfoElem.classList.remove('visible');
     this.projectInfoElem.classList.add('hidden');
     this.projectInfoElem.classList.add('fade-out');
+
+    this.projectDescriptionElem.classList.remove('visible');
+    this.projectDescriptionElem.classList.add('hidden');
+
     this.innerProjectElem.classList.remove('margin-change');
     this.innerProjectElem.classList.add('margin-revert');
   }
