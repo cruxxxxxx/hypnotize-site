@@ -17,8 +17,11 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     videoRefs.current.forEach((video, index) => {
       if (video) {
         if (index === slideIndex) {
-          //video.play();
+          console.log(slideIndex);
+          console.log(index);
         } else {
+          console.log(slideIndex);
+          console.log(index);
           video.pause();
           video.currentTime = 0;
         }
@@ -28,7 +31,6 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
 
   useEffect(() => {
     if (loaded.every(item => item)) {
-      //console.log(projectName + ' loaded');
       onMediaLoaded();
     }
   }, [loaded]);
@@ -107,12 +109,12 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
       <Carousel ref={carousel}
         responsive={responsive}
         arrows={isProjectOpen && mediaSrcs.length > 1 }
-        showDots={true}
+        showDots={isProjectOpen && mediaSrcs.length > 1}
+        removeArrowOnDeviceType={["tablet", "mobile"]}
         renderDotsOutside={true}
         draggable={false}
-        swipeable={false}
+        swipeable={true}
         customTransition="all"
-        removeArrowOnDeviceType={[]}
         beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(currentSlide)}
         dotListClass="custom-dot-list-style"
         customButtonGroup={isProjectOpen && mediaSrcs.length > 1 ? (

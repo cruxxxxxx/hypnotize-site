@@ -36,7 +36,7 @@ export class ProjectStateHandler {
     this.projectInfoElem.classList.add('visible');
 
     this.projectDescriptionElem.classList.remove('hidden');
-    this.projectDescriptionElem.classList.add('visible');
+    this.projectDescriptionElem.classList.add('flex');
 
     this.innerProjectElem.classList.remove('margin-revert');
     this.innerProjectElem.classList.add('margin-change');
@@ -48,7 +48,7 @@ export class ProjectStateHandler {
     this.projectInfoElem.classList.add('hidden');
     this.projectInfoElem.classList.add('fade-out');
 
-    this.projectDescriptionElem.classList.remove('visible');
+    this.projectDescriptionElem.classList.remove('flex');
     this.projectDescriptionElem.classList.add('hidden');
 
     this.innerProjectElem.classList.remove('margin-change');

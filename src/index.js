@@ -16,8 +16,8 @@ import { Pressable } from 'react-native';
 import WebGLCanvas from './webglCanvas.js';
 
 const projectData = SiteData['projects'];
-const texture1 = 'tex1.png';
-const texture2 = 'tex2.png';
+const texture1 = 'tex1_med.png';
+const texture2 = 'tex2_low.png';
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -31,6 +31,7 @@ function App() {
   const columnRef = useRef();
   const headerImgRef = useRef();
   const touchStartRef = useRef(null);
+  const [filterCriteria, setFilterCriteria] = useState('');
 
   useEffect(() => {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
@@ -115,6 +116,16 @@ function App() {
     // Handle long press event if needed
   };
 
+  const handleFilterChange = (type) => {
+    setFilterCriteria(type);
+  };
+
+  const filteredProjectData = projectData.filter(project => {
+    return filterCriteria === '' || project.group === filterCriteria;
+  });
+
+  console.log(filteredProjectData);
+
   return (
     <React.StrictMode>
       <WebGLCanvas texture1={texture1} texture2={texture2} />
@@ -125,7 +136,7 @@ function App() {
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
           <div id="projects" className="column" ref={columnRef}>
-            {projectData.map((project, index) => (
+            {filteredProjectData.map((project, index) => (
               <Pressable
                 key={project.name}
                 onPressIn={(event) => onPressIn(event, index)}
@@ -141,6 +152,11 @@ function App() {
                   startAnimationTime={startAnimation ? startAnimation * index * 150 : null}/>
               </Pressable>
             ))}
+            <div id="footer">
+              <button onClick={() => handleFilterChange("")}>all</button>
+              <button onClick={() => handleFilterChange("other")}>other</button>
+              <button onClick={() => handleFilterChange("media")}>media</button>
+            </div> 
           </div>
         </div>
       </div>
