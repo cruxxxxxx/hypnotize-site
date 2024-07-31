@@ -61,7 +61,7 @@
   padding-left: 1em;
   padding-bottom: 1em;
   color: black;
-  font-size: 0.8em;
+  font-size: 2em;
   text-align: left;
   font-family: "Hiragino Kaku Gothic ProN W3", sans-serif;
   width: 100%;
@@ -118,6 +118,10 @@
   .project-info-text-container {
     font-size: 1.2em;
       padding-top: 2px;
+  }
+
+  .project-description {
+    font-size: 0.8em;
   }
 }
 
