@@ -136,6 +136,7 @@ function App() {
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
           <div id="projects" className="column" ref={columnRef}>
+            <div id="projectMask"></div>
             {filteredProjectData.map((project, index) => (
               <Pressable
                 key={project.name}
