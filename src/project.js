@@ -21,6 +21,7 @@ export function Project(props) {
   const lineContainerRef = useRef();
   const projectLineRef = useRef();
   const projectDescriptionRef = useRef();
+  const innerInfoRef = useRef();
 
   useEffect(() => {
     const projectInfoElem = projectInfo.current;
@@ -53,12 +54,20 @@ export function Project(props) {
   useEffect(() => {
     const lineContainer = lineContainerRef.current;
     const projectLine = projectLineRef.current;
+    const innerInfo = innerInfoRef.current;
 
-    if (lineContainer) {
-      if (state === ProjectStates.OPEN) {
+    if (state === ProjectStates.OPEN) {
+      if (lineContainer) {
         projectLine.classList.add('project-line', 'animation');
       }
+
+      if(innerInfo) {
+        innerInfo.classList.add('open');
+      }
+
     }
+
+
   }, [state]);
 
   return (
@@ -88,7 +97,7 @@ export function Project(props) {
           </div>
 
           <div className="project-info-text-container">
-            <div class="project-info-text-container-inner">
+            <div ref={innerInfoRef} class="project-info-text-container-inner">
               <div class="project-info-text-labels-column">
               type
               foo

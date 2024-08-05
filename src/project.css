@@ -78,6 +78,7 @@
   display: flex;
 }
 
+
 .project-info-text-container-inner {
   display: flex;
   flex: 2;
@@ -87,15 +88,33 @@
 
 }
 
+.project-info-text-container-inner.open {
+  transform-origin: top left;
+  animation-delay: 5s;
+  animation: change-height 0.32s forwards;
+}
+
+@keyframes change-height {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 .project-info-text-labels-column {
       flex: 1;
-      padding-left: 0.5em;
-      width: 10%;
+      padding-left: 0.3em;
+      padding-right: 0.3em;
+      width: 20%;
+      background: lightgrey;
+      color: white;
     }
 
 .project-info-text-values-column {
-      flex: 8;
-      width: 80%;
+      flex: 7;
+      width: 20%;
       padding-left: 4em;
       text-align: left;
     }
@@ -106,7 +125,7 @@
     }
 
 .project-info-text-container-left {
-    width: 50%;
+    width: 60%;
     border: 1px solid #000000;
   }
 
