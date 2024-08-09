@@ -81,7 +81,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 1,
-      slidesToSlide: 2 // optional, default to 1.
+      slidesToSlide: 1 // optional, default to 1.
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
@@ -110,7 +110,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
         responsive={responsive}
         arrows={isProjectOpen && mediaSrcs.length > 1 }
         showDots={isProjectOpen && mediaSrcs.length > 1}
-        removeArrowOnDeviceType={["tablet", "mobile"]}
+        removeArrowOnDeviceType={[]}
         renderDotsOutside={true}
         draggable={false}
         swipeable={true}

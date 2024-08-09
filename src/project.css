@@ -64,12 +64,12 @@
   font-size: 2em;
   text-align: left;
   font-family: "Hiragino Kaku Gothic ProN W3", sans-serif;
-  width: 100%;
+  width: 95%;
   display: hidden;
 }
 
 .project-info-text-container {
-  margin-top: 0.5em;
+  margin-top: 0.7em;
   padding-bottom: 1em;
   color: black;
   font-size: 2.3em;
@@ -85,7 +85,8 @@
   border-left: 1px solid black;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
-
+  border-top: none; 
+  border-bottom-right-radius: 15px;
 }
 
 .project-info-text-container-inner.open {
@@ -103,31 +104,77 @@
   }
 }
 
+.project-info-text-container {
+  display: flex;
+}
+
+.project-info-text-container-inner {
+  display: flex;
+  flex: 1;
+}
+
+.project-info-text-labels-column,
+.project-info-text-values-column,
+.project-info-text-year-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .project-info-text-labels-column {
-      flex: 1;
-      padding-left: 0.3em;
-      padding-right: 0.3em;
-      width: 20%;
-      background: lightgrey;
-      color: white;
-    }
+  flex: 1;
+  color: white;
+  position: relative;
+}
 
 .project-info-text-values-column {
-      flex: 7;
-      width: 20%;
-      padding-left: 4em;
-      text-align: left;
-    }
-.project-info-text-year-column {
-      flex: 1;
-      width: 10%;
-      text-align: right;
-    }
+  flex: 7;
 
-.project-info-text-container-left {
-    width: 60%;
-    border: 1px solid #000000;
-  }
+}
+
+.project-info-text-year-column {
+  flex: 0.7;
+  text-align: right;
+}
+
+.project-info-row-inner {
+  text-align: right;
+  justify-content: flex-end;
+  margin-right: 0.5em;
+  margin-left: auto;
+}
+
+.project-info-row {
+  border-bottom: 1px solid black;
+  display: flex;
+}
+
+.project-info-row:first-child {
+  margin-top: 0.07em;
+}
+
+.project-info-row:last-child {
+  border-bottom: none; 
+}
+
+.project-info-label-row {
+  background-image: url('divider.svg');
+  background-size: cover;
+  background-position: center;
+  padding-left: 0.2em;
+  padding-right: 1.5em;
+  display: flex;
+  overflow: hidden;
+  z-index: 1;
+  border-bottom: 1px solid black;
+}
+
+.project-info-label-row:first-child {
+  margin-top: 0.07em;
+}
+
+.project-info-label-row:last-child {
+  border-bottom: none; 
+}
 
 @media (min-width: 1000px) {
   .project-title {
@@ -136,11 +183,19 @@
 
   .project-info-text-container {
     font-size: 1.2em;
-      padding-top: 2px;
+      padding-top: 0.03em;
   }
 
   .project-description {
     font-size: 0.8em;
+  }
+
+  .project-info-row:first-child {
+    margin-top: 0.015em;
+  }
+
+  .project-info-label-row:first-child {
+    margin-top: 0.015em;
   }
 }
 

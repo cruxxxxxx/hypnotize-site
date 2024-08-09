@@ -96,16 +96,26 @@ export function Project(props) {
             </svg>
           </div>
 
-          <div className="project-info-text-container">
-            <div ref={innerInfoRef} class="project-info-text-container-inner">
-              <div class="project-info-text-labels-column">
-              type
-              foo
-              </div>
-              <div class="project-info-text-values-column">{project.category} <br/>{project.category}</div>
-            </div>
-            <div class="project-info-text-year-column">{project.year}</div>
-          </div>
+<div className="project-info-text-container">
+  <div ref={innerInfoRef} className="project-info-text-container-inner">
+    <div className="project-info-text-labels-column">
+      <div className="project-info-label-row">type</div>
+      <div className="project-info-label-row">foo</div>
+    </div>
+    <div className="project-info-text-values-column">
+      <div className="project-info-row">
+        <div className="project-info-row-inner">{project.category}</div>
+      </div>
+      <div className="project-info-row">
+        <div className="project-info-row-inner">{project.category}</div>
+      </div>
+    </div>
+  </div>
+  <div className="project-info-text-year-column">
+    {project.year}
+  </div>
+</div>
+
         </div>
 
         <Slideshow

@@ -98,7 +98,8 @@ function App() {
       const swipeDistanceX = Math.abs(touchEnd.x - touchStartRef.current.x);
       const swipeDistanceY = Math.abs(touchEnd.y - touchStartRef.current.y);
       
-      if (swipeDistanceX > 5 || swipeDistanceY > 5) {
+      const threshold = 20;
+      if (swipeDistanceX > threshold || swipeDistanceY > threshold) {
 
       } 
       else if(!touchEnd.x || !touchEnd.y) {
@@ -153,6 +154,10 @@ function App() {
                   startAnimationTime={startAnimation ? startAnimation * index * 150 : null}/>
               </Pressable>
             ))}
+                        <span>.</span>
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
             <div id="footer">
               <button onClick={() => handleFilterChange("")}>all</button>
               <button onClick={() => handleFilterChange("other")}>other</button>
