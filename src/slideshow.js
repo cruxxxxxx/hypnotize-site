@@ -30,7 +30,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
   }, [slideIndex]);
 
   useEffect(() => {
-    if (loaded.every(item => item)) {
+    if (loaded[0]) {
       onMediaLoaded();
     }
   }, [loaded]);
