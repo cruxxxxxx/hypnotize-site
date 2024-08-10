@@ -23,6 +23,7 @@ export class ProjectStateHandler {
 
     this.projectDescriptionElem.classList.add('hidden');
 
+    this.innerProjectElem.display = 'hidden';
     this.innerProjectElem.style.marginTop = this.project.marginTopClose;
     this.innerProjectElem.style.marginBottom = this.project.marginBottomClose;
   }

@@ -10,8 +10,6 @@ const scrollToPadding = 100;
 export function Project(props) {
   const { project, state, onClose, onMediaLoaded, startAnimationTime } = props;
 
-  //console.log(startAnimationTime);
-
   const outerProject = useRef();
   const innerProject = useRef();
   const projectInfo = useRef();
@@ -34,8 +32,15 @@ export function Project(props) {
 
     const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, projectDescriptionElem, project);
 
-    if (prevState.current === ProjectStates.LOADING && state === ProjectStates.CLOSED) {
-    } else {
+    console.log('prev: ' + prevState.current + ' next: ' + state);
+
+    const prevClosed = (prevState.current === ProjectStates.CLOSED) && (state === ProjectStates.CLOSED);
+
+    if ((prevState.current === ProjectStates.LOADING && state === ProjectStates.CLOSED)) {
+    } else if(prevClosed) {
+      stateHandler.onStateChange(ProjectStates.LOADING, scrollToCallback);
+    }
+    else {
       stateHandler.onStateChange(state, scrollToCallback);
     }
 
@@ -60,18 +65,35 @@ export function Project(props) {
       if (lineContainer) {
         projectLine.classList.add('project-line', 'animation');
       }
-
       if(innerInfo) {
         innerInfo.classList.add('open');
       }
-
     }
-
-
   }, [state]);
 
+  useEffect(() => {
+    if (innerProject.current && startAnimationTime > 0) {
+      innerProject.current.style.opacity = 0;
+      innerProject.current.style.display = 'block';
+      innerProject.current.style.animationDelay = `${startAnimationTime*1.5}ms`;
+      innerProject.current.classList.add('fade-in');
+    }
+
+    const handleAnimationEnd = () => {
+        innerProject.current.style.opacity = 1;
+        innerProject.current.classList.remove('fade-in');
+        innerProject.current.style.animationDelay = null
+        innerProject.current.removeEventListener('animationend', handleAnimationEnd);
+      };
+
+      innerProject.current.addEventListener('animationend', handleAnimationEnd);
+
+
+  }, [startAnimationTime]);
+
   return (
-    <div className="outer-project" ref={outerProject}>
+    <div className="outer-project" 
+    ref={outerProject}>
       <div
         className="inner-project"
         ref={innerProject}
@@ -79,8 +101,7 @@ export function Project(props) {
           '--margin-top-open': project.marginTopOpen,
           '--margin-bottom-open': project.marginBottomOpen,
           '--margin-top-close': project.marginTopClose,
-          '--margin-bottom-close': project.marginBottomClose,
-          display: startAnimationTime >= 0 ? 'block' : 'none',
+          '--margin-bottom-close': project.marginBottomClose
         }}
       >
         <div className="project-info" ref={projectInfo}>
@@ -96,25 +117,25 @@ export function Project(props) {
             </svg>
           </div>
 
-<div className="project-info-text-container">
-  <div ref={innerInfoRef} className="project-info-text-container-inner">
-    <div className="project-info-text-labels-column">
-      <div className="project-info-label-row">type</div>
-      <div className="project-info-label-row">foo</div>
-    </div>
-    <div className="project-info-text-values-column">
-      <div className="project-info-row">
-        <div className="project-info-row-inner">{project.category}</div>
-      </div>
-      <div className="project-info-row">
-        <div className="project-info-row-inner">{project.category}</div>
-      </div>
-    </div>
-  </div>
-  <div className="project-info-text-year-column">
-    {project.year}
-  </div>
-</div>
+          <div className="project-info-text-container">
+            <div ref={innerInfoRef} className="project-info-text-container-inner">
+              <div className="project-info-text-labels-column">
+                <div className="project-info-label-row">type</div>
+                <div className="project-info-label-row">foo</div>
+              </div>
+              <div className="project-info-text-values-column">
+                <div className="project-info-row">
+                  <div className="project-info-row-inner">{project.category}</div>
+                </div>
+                <div className="project-info-row">
+                  <div className="project-info-row-inner">{project.category}</div>
+                </div>
+              </div>
+            </div>
+            <div className="project-info-text-year-column">
+              {project.year}
+            </div>
+          </div>
 
         </div>
 

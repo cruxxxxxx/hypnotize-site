@@ -9,7 +9,12 @@
 
 .inner-project {
   position: relative;
-  display: none;
+  opacity: 0;
+  display: block;
+}
+
+.inner-project.fade-in {
+  animation: fadeIn 0.5s forwards;
 }
 
 .inner-project img {

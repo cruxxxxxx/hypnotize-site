@@ -54,7 +54,7 @@ function App() {
     const totalItems = loaded.length;
     const percentageLoaded = (loadedItems / totalItems) * 100;
 
-    //console.log(`Percentage loaded: ${percentageLoaded}%`);
+    console.log(`Percentage loaded: ${percentageLoaded}%`);
   }, [loaded]);
 
   useEffect(() => {
@@ -125,7 +125,7 @@ function App() {
     return filterCriteria === '' || project.group === filterCriteria;
   });
 
-  console.log(filteredProjectData);
+  //console.log(filteredProjectData);
 
   return (
     <React.StrictMode>
@@ -151,13 +151,15 @@ function App() {
                   state={projectStates[index]} 
                   onClose={() => onClose(index)}
                   onMediaLoaded={() => onMediaLoaded(index)}
-                  startAnimationTime={startAnimation ? startAnimation * index * 150 : null}/>
+                  startAnimationTime={startAnimation ? (startAnimation * index * 150) + 10 : null}/>
               </Pressable>
             ))}
-                        <span>.</span>
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
+            <div class="trail">
+              <span>.</span><br/>
+              <span>.</span><br/>
+              <span>.</span><br/>
+              <span>.</span><br/>
+            </div>
             <div id="footer">
               <button onClick={() => handleFilterChange("")}>all</button>
               <button onClick={() => handleFilterChange("other")}>other</button>
