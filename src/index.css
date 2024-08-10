@@ -58,28 +58,33 @@ video {
   z-index: 9999;
 }
 
-#footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: black;
-  color: white;
-  text-align: center;
-  font-size: 3em;
-  z-index: 9999;
-}
-
 #projectMask {
   position: absolute;
-  background-color: black;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 10%, rgba(255,255,255,1) 70%, rgba(255,255,255,0) 100%);
+  background-repeat: no-repeat;
   top: 0;
   height: 100%;
   width: 100%;
+  background-size: 100% 130%;
   z-index: 1;
   display: none;
 }
 
+.wipe {
+  animation: wipeAnimation 2s forwards;
+}
+
+@keyframes wipeAnimation {
+  0% {
+    background-position-y: -100vh;
+  }
+  50%{
+
+  }
+  100% {
+    background-position-y: 100vh;
+  }
+}
 
 #header img {
   height: 100%;
@@ -140,4 +145,48 @@ video {
   margin-top: 20%;
   margin-left: auto;
   margin-right: auto;
+}
+
+#footer {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2em;
+  padding-bottom: 1em;
+  bottom: 0;
+  margin: 0;
+  left: 0;
+  width: 100%;
+  background: black;
+  color: white;
+  text-align: center;
+  z-index: 9999;
+  gap: 10em;
+}
+
+
+.filter-button {
+    height: 6em;
+    width: 6em;
+}
+
+.filter-button-label {
+  font-size: 2em;
+  font-family: "Hiragino Kaku Gothic ProN W3", sans-serif;
+}
+
+@media (min-width: 1000px) {
+  #footer {
+    padding-bottom: 0.5em;
+    gap: 10em;
+  }
+  .filter-button-label {
+    font-size: 1em;
+  }
+
+  .filter-button {
+    height: 3em;
+    width: 3em;
+  }
 }

@@ -23,6 +23,7 @@ function App() {
   const [activeIndex, setActiveIndex] = useState(null);
   const [loaded, setLoaded] = useState(new Array(projectData.length).fill(false));
   const [startAnimation, setStartAnimation] = useState(null);
+  const [filtering, setFiltering] = useState(false);
   const [projectStates, setProjectStates] = useState(
     projectData.map(() => ProjectStates.LOADING)
   );
@@ -32,6 +33,7 @@ function App() {
   const headerImgRef = useRef();
   const touchStartRef = useRef(null);
   const [filterCriteria, setFilterCriteria] = useState('');
+  const projectMaskRef = useRef();
 
   useEffect(() => {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
@@ -117,8 +119,24 @@ function App() {
     // Handle long press event if needed
   };
 
+
+
   const handleFilterChange = (type) => {
-    setFilterCriteria(type);
+    if(!filtering) {
+    projectMaskRef.current.style.background_position_y = '-100vh';
+    projectMaskRef.current.style.display = 'block';
+    projectMaskRef.current.classList.remove('wipe');
+    projectMaskRef.current.classList.add('wipe');
+    setFiltering(true);
+    setTimeout(() => {
+      setFilterCriteria(type);
+      setTimeout(() => {
+        projectMaskRef.current.style.display = 'none';
+        setFiltering(false);
+      }, 1000);
+    }, 250);
+    }
+
   };
 
   const filteredProjectData = projectData.filter(project => {
@@ -137,7 +155,7 @@ function App() {
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
           <div id="projects" className="column" ref={columnRef}>
-            <div id="projectMask"></div>
+            <div ref={projectMaskRef} id="projectMask"></div>
             {filteredProjectData.map((project, index) => (
               <Pressable
                 key={project.name}
@@ -161,9 +179,24 @@ function App() {
               <span>.</span><br/>
             </div>
             <div id="footer">
-              <button onClick={() => handleFilterChange("")}>all</button>
-              <button onClick={() => handleFilterChange("other")}>other</button>
-              <button onClick={() => handleFilterChange("media")}>media</button>
+              <div class="button-container">
+                <button class="filter-button" onClick={() => handleFilterChange("")}></button>
+                <br/>
+                <span class="filter-button-label">all</span>
+              </div>
+
+
+              <div class="button-container">
+                <button class="filter-button" onClick={() => handleFilterChange("other")}></button>
+                <br/>
+                <span class="filter-button-label" style={{'margin-left': '0.1em'}}>other</span>
+              </div>
+
+              <div class="button-container">
+                <button class="filter-button" onClick={() => handleFilterChange("media")}></button>
+                <br/>
+                <span class="filter-button-label">media</span>
+              </div>
             </div> 
           </div>
         </div>
