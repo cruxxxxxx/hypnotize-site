@@ -119,22 +119,37 @@ function App() {
     // Handle long press event if needed
   };
 
+  const closeAll = () => {
+    setActiveIndex(null);
+    setProjectStates((prev) =>prev.map((state, i) => ProjectStates.CLOSED));
+  }
 
+  const wipeScreen = () => {
+      projectMaskRef.current.style.background_position_y = '-100vh';
+      projectMaskRef.current.style.display = 'block';
+      projectMaskRef.current.classList.remove('wipe');
+      projectMaskRef.current.classList.add('wipe');
+  }
 
   const handleFilterChange = (type) => {
     if(!filtering) {
-    projectMaskRef.current.style.background_position_y = '-100vh';
-    projectMaskRef.current.style.display = 'block';
-    projectMaskRef.current.classList.remove('wipe');
-    projectMaskRef.current.classList.add('wipe');
-    setFiltering(true);
-    setTimeout(() => {
-      setFilterCriteria(type);
+      setFiltering(true);
+      closeAll();
+
+      document.documentElement.scrollTop = 0;
+
       setTimeout(() => {
-        projectMaskRef.current.style.display = 'none';
-        setFiltering(false);
-      }, 1000);
-    }, 250);
+        wipeScreen();
+      }, 400)
+
+      setTimeout(() => {
+        setFilterCriteria(type);
+        setTimeout(() => {
+          projectMaskRef.current.style.display = 'none';
+          setFiltering(false);
+          document.documentElement.scrollTop = 0;
+          }, 1000);
+        }, 600);
     }
 
   };

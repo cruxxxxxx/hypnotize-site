@@ -191,3 +191,19 @@ video {
     width: 3em;
   }
 }
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  #footer {
+    padding-top: 0.8em;
+    padding-bottom: 0.5em;
+    gap: 10em;
+  }
+  .filter-button-label {
+    font-size: 1em;
+  }
+
+  .filter-button {
+    height: 3em;
+    width: 3em;
+  }
+}

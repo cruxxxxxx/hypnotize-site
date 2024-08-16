@@ -131,11 +131,6 @@
   z-index: 0;
 }
 
-.second-row {
-    margin-top: -20px;
-}
-
-
 .project-info-text-year-column {
   flex: 1;
   text-align: right;
@@ -159,6 +154,21 @@
 
   .project-description {
     font-size: 0.8em;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .project-title {
+    font-size: 3em;
+  }
+
+  .project-info-text-container {
+    font-size: 1.15em;
+    margin-top: 0.9em;
+  }
+
+  .project-description {
+    font-size: 1em;
   }
 }
 
