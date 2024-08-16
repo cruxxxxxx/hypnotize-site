@@ -32,7 +32,7 @@
 
 .project-title {
   text-align: left;
-  font-size: 5em;
+  font-size: 5.2em;
   font-family: 'arrayregular';
   white-space: pre-line;
   margin-bottom: 0.3em;
@@ -86,7 +86,7 @@
 .project-info-table {
   display: block;
   overflow:hidden;
-  width: 50%;
+  width: 70%;
   border-collapse: collapse; 
   border-left: 1px solid black;
   border-right: 1px solid black;
@@ -155,6 +155,10 @@
   .project-description {
     font-size: 0.8em;
   }
+
+  .project-info-table {
+    width: 50%;
+  }
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -169,6 +173,10 @@
 
   .project-description {
     font-size: 1em;
+  }
+
+  .project-info-table {
+    width: 50%;
   }
 }
 
