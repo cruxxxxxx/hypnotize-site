@@ -118,20 +118,18 @@ export function Project(props) {
           </div>
 
           <div className="project-info-text-container">
-            <div ref={innerInfoRef} className="project-info-text-container-inner">
-              <div className="project-info-text-labels-column">
-                <div className="project-info-label-row">type</div>
-                <div className="project-info-label-row">foo</div>
-              </div>
-              <div className="project-info-text-values-column">
-                <div className="project-info-row">
-                  <div className="project-info-row-inner">{project.category}</div>
-                </div>
-                <div className="project-info-row">
-                  <div className="project-info-row-inner">{project.category}</div>
-                </div>
-              </div>
-            </div>
+            <table ref={innerInfoRef} className="project-info-table">
+              <tbody>
+                <tr className="project-info-row">
+                  <td className="project-info-label-cell">type</td>
+                  <td className="project-info-value-cell">{project.category}</td>
+                </tr>
+                <tr>
+                  <td className="project-info-label-cell">foo</td>
+                  <td className="project-info-value-cell">{project.category}</td>
+                </tr>
+              </tbody>
+            </table>
             <div className="project-info-text-year-column">
               {project.year}
             </div>
