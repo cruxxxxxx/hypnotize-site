@@ -109,13 +109,6 @@ video {
   animation-iteration-count: 10; 
 }
 
-@media (min-width: 1000px) {
-  #header {
-    font-size: 2em;
-    height: 2em;
-  }
-}
-
 .row:after {
   display: table;
   clear: both;
@@ -177,6 +170,11 @@ video {
 }
 
 @media (min-width: 1000px) {
+  #header {
+    font-size: 2em;
+    height: 2em;
+  }
+
   #footer {
     padding-top: 0.8em;
     padding-bottom: 0.5em;
@@ -193,6 +191,11 @@ video {
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  #header {
+    font-size: 2.5em;
+    height: 2.5em;
+  }
+
   #footer {
     padding-top: 0.8em;
     padding-bottom: 0.5em;
