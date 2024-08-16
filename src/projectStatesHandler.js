@@ -2,6 +2,7 @@ export const ProjectStates = {
   LOADING: 'LOADING',
   OPEN: 'OPEN',
   CLOSED: 'CLOSED',
+  HOVER_IN: 'HOVER_IN'
 };
 
 export class ProjectStateHandler {
@@ -14,6 +15,7 @@ export class ProjectStateHandler {
       [ProjectStates.LOADING, this.onLoading.bind(this)],
       [ProjectStates.OPEN, this.onOpen.bind(this)],
       [ProjectStates.CLOSED, this.onClosed.bind(this)],
+      [ProjectStates.HOVER_IN, this.onHoverIn.bind(this)]
     ]);
   }
 
@@ -39,8 +41,14 @@ export class ProjectStateHandler {
     this.projectDescriptionElem.classList.remove('hidden');
     this.projectDescriptionElem.classList.add('flex');
 
+    this.innerProjectElem.classList.remove('margin-hover');
     this.innerProjectElem.classList.remove('margin-revert');
     this.innerProjectElem.classList.add('margin-change');
+  }
+
+  onHoverIn(callback) {
+    this.innerProjectElem.classList.remove('margin-revert');
+    this.innerProjectElem.classList.add('margin-hover');
   }
 
   onClosed() {
@@ -52,6 +60,12 @@ export class ProjectStateHandler {
     this.projectDescriptionElem.classList.remove('flex');
     this.projectDescriptionElem.classList.add('hidden');
 
+    const currentMarginTop = window.getComputedStyle(this.innerProjectElem).marginTop;
+    const currentMarginBottom = window.getComputedStyle(this.innerProjectElem).marginBottom;
+    this.innerProjectElem.style.marginTop = currentMarginTop;
+    this.innerProjectElem.style.marginBottom = currentMarginBottom;
+
+    this.innerProjectElem.classList.remove('margin-hover');
     this.innerProjectElem.classList.remove('margin-change');
     this.innerProjectElem.classList.add('margin-revert');
   }

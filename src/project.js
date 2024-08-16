@@ -101,7 +101,9 @@ export function Project(props) {
           '--margin-top-open': project.marginTopOpen,
           '--margin-bottom-open': project.marginBottomOpen,
           '--margin-top-close': project.marginTopClose,
-          '--margin-bottom-close': project.marginBottomClose
+          '--margin-bottom-close': project.marginBottomClose,
+          '--margin-top-hover': project.marginTopHover,
+          '--margin-bottom-hover': project.marginBottomHover
         }}
       >
         <div className="project-info" ref={projectInfo}>

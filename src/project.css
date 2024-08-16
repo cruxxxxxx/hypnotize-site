@@ -125,7 +125,7 @@
   background-repeat: no-repeat;
   background-size: auto 120%;
   background-clip: auto;
-  padding-left: 0.2em;
+  padding-left: 0.4em;
   padding-right: 2em;
   display: flex;
   z-index: 0;
@@ -149,7 +149,7 @@
 
   .project-info-text-container {
     font-size: 1.2em;
-    margin-top: 0.8em;
+    margin-top: 0.85em;
   }
 
   .project-description {
@@ -184,7 +184,7 @@
   }
 
   .project-info-text-year-column {
-    margin-top: 0.2em;
+    margin-top: 0.25em;
   }
 }
 
@@ -194,6 +194,10 @@
 
 .inner-project.margin-revert {
   animation: marginRevert 0.5s forwards;
+}
+
+.inner-project.margin-hover {
+  animation: marginHover 0.5s forwards;
 }
 
 .project-info.fade-in {
@@ -235,11 +239,18 @@
   }
 }
 
-@keyframes marginRevert {
+@keyframes marginHover {
   from {
-    margin-top: var(--margin-top-open);
-    margin-bottom: var(--margin-bottom-open);
+    margin-top: var(--margin-top-close);
+    margin-bottom: var(--margin-bottom-close);
   }
+  to {
+    margin-top: var(--margin-top-hover);
+    margin-bottom: var(--margin-bottom-hover);
+  }
+}
+
+@keyframes marginRevert {
   to {
     margin-top: var(--margin-top-close);
     margin-bottom: var(--margin-bottom-close);

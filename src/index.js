@@ -91,6 +91,12 @@ function App() {
   const onPressIn = (e, index) => {
     if (index !== activeIndex) {
       touchStartRef.current = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
+      console.log(touchStartRef.current);
+          setProjectStates((prev) =>
+      prev.map((state, i) =>
+        i === index && state !== ProjectStates.OPEN ? ProjectStates.HOVER_IN : state
+      )
+    );
     }
   };
 
@@ -117,6 +123,24 @@ function App() {
 
   const onLongPress = (e, index) => {
     // Handle long press event if needed
+  };
+
+  const onHoverIn = (e, index) => {
+    console.log('hover in')
+    /*setProjectStates((prev) =>
+      prev.map((state, i) =>
+        i === index && state !== ProjectStates.OPEN ? ProjectStates.HOVER_IN : state
+      )
+    );*/
+  };
+
+  const onHoverOut = (e, index) => {
+    console.log('hover out')
+      /*setProjectStates((prev) =>
+      prev.map((state, i) =>
+        i === index && state !== ProjectStates.OPEN ? ProjectStates.CLOSED : state
+      )
+    );*/
   };
 
   const closeAll = () => {
@@ -158,6 +182,12 @@ function App() {
     return filterCriteria === '' || project.group === filterCriteria;
   });
 
+  const getAnimationStartTime = (startAnimationBool, index) => {
+    var startTimeRate = 150;
+    var startTimeBase = 10;
+    var startTime = startAnimationBool ? (startAnimationBool * index * startTimeRate) + startTimeBase : null
+    return startTime;
+  }
   //console.log(filteredProjectData);
 
   return (
@@ -176,6 +206,8 @@ function App() {
                 key={project.name}
                 onPressIn={(event) => onPressIn(event, index)}
                 onPressOut={(event) => onPressOut(event, index)}
+                onHoverIn={(event) => onHoverIn(event, index)}
+                onHoverOut={(event) => onHoverOut(event, index)}
                 onLongPress={(event) => onLongPress(event, index)}
                 delayLongPress={100}
                 disabled={projectStates[index] === ProjectStates.OPEN}>
@@ -184,7 +216,7 @@ function App() {
                   state={projectStates[index]} 
                   onClose={() => onClose(index)}
                   onMediaLoaded={() => onMediaLoaded(index)}
-                  startAnimationTime={startAnimation ? (startAnimation * index * 150) + 10 : null}/>
+                  startAnimationTime={getAnimationStartTime(startAnimation, index)}/>
               </Pressable>
             ))}
             <div class="trail">
