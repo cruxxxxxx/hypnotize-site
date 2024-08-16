@@ -5,8 +5,8 @@ npm run deploy for github pages
 
 
 
-* fix filter buttons for mobile
 * give filter buttons iconography
-* add projects
+* move slide show buttons and arrows below slideshow div
 * make header better
 * add contact info
+* add projects
