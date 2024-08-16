@@ -8,3 +8,7 @@ export function scrollToElementWithPadding(element, paddingTop) {
     behavior: 'smooth'
   });
 }
+
+export function scrollToTop() {
+  document.documentElement.scrollTop = 0;
+}

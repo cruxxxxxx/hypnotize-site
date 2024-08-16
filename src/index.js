@@ -15,15 +15,32 @@ import { CircleCursor } from './circleCursor.js';
 import { Pressable } from 'react-native';
 import WebGLCanvas from './webglCanvas.js';
 
+import { didUserSwipe, 
+strobeLogo, 
+wipeScreen, 
+closeAll, 
+getAnimationStartTime, 
+calculatePercentageLoaded,
+mapProjectStates,
+getTouchData,
+filterProjectData,
+getIsThis } from './homepage_utils.js';
+
+import { scrollToTop } from './util.js';
+
 const projectData = SiteData['projects'];
 const texture1 = 'tex1_med.png';
 const texture2 = 'tex2_low.png';
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const resetActiveIndex = () => setActiveIndex(null);
+  const isActive = (index) => index === activeIndex;
+  const isNotActive = (index) => index !== activeIndex;
   const [loaded, setLoaded] = useState(new Array(projectData.length).fill(false));
   const [startAnimation, setStartAnimation] = useState(null);
   const [filtering, setFiltering] = useState(false);
+  const [hovering, setHovering] = useState(false);
   const [projectStates, setProjectStates] = useState(
     projectData.map(() => ProjectStates.LOADING)
   );
@@ -51,70 +68,32 @@ function App() {
     if (loaded.every(item => item)) {
       setStartAnimation(1);
     }
-
-    const loadedItems = loaded.filter(item => item).length;
-    const totalItems = loaded.length;
-    const percentageLoaded = (loadedItems / totalItems) * 100;
-
-    console.log(`Percentage loaded: ${percentageLoaded}%`);
+    calculatePercentageLoaded(loaded);
   }, [loaded]);
 
+
   useEffect(() => {
-    const allClosed = projectStates.every(state => state === ProjectStates.CLOSED);
-    if (headerImgRef.current) {
-      if (allClosed) {
-        headerImgRef.current.classList.add('strobing');
-      } else {
-        headerImgRef.current.classList.remove('strobing');
-      }
-    }
+    strobeLogo(projectStates, headerImgRef.current);
   }, [projectStates]);
 
-  const onClick = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-    setProjectStates((prev) =>
-      prev.map((state, i) =>
-        i === index ? (state === ProjectStates.OPEN ? ProjectStates.CLOSED : ProjectStates.OPEN) : ProjectStates.CLOSED
-      )
-    );
-  };
-
-  const onClose = (index) => {
-    setActiveIndex(null);
-    setProjectStates((prev) =>
-      prev.map((state, i) =>
-        i === index ? ProjectStates.CLOSED : state
-      )
-    );
-  };
+  /** Touch Callbacks **/
 
   const onPressIn = (e, index) => {
-    if (index !== activeIndex) {
-      touchStartRef.current = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
-      console.log(touchStartRef.current);
-          setProjectStates((prev) =>
-      prev.map((state, i) =>
-        i === index && state !== ProjectStates.OPEN ? ProjectStates.HOVER_IN : state
-      )
-    );
+    if (isNotActive(index) && !hovering) {
+      touchStartRef.current = getTouchData(e);
+      setHover(index);
     }
   };
 
   const onPressOut = (e, index) => {
-    if (index !== activeIndex) {
-      const touchEnd = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
-      const swipeDistanceX = Math.abs(touchEnd.x - touchStartRef.current.x);
-      const swipeDistanceY = Math.abs(touchEnd.y - touchStartRef.current.y);
-      
-      const threshold = 20;
-      if (swipeDistanceX > threshold || swipeDistanceY > threshold) {
+    if (isNotActive(index) && !hovering) {
+      const touchStart = touchStartRef.current;
+      const touchEnd = getTouchData(e);
 
-      } 
-      else if(!touchEnd.x || !touchEnd.y) {
-
-      }
-      else {
-        onClick(index);
+      if(didUserSwipe(touchStart, touchEnd)){
+        resetHover();
+      } else {
+        openProject(index);
       }
 
       touchStartRef.current = null; 
@@ -122,48 +101,58 @@ function App() {
   };
 
   const onLongPress = (e, index) => {
-    // Handle long press event if needed
+
   };
 
   const onHoverIn = (e, index) => {
-    console.log('hover in')
-    /*setProjectStates((prev) =>
-      prev.map((state, i) =>
-        i === index && state !== ProjectStates.OPEN ? ProjectStates.HOVER_IN : state
-      )
-    );*/
+    if(!hovering) {
+      setHovering(true);
+      setHover(index);
+    }
   };
 
   const onHoverOut = (e, index) => {
-    console.log('hover out')
-      /*setProjectStates((prev) =>
-      prev.map((state, i) =>
-        i === index && state !== ProjectStates.OPEN ? ProjectStates.CLOSED : state
-      )
-    );*/
+    setHovering(false);
+    resetHover();
   };
 
-  const closeAll = () => {
-    setActiveIndex(null);
-    setProjectStates((prev) =>prev.map((state, i) => ProjectStates.CLOSED));
+  /** Logic for Touching Projects **/
+
+  const openProject = (index) => {
+    setActiveIndex(isActive(index) ? null : index);
+    const isThis = getIsThis(index);
+    mapProjectStates(setProjectStates, 
+      (state, i) => isThis(i) ? (state === ProjectStates.OPEN ? ProjectStates.CLOSED : ProjectStates.OPEN) : ProjectStates.CLOSED);
+  };
+
+  const closeProject = (index) => {
+    resetActiveIndex();
+    const isThis = getIsThis(index);
+    mapProjectStates(setProjectStates, 
+      (state, i) => isThis(i) ? ProjectStates.CLOSED : state);
+  };
+
+  const setHover = (index) => {
+    const isThis = getIsThis(index);
+    mapProjectStates(setProjectStates, 
+      (state, i) => isThis(i) && state !== ProjectStates.OPEN ? ProjectStates.HOVER_IN : state);
   }
 
-  const wipeScreen = () => {
-      projectMaskRef.current.style.background_position_y = '-100vh';
-      projectMaskRef.current.style.display = 'block';
-      projectMaskRef.current.classList.remove('wipe');
-      projectMaskRef.current.classList.add('wipe');
-  }
+  const resetHover = () => {
+    mapProjectStates(setProjectStates, 
+      (state, i) => state !== ProjectStates.OPEN ? ProjectStates.CLOSED : state);
+  };
+
+  /** Filter **/
 
   const handleFilterChange = (type) => {
     if(!filtering) {
       setFiltering(true);
-      closeAll();
-
-      document.documentElement.scrollTop = 0;
+      closeAll(setActiveIndex, setProjectStates);
+      scrollToTop();
 
       setTimeout(() => {
-        wipeScreen();
+        wipeScreen(projectMaskRef.current);
       }, 400)
 
       setTimeout(() => {
@@ -171,24 +160,13 @@ function App() {
         setTimeout(() => {
           projectMaskRef.current.style.display = 'none';
           setFiltering(false);
-          document.documentElement.scrollTop = 0;
+          scrollToTop();
           }, 1000);
         }, 600);
     }
-
   };
 
-  const filteredProjectData = projectData.filter(project => {
-    return filterCriteria === '' || project.group === filterCriteria;
-  });
-
-  const getAnimationStartTime = (startAnimationBool, index) => {
-    var startTimeRate = 150;
-    var startTimeBase = 10;
-    var startTime = startAnimationBool ? (startAnimationBool * index * startTimeRate) + startTimeBase : null
-    return startTime;
-  }
-  //console.log(filteredProjectData);
+  const filteredProjectData = filterProjectData(projectData, filterCriteria);
 
   return (
     <React.StrictMode>
@@ -214,7 +192,7 @@ function App() {
                 <Project 
                   project={project} 
                   state={projectStates[index]} 
-                  onClose={() => onClose(index)}
+                  onClose={() => closeProject(index)}
                   onMediaLoaded={() => onMediaLoaded(index)}
                   startAnimationTime={getAnimationStartTime(startAnimation, index)}/>
               </Pressable>
