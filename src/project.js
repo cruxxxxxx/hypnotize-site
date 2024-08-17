@@ -27,7 +27,7 @@ export function Project(props) {
     const projectDescriptionElem = projectDescriptionRef.current;
 
     const scrollToCallback = () => {
-      scrollToElementWithPadding(outerProject.current, scrollToPadding);
+      //scrollToElementWithPadding(outerProject.current, scrollToPadding);
     };
 
     const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, projectDescriptionElem, project);

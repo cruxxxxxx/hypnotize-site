@@ -39,6 +39,7 @@ function App() {
   const isNotActive = (index) => index !== activeIndex;
   const [loaded, setLoaded] = useState(new Array(projectData.length).fill(false));
   const [startAnimation, setStartAnimation] = useState(null);
+  const [playedLogo, setPlayedLogo] = useState(false);
   const [filtering, setFiltering] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [projectStates, setProjectStates] = useState(
@@ -73,8 +74,12 @@ function App() {
 
 
   useEffect(() => {
-    strobeLogo(projectStates, headerImgRef.current);
-  }, [projectStates]);
+    if(!playedLogo) {
+      strobeLogo(headerImgRef.current);
+      setPlayedLogo(true);
+    }
+
+  }, []);
 
   /** Touch Callbacks **/
 
@@ -82,6 +87,8 @@ function App() {
     if (isNotActive(index) && !hovering) {
       touchStartRef.current = getTouchData(e);
       setHover(index);
+    } else if (isNotActive(index)) {
+      openProject(index);
     }
   };
 
@@ -105,14 +112,11 @@ function App() {
   };
 
   const onHoverIn = (e, index) => {
-    if(!hovering) {
-      setHovering(true);
-      setHover(index);
-    }
+    setHovering(true);
+    setHover(index);
   };
 
   const onHoverOut = (e, index) => {
-    setHovering(false);
     resetHover();
   };
 

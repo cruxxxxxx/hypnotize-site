@@ -1,14 +1,7 @@
 import { ProjectStates } from './projectStatesHandler.js';
 
-export function strobeLogo(projectStates, headerImg) {
-	const allClosed = projectStates.every(state => state === ProjectStates.CLOSED);
-    if (headerImg) {
-      if (allClosed) {
-        headerImg.classList.add('strobing');
-      } else {
-        headerImg.classList.remove('strobing');
-      }
-    }
+export function strobeLogo(headerImg) {
+  headerImg.classList.add('strobing');
 }
 
 export function didUserSwipe(touchStart, touchEnd) {
