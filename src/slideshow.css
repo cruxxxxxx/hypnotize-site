@@ -1,61 +1,21 @@
-.mySlides {
-  opacity: 0;
-  transition: opacity 0.5s;
-  display: none;
-  position: relative;
+.react-multiple-carousel__arrow {
+  background: rgba(0,0,0,1);
+  overflow: visible;
+  top: calc(100%);
 }
 
-.mySlides.fade-in {
-  opacity: 1;
-  display: block;
+.react-multiple-carousel__arrow:hover {
+  background: rgba(0,0,0,1);
 }
 
-.mySlides.fade-out {
-  position: absolute;
-  opacity: 0;
-  display: block;
+.react-multi-carousel-item {
+  aria-hidden: false;
 }
 
-.slideshow-button {
-  position: relative; /* Change to absolute positioning */
-  top: 100%;
-  width: auto;
-  color: white;
-  font-weight: bold;
-  font-size: 3em;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 1; /* Ensure buttons appear above slides */
+.react-multi-carousel-list {
+  overflow: visible !important;
 }
 
-.slideshow-button.display-left {
-  border-radius: 3px 0 0 3px;
-}
-
-.slideshow-button.display-right {
-  border-radius: 0 3px 3px 0;
-}
-
-.open {
-  animation: scaleWidth 10s ease-out forwards, scaleHeight 10s 10s ease-out forwards;
-}
-
-@keyframes scaleWidth {
-  0% {
-    transform: scaleX(0);
-  }
-  100% {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes scaleHeight {
-  0% {
-    transform: scaleY(0.2);
-  }
-  100% {
-    transform: scaleY(1);
-  }
+.react-multi-carousel-dot-list {
+  top: calc(102%);
 }

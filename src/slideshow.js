@@ -113,17 +113,10 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
         removeArrowOnDeviceType={[]}
         renderDotsOutside={true}
         draggable={false}
-        swipeable={true}
+        swipeable={false}
         customTransition="all"
         beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(currentSlide)}
-        dotListClass="custom-dot-list-style"
-        customButtonGroup={isProjectOpen && mediaSrcs.length > 1 ? (
-          <div>
-            <button className="slideshow-button display-left" onClick={() => handleSlideChange((slideIndex - 1 + mediaSrcs.length) % mediaSrcs.length)}>&#10094;</button>
-            <button className="slideshow-button display-right" onClick={() => handleSlideChange((slideIndex + 1) % mediaSrcs.length)}>&#10095;</button>
-          </div>
-        ) : null}
-      >
+        dotListClass="custom-dot-list-style">
         {mediaSrcs.map((src, index) => {
           const mediaType = getMediaType(src);
           return (
@@ -140,7 +133,11 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                 <video
                   controls
                   playsInline
-                  onLoadedData={() => handleLoad(index)}
+                  onLoadedData={() => {
+                    if (videoRefs.current[index]) {
+                      videoRefs.current[index].volume = 0.2;
+                    }
+                    handleLoad(index)}}
                   autobuffer={true}
                   ref={(el) => videoRefs.current[index] = el}
                 >
