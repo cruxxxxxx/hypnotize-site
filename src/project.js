@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ProjectStates, ProjectStateHandler } from './projectStatesHandler';
 import { scrollToElementWithPadding } from './util.js';
 import Slideshow from './slideshow';
@@ -20,6 +20,7 @@ export function Project(props) {
   const projectLineRef = useRef();
   const projectDescriptionRef = useRef();
   const innerInfoRef = useRef();
+  const [isPlaying, setPlaying] = useState(false);
 
   useEffect(() => {
     const projectInfoElem = projectInfo.current;
@@ -32,20 +33,17 @@ export function Project(props) {
 
     const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, projectDescriptionElem, project);
 
-
     if(project.mediaSrcs.length > 1) {
       projectDescriptionRef.current.style.marginTop = '4em';
     }
-    
-    console.log('prev: ' + prevState.current + ' next: ' + state);
-
+  
     const prevClosed = (prevState.current === ProjectStates.CLOSED) && (state === ProjectStates.CLOSED);
 
-    if ((prevState.current === ProjectStates.LOADING && state === ProjectStates.CLOSED)) {
+    if (!isPlaying && (prevState.current === ProjectStates.LOADING && state === ProjectStates.CLOSED)) {
     } else if(prevClosed) {
       stateHandler.onStateChange(ProjectStates.LOADING, scrollToCallback);
     }
-    else {
+    else if(!isPlaying) {
       stateHandler.onStateChange(state, scrollToCallback);
     }
 
@@ -78,6 +76,7 @@ export function Project(props) {
 
   useEffect(() => {
     if (innerProject.current && startAnimationTime > 0) {
+      setPlaying(true);
       innerProject.current.style.opacity = 0;
       innerProject.current.style.display = 'block';
       innerProject.current.style.animationDelay = `${startAnimationTime*1.5}ms`;
@@ -85,6 +84,7 @@ export function Project(props) {
     }
 
     const handleAnimationEnd = () => {
+        setPlaying(false);
         innerProject.current.style.opacity = 1;
         innerProject.current.classList.remove('fade-in');
         innerProject.current.style.animationDelay = null

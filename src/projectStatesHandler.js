@@ -62,12 +62,25 @@ export class ProjectStateHandler {
 
     const currentMarginTop = window.getComputedStyle(this.innerProjectElem).marginTop;
     const currentMarginBottom = window.getComputedStyle(this.innerProjectElem).marginBottom;
-    this.innerProjectElem.style.marginTop = currentMarginTop;
-    this.innerProjectElem.style.marginBottom = currentMarginBottom;
 
-    this.innerProjectElem.classList.remove('margin-hover');
-    this.innerProjectElem.classList.remove('margin-change');
-    this.innerProjectElem.classList.add('margin-revert');
+    if(currentMarginTop != this.project.marginTopClose || currentMarginBottom != this.project.marginBottomClose) {
+      this.innerProjectElem.style.marginTop = currentMarginTop;
+      this.innerProjectElem.style.marginBottom = currentMarginBottom;
+
+      this.innerProjectElem.classList.remove('margin-hover');
+      this.innerProjectElem.classList.remove('margin-change');
+      this.innerProjectElem.classList.add('margin-revert');
+
+      const onMarginRevertEnd = () => {
+        this.innerProjectElem.style.marginTop = this.project.marginTopClose;
+        this.innerProjectElem.style.marginBottom = this.project.marginBottomClose;
+        this.innerProjectElem.classList.remove('margin-revert');
+        this.innerProjectElem.removeEventListener('animationend', onMarginRevertEnd);
+      };
+
+      this.innerProjectElem.addEventListener('animationend', onMarginRevertEnd);
+    }
+
   }
 
   onStateChange(state, callback) {
