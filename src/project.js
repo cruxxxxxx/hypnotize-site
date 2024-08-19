@@ -32,6 +32,11 @@ export function Project(props) {
 
     const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, projectDescriptionElem, project);
 
+
+    if(project.mediaSrcs.length > 1) {
+      projectDescriptionRef.current.style.marginTop = '4em';
+    }
+    
     console.log('prev: ' + prevState.current + ' next: ' + state);
 
     const prevClosed = (prevState.current === ProjectStates.CLOSED) && (state === ProjectStates.CLOSED);

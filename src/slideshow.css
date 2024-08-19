@@ -4,6 +4,14 @@
   top: calc(100%);
 }
 
+.react-multiple-carousel__arrow--left {
+    left: calc(30% + 1px) !important;
+}
+
+.react-multiple-carousel__arrow--right {
+    right: calc(30% + 1px) !important;
+}
+
 .react-multiple-carousel__arrow:hover {
   background: rgba(0,0,0,1);
 }
@@ -17,5 +25,5 @@
 }
 
 .react-multi-carousel-dot-list {
-  top: calc(102%);
+  top: calc(104%);
 }
