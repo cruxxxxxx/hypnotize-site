@@ -59,7 +59,33 @@ const MoirePattern = ({ bottomTexturePath, topTexturePath, onLoadComplete }) => 
 
 const WebGLCanvas = ({ texture1, texture2 }) => {
   const [loading, setLoading] = useState(true);
+  const [canRunEffect, setCanRunEffect] = useState(true); 
   const coverDivRef = useRef();
+  const canvasDivRef = useRef();
+
+  useEffect(() => {
+    const canRunIntensiveEffect = () => {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+      if (!gl) {
+        return false;
+      }
+
+      const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+      const maxVertexTextures = gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+      
+      return maxTextureSize >= 8192 && maxVertexTextures >= 16;
+    };
+
+    const isCapable = canRunIntensiveEffect();
+    setCanRunEffect(isCapable);
+
+    if (!isCapable && coverDivRef.current) {
+      canvasDivRef.current.style.display = 'none';
+    }
+  }, []); 
+
 
   const handleLoadComplete = () => {
     setLoading(false);
@@ -72,7 +98,7 @@ const WebGLCanvas = ({ texture1, texture2 }) => {
   }, [loading]);
 
   return (
-    <div id="canvasDiv">
+    <div ref={canvasDivRef} id="canvasDiv">
       <div ref={coverDivRef} className="cover-div" style={{ display: loading ? 'block' : 'none' }}></div>
       <Canvas>
         <MoirePattern bottomTexturePath={texture1} topTexturePath={texture2} onLoadComplete={handleLoadComplete} />

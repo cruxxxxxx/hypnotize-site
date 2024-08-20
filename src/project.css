@@ -86,7 +86,7 @@
 .project-info-table {
   display: block;
   overflow:hidden;
-  width: 70%;
+  min-width: 70%;
   border-collapse: collapse; 
   border-left: 1px solid black;
   border-right: 1px solid black;
@@ -157,7 +157,8 @@
   }
 
   .project-info-table {
-    width: 70%;
+    min-width: 60%;
+    max-width: 70%;
   }
 
   .project-info-text-year-column {
@@ -180,7 +181,8 @@
   }
 
   .project-info-table {
-    width: 50%;
+    min-width: 50%;
+    max-width: 60%;
   }
 
   .project-info-text-year-column {
