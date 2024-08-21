@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/hypnotize-site/static/css/main.64d8d916.css",
-    "main.js": "/hypnotize-site/static/js/main.1bd4a222.js",
+    "main.css": "/hypnotize-site/static/css/main.4c8d084b.css",
+    "main.js": "/hypnotize-site/static/js/main.63a98de7.js",
     "static/media/array.woff": "/hypnotize-site/static/media/array.a2151ef66a470264e164.woff",
     "static/media/revicons.eot": "/hypnotize-site/static/media/revicons.a77de540a38981833f9e.eot",
     "static/media/revicons.ttf": "/hypnotize-site/static/media/revicons.57fd05d4ae650374c8de.ttf",
@@ -9,11 +9,11 @@
     "static/media/revicons.woff": "/hypnotize-site/static/media/revicons.e8746a624ed098489406.woff",
     "static/media/divider2.svg": "/hypnotize-site/static/media/divider2.85f98833930d17e81dcc.svg",
     "index.html": "/hypnotize-site/index.html",
-    "main.64d8d916.css.map": "/hypnotize-site/static/css/main.64d8d916.css.map",
-    "main.1bd4a222.js.map": "/hypnotize-site/static/js/main.1bd4a222.js.map"
+    "main.4c8d084b.css.map": "/hypnotize-site/static/css/main.4c8d084b.css.map",
+    "main.63a98de7.js.map": "/hypnotize-site/static/js/main.63a98de7.js.map"
   },
   "entrypoints": [
-    "static/css/main.64d8d916.css",
-    "static/js/main.1bd4a222.js"
+    "static/css/main.4c8d084b.css",
+    "static/js/main.63a98de7.js"
   ]
 }
