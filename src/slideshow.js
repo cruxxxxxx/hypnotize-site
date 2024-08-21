@@ -17,11 +17,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     videoRefs.current.forEach((video, index) => {
       if (video) {
         if (index === slideIndex) {
-          console.log(slideIndex);
-          console.log(index);
         } else {
-          console.log(slideIndex);
-          console.log(index);
           video.pause();
           video.currentTime = 0;
         }
@@ -115,7 +111,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
         draggable={false}
         swipeable={false}
         customTransition="all"
-        beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(currentSlide)}
+        beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(nextSlide)}
         dotListClass="custom-dot-list-style">
         {mediaSrcs.map((src, index) => {
           const mediaType = getMediaType(src);
