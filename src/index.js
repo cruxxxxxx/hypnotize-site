@@ -69,9 +69,6 @@ function App() {
   };
 
   useEffect(() => {
-    if (loaded.every(item => item)) {
-      setStartAnimation(1);
-    }
     const percentage = calculatePercentageLoaded(loaded);
     setProgress(percentage);
   }, [loaded]);
@@ -176,11 +173,17 @@ function App() {
 
   const filteredProjectData = filterProjectData(projectData, filterCriteria);
 
+  const finishedLoading = () => {
+    setProgress(0);
+    projectMaskRef.current.style.display = 'none';
+    projectMaskRef.current.classList.remove('white-background');
+    projectMaskRef.current.classList.add('gradient-background');
+    setStartAnimation(1);
+  }
+
   return (
     <React.StrictMode>
-    <LoadingBar color="white" progress={progress}
-        onLoaderFinished={() => setProgress(0)} />
-
+      <LoadingBar color="white" progress={progress} onLoaderFinished={() => finishedLoading()} />
       <WebGLCanvas texture1={texture1} texture2={texture2} />
       <div id="header">
         <img ref={headerImgRef} className="strobing" src="logo.png" alt="Logo" />
@@ -189,7 +192,7 @@ function App() {
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
           <div id="projects" className="column" ref={columnRef}>
-            <div ref={projectMaskRef} id="projectMask"></div>
+            <div ref={projectMaskRef} id="projectMask" className="white-background"></div>
             {filteredProjectData.map((project, index) => (
               <Pressable
                 key={project.name}

@@ -64,15 +64,23 @@ video {
 
 #projectMask {
   position: absolute;
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 10%, rgba(255,255,255,1) 70%, rgba(255,255,255,0) 100%);
   background-repeat: no-repeat;
   top: 0;
   height: 100%;
   width: 100%;
   background-size: 100% 130%;
   z-index: 1;
-  display: none;
+  display: block;
 }
+
+.gradient-background {
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 10%, rgba(255,255,255,1) 70%, rgba(255,255,255,0) 100%);
+}
+
+.white-background{
+  background: white;
+}
+
 
 .wipe {
   animation: wipeAnimation 2s forwards;
