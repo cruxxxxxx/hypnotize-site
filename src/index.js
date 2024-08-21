@@ -52,6 +52,7 @@ function App() {
   const touchStartRef = useRef(null);
   const [filterCriteria, setFilterCriteria] = useState('');
   const projectMaskRef = useRef();
+  const loadingBarRef = useRef();
 
   useEffect(() => {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
@@ -69,7 +70,8 @@ function App() {
     if (loaded.every(item => item)) {
       setStartAnimation(1);
     }
-    calculatePercentageLoaded(loaded);
+    const percentage = calculatePercentageLoaded(loaded);
+    loadingBarRef.current.style.height = 100-percentage + '%';
   }, [loaded]);
 
 
@@ -182,6 +184,7 @@ function App() {
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
           <div id="projects" className="column" ref={columnRef}>
+            <div ref={loadingBarRef} className="loading-bar"></div>
             <div ref={projectMaskRef} id="projectMask"></div>
             {filteredProjectData.map((project, index) => (
               <Pressable

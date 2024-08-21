@@ -43,6 +43,7 @@ export function calculatePercentageLoaded (loaded) {
     const percentageLoaded = (loadedItems / totalItems) * 100;
 
     console.log(`Percentage loaded: ${percentageLoaded}%`);
+    return percentageLoaded;
 }
 
 export function mapProjectStates(setProjectStates, getState) {
