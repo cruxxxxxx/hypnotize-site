@@ -13,6 +13,7 @@ import { ProjectStates } from './projectStatesHandler.js';
 import { Project } from './project.js';
 import { CircleCursor } from './circleCursor.js';
 import { Pressable } from 'react-native';
+import LoadingBar from 'react-top-loading-bar'
 import WebGLCanvas from './webglCanvas.js';
 
 import { didUserSwipe, 
@@ -42,6 +43,8 @@ function App() {
   const [playedLogo, setPlayedLogo] = useState(false);
   const [filtering, setFiltering] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [progress,setProgress] = useState(0);
+
   const [projectStates, setProjectStates] = useState(
     projectData.map(() => ProjectStates.LOADING)
   );
@@ -52,7 +55,6 @@ function App() {
   const touchStartRef = useRef(null);
   const [filterCriteria, setFilterCriteria] = useState('');
   const projectMaskRef = useRef();
-  const loadingBarRef = useRef();
 
   useEffect(() => {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
@@ -71,7 +73,7 @@ function App() {
       setStartAnimation(1);
     }
     const percentage = calculatePercentageLoaded(loaded);
-    loadingBarRef.current.style.height = 100-percentage + '%';
+    setProgress(percentage);
   }, [loaded]);
 
 
@@ -176,6 +178,9 @@ function App() {
 
   return (
     <React.StrictMode>
+    <LoadingBar color="white" progress={progress}
+        onLoaderFinished={() => setProgress(0)} />
+
       <WebGLCanvas texture1={texture1} texture2={texture2} />
       <div id="header">
         <img ref={headerImgRef} className="strobing" src="logo.png" alt="Logo" />
@@ -184,7 +189,6 @@ function App() {
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
           <div id="projects" className="column" ref={columnRef}>
-            <div ref={loadingBarRef} className="loading-bar"></div>
             <div ref={projectMaskRef} id="projectMask"></div>
             {filteredProjectData.map((project, index) => (
               <Pressable
