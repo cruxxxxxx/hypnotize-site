@@ -20,7 +20,7 @@ function filterProjectData(projectData, filterCriteria) {
   	}); 
 }
 
-export function FilterButtons({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange }) {
+export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange }) {
   const [filtering, setFiltering] = useState(false);
   const [filterCriteria, setFilterCriteria] = useState('');
 
@@ -52,6 +52,7 @@ export function FilterButtons({ projectData, setActiveIndex, setProjectStates, p
 
   return (
     <div id="footer">
+
       <div className="button-container">
         <button className="filter-button" onClick={() => handleFilterChange("")}></button>
         <br/>

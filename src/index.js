@@ -13,7 +13,7 @@ import { ProjectStates } from './projectStatesHandler.js';
 import { Project } from './project.js';
 import { Header } from './header.js';
 import { CircleCursor } from './circleCursor.js';
-import { FilterButtons } from './filter_buttons.js';
+import { Footer } from './footer.js';
 import { Pressable } from 'react-native';
 import LoadingBar from 'react-top-loading-bar'
 import WebGLCanvas from './webglCanvas.js';
@@ -137,7 +137,7 @@ function App() {
               <span>.</span><br/>
               <span>.</span><br/>
             </div>
-            <FilterButtons 
+            <Footer 
               projectData={projectData}
               setActiveIndex={setActiveIndex}
               setProjectStates={setProjectStates}
