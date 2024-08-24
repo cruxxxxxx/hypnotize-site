@@ -4,6 +4,12 @@
   top: calc(100%);
 }
 
+.react-multiple-carousel__arrow {
+  min-width: 70px !important;
+  min-height: 70px !important;
+  border-radius: 50% !important;
+}
+
 .react-multiple-carousel__arrow--left {
     left: calc(30% + 1px) !important;
 }
@@ -16,14 +22,29 @@
   background: rgba(0,0,0,1);
 }
 
-.react-multi-carousel-item {
-  aria-hidden: false;
-}
-
 .react-multi-carousel-list {
   overflow: visible !important;
 }
 
 .react-multi-carousel-dot-list {
+  transform: scale(1.5);
   top: calc(103%);
+}
+
+@media (min-width: 1000px) {
+  .react-multiple-carousel__arrow {
+    min-width: 43px !important;
+    min-height: 43px !important;
+    border-radius: 50%;
+  }
+
+  /* Increase the size of the arrow icon */
+  .react-multiple-carousel__arrow::before {
+    font-size: 25px; /* Adjust as needed */
+  }
+
+  .react-multi-carousel-dot-list {
+    transform: scale(1);
+    top: calc(103%);
+  }
 }

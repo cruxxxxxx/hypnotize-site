@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './project.css';
@@ -11,117 +11,54 @@ import './svg.css'
 import SiteData from './sitedata.json';
 import { ProjectStates } from './projectStatesHandler.js';
 import { Project } from './project.js';
+import { Header } from './header.js';
 import { CircleCursor } from './circleCursor.js';
+import { FilterButtons } from './filter_buttons.js';
 import { Pressable } from 'react-native';
 import LoadingBar from 'react-top-loading-bar'
 import WebGLCanvas from './webglCanvas.js';
 
-import { didUserSwipe, 
-strobeLogo, 
-wipeScreen, 
-closeAll, 
+import { useProjectState, useLoadingState } from './hooks/index_hooks.js';
+import { usePressableCallbacks } from './hooks/project_pressable_hooks.js';
+
+import { 
 getAnimationStartTime, 
 calculatePercentageLoaded,
 mapProjectStates,
-getTouchData,
-filterProjectData,
 getIsThis } from './homepage_utils.js';
-
-import { scrollToTop } from './util.js';
 
 const projectData = SiteData['projects'];
 const texture1 = 'tex1_med.png';
 const texture2 = 'tex2_low.png';
 
 function App() {
-  const [activeIndex, setActiveIndex] = useState(null);
-  const resetActiveIndex = () => setActiveIndex(null);
-  const isActive = (index) => index === activeIndex;
-  const isNotActive = (index) => index !== activeIndex;
-  const [loaded, setLoaded] = useState(new Array(projectData.length).fill(false));
-  const [startAnimation, setStartAnimation] = useState(null);
-  const [playedLogo, setPlayedLogo] = useState(false);
-  const [filtering, setFiltering] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [progress,setProgress] = useState(0);
+  const { projectStates, setProjectStates, activeIndex, setActiveIndex, resetActiveIndex, isActive, isNotActive } = useProjectState(projectData);
+  const { loaded, setLoaded, progress, setProgress, startAnimation, setStartAnimation } = useLoadingState(projectData);
+  const [filteredProjects, setFilteredProjects] = useState(projectData);
 
-  const [projectStates, setProjectStates] = useState(
-    projectData.map(() => ProjectStates.LOADING)
-  );
+  const [hovering, setHovering] = useState(false);
 
   const circleCursorRef = useRef();
   const columnRef = useRef();
-  const headerImgRef = useRef();
   const touchStartRef = useRef(null);
-  const [filterCriteria, setFilterCriteria] = useState('');
   const projectMaskRef = useRef();
 
   useEffect(() => {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
   }, []);
 
-  const onMediaLoaded = (index) => {
+  const onMediaLoaded = useCallback((index) => {
     setLoaded(prevLoaded => {
       const newLoaded = [...prevLoaded];
       newLoaded[index] = true;
       return newLoaded;
     });
-  };
+  }, [setLoaded]);
 
   useEffect(() => {
     const percentage = calculatePercentageLoaded(loaded);
     setProgress(percentage);
   }, [loaded]);
-
-
-  useEffect(() => {
-    if(!playedLogo) {
-      strobeLogo(headerImgRef.current);
-      setPlayedLogo(true);
-    }
-
-  }, []);
-
-  /** Touch Callbacks **/
-
-  const onPressIn = (e, index) => {
-    if (isNotActive(index) && !hovering) {
-      touchStartRef.current = getTouchData(e);
-      setHover(index);
-    } else if (isNotActive(index)) {
-      openProject(index);
-    }
-  };
-
-  const onPressOut = (e, index) => {
-    if (isNotActive(index) && !hovering) {
-      const touchStart = touchStartRef.current;
-      const touchEnd = getTouchData(e);
-
-      if(didUserSwipe(touchStart, touchEnd)){
-        resetHover();
-      } else {
-        openProject(index);
-      }
-
-      touchStartRef.current = null; 
-    }
-  };
-
-  const onLongPress = (e, index) => {
-
-  };
-
-  const onHoverIn = (e, index) => {
-    setHovering(true);
-    setHover(index);
-  };
-
-  const onHoverOut = (e, index) => {
-    resetHover();
-  };
-
-  /** Logic for Touching Projects **/
 
   const openProject = (index) => {
     setActiveIndex(isActive(index) ? null : index);
@@ -148,30 +85,15 @@ function App() {
       (state, i) => state !== ProjectStates.OPEN ? ProjectStates.CLOSED : state);
   };
 
-  /** Filter **/
-
-  const handleFilterChange = (type) => {
-    if(!filtering) {
-      setFiltering(true);
-      closeAll(setActiveIndex, setProjectStates);
-      scrollToTop();
-
-      setTimeout(() => {
-        wipeScreen(projectMaskRef.current);
-      }, 400)
-
-      setTimeout(() => {
-        setFilterCriteria(type);
-        setTimeout(() => {
-          projectMaskRef.current.style.display = 'none';
-          setFiltering(false);
-          scrollToTop();
-          }, 1000);
-        }, 600);
-    }
-  };
-
-  const filteredProjectData = filterProjectData(projectData, filterCriteria);
+  const { onPressIn, onPressOut, onLongPress, onHoverIn, onHoverOut } = usePressableCallbacks({
+    isNotActive,
+    hovering,
+    setHover,
+    openProject,
+    resetHover,
+    setHovering,
+    touchStartRef
+  });
 
   const finishedLoading = () => {
     setProgress(0);
@@ -185,15 +107,13 @@ function App() {
     <React.StrictMode>
       <LoadingBar color="white" progress={progress} onLoaderFinished={() => finishedLoading()} />
       <WebGLCanvas texture1={texture1} texture2={texture2} />
-      <div id="header">
-        <img ref={headerImgRef} className="strobing" src="logo.png" alt="Logo" />
-      </div>
+      <Header />
       <div id="main">
         <CircleCursor ref={circleCursorRef} />
         <div className="row">
           <div id="projects" className="column" ref={columnRef}>
             <div ref={projectMaskRef} id="projectMask" className="white-background"></div>
-            {filteredProjectData.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <Pressable
                 key={project.name}
                 onPressIn={(event) => onPressIn(event, index)}
@@ -217,26 +137,13 @@ function App() {
               <span>.</span><br/>
               <span>.</span><br/>
             </div>
-            <div id="footer">
-              <div class="button-container">
-                <button class="filter-button" onClick={() => handleFilterChange("")}></button>
-                <br/>
-                <span class="filter-button-label">all</span>
-              </div>
-
-
-              <div class="button-container">
-                <button class="filter-button" onClick={() => handleFilterChange("other")}></button>
-                <br/>
-                <span class="filter-button-label" style={{'margin-left': '0.1em'}}>other</span>
-              </div>
-
-              <div class="button-container">
-                <button class="filter-button" onClick={() => handleFilterChange("media")}></button>
-                <br/>
-                <span class="filter-button-label">media</span>
-              </div>
-            </div> 
+            <FilterButtons 
+              projectData={projectData}
+              setActiveIndex={setActiveIndex}
+              setProjectStates={setProjectStates}
+              projectMaskRef={projectMaskRef}
+              onFilterChange={setFilteredProjects}
+            />
           </div>
         </div>
       </div>
