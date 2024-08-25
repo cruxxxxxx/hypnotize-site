@@ -6,7 +6,8 @@ import './circleCursor.css';
 import './marquee.css';
 import './slideshow.css';
 import './openmark.css';
-import './svg.css'
+import './svg.css';
+import './footer.css';
 
 import SiteData from './sitedata.json';
 import { ProjectStates } from './projectStatesHandler.js';

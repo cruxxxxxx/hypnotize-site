@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { scrollToTop } from './util.js';
 import { ProjectStates } from './projectStatesHandler.js';
+import { Pressable } from 'react-native';
 
 const wipeScreen = (projectMask) => {
     projectMask.style.background_position_y = '-100vh';
@@ -23,6 +24,9 @@ function filterProjectData(projectData, filterCriteria) {
 export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange }) {
   const [filtering, setFiltering] = useState(false);
   const [filterCriteria, setFilterCriteria] = useState('');
+  const [footerOpen, setFooterOpen] = useState(null);
+  const footerRef = useRef();
+  const arrowRef = useRef();
 
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -50,26 +54,98 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
     scrollToTop();
   };
 
+  const toggleFooter = () => {
+    setFooterOpen(prevFooterOpen => {
+      if(prevFooterOpen === null) {
+        return true;
+      } else {
+        return !prevFooterOpen;
+      }
+      return null;
+    });
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (footerRef.current && !footerRef.current.contains(event.target)) {
+        setFooterOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (footerRef.current && arrowRef.current && footerOpen !== null) {
+      
+      const handleFooterAnimationEnd = (event) => {
+        const footerStyle = window.getComputedStyle(footerRef.current);
+        footerRef.current.style.transform = footerStyle.transform;
+        footerRef.current.classList.remove('open');
+        footerRef.current.classList.remove('close');
+        footerRef.current.removeEventListener('animationend', handleFooterAnimationEnd);
+      };
+
+      const handleArrowAnimationEnd = (event) => {
+        const arrowStyle = window.getComputedStyle(arrowRef.current);
+        arrowRef.current.style.transform = arrowStyle.transform;
+        arrowRef.current.classList.remove('open');
+        arrowRef.current.classList.remove('close');
+        arrowRef.current.removeEventListener('animationend', handleArrowAnimationEnd);
+      };
+
+      if (footerOpen) {
+        footerRef.current.classList.remove('close');
+        arrowRef.current.classList.remove('close');
+
+        footerRef.current.classList.add('open');
+        arrowRef.current.classList.add('open');
+      } else {
+        footerRef.current.classList.remove('open');
+        arrowRef.current.classList.remove('open');
+
+        footerRef.current.classList.add('close');
+        arrowRef.current.classList.add('close');
+      }
+
+      footerRef.current.addEventListener('animationend', handleFooterAnimationEnd);
+      arrowRef.current.addEventListener('animationend', handleArrowAnimationEnd);
+    }
+  }, [footerOpen]);
+
   return (
-    <div id="footer">
-
-      <div className="button-container">
-        <button className="filter-button" onClick={() => handleFilterChange("")}></button>
-        <br/>
-        <span className="filter-button-label">all</span>
+    <div ref={footerRef} className="outside-footer">
+      <div className="footer-arrow-container">
+        <Pressable onPress={toggleFooter}>
+          <img ref={arrowRef} className="footer-arrow" src="arrow.svg" alt="Toggle footer" />
+        </Pressable>
       </div>
 
-      <div className="button-container">
-        <button className="filter-button" onClick={() => handleFilterChange("other")}></button>
-        <br/>
-        <span className="filter-button-label" style={{'marginLeft': '0.1em'}}>other</span>
-      </div>
+      <div className="footer-line"></div>
 
-      <div className="button-container">
-        <button className="filter-button" onClick={() => handleFilterChange("media")}></button>
-        <br/>
-        <span className="filter-button-label">media</span>
-      </div>
+      <div className="inside-footer">
+          <div className="buttons-container">
+            <div id="first-button" className="button-container">
+              <button className="filter-button" onClick={() => handleFilterChange("projects")}></button>
+              <br/>
+              <span className="filter-button-label">projects</span>
+            </div>
+
+            <div id="third-button" className="button-container">
+              <button className="filter-button" onClick={() => handleFilterChange("experiments")}></button>
+              <br/>
+              <span className="filter-button-label">experiments</span>
+            </div>
+          </div>
+
+          <div className="footer-line"></div>
+
+
+          <span> <a className="contact" href="mailto:info@hypnotize.inc">contact</a> </span>
+        </div>
     </div>
   );
 }

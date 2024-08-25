@@ -1,0 +1,176 @@
+.outside-footer {
+    --footer-open-percentage: 55%;
+    transform: translateY(var(--footer-open-percentage));
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  bottom: 0;
+  margin: 0;
+  padding-top: 0.5em;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  font-family: "Hiragino Kaku Gothic ProN W3", sans-serif;
+}
+
+.filter-button {
+  height: 6em;
+  width: 6em;
+}
+
+.filter-button-label {
+  font-size: 2em;
+}
+
+.inside-footer {
+  color: white;
+  padding-top: 0.1em;
+  padding-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  bottom: 0;
+  margin: 0;
+  left: 0;
+  width: 100%;
+}
+
+.contact {
+  color: whitesmoke;
+}
+
+.contact:hover {
+  color: darkgray;
+}
+
+.buttons-container {
+  margin-left: 0.4em;
+  gap: 10em;
+  display: flex;
+  flex-direction: row;
+}
+
+.footer-arrow {
+  filter: invert(1);
+  width: 6em;
+  height: 6em;
+  transform: rotate(-90deg);
+}
+
+.footer-arrow-container:hover {
+  transform: scale(1.1);
+}
+
+.footer-arrow.open {
+  animation: rotateArrowDown 0.5s forwards;
+}
+
+.footer-arrow.close {
+  animation: rotateArrowUp 0.5s forwards;
+}
+
+@keyframes rotateArrowDown {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes rotateArrowUp {
+  from {
+    transform: rotate(90deg);
+  }
+  to {
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes translateFooterDown {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(var(--footer-open-percentage));
+  }
+}
+
+@keyframes translateFooterUp {
+  from {
+    transform: translateY(var(--footer-open-percentage));
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+.outside-footer.close {
+  animation: translateFooterDown 0.5s forwards;
+}
+
+.outside-footer.open {
+  animation: translateFooterUp 0.5s forwards;
+}
+
+.footer-line {
+  width: 80%;
+  height: 1px;
+  background-color: #CCC;
+  margin: 0.5em auto;
+}
+
+@media (min-width: 1000px) {
+    .outside-footer {
+        --footer-open-percentage: 75%;
+    }
+
+  .filter-button-label {
+    font-size: 1em;
+  }
+
+  .filter-button {
+    height: 3em;
+    width: 3em;
+  }
+
+  .footer-arrow {
+    width: 2em;
+    height: 2em;
+  }
+
+  .footer-line {
+    width: 40%;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .outside-footer {
+        --footer-open-percentage: 70%;
+    }
+
+  .footer-arrow {
+    width: 2em;
+    height: 2em;
+  }
+}
+
+.filter-button-label {
+  font-size: 1em;
+}
+
+.filter-button {
+  height: 3em;
+  width: 3em;
+}
+
+.footer-line {
+  width: 50%;
+}
