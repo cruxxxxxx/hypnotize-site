@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ProjectStates, ProjectStateHandler } from './projectStatesHandler';
-import { scrollToElementWithPadding } from './util.js';
-import Slideshow from './slideshow';
+import { scrollToElementWithPadding } from '../../util.js';
+import Slideshow from '../slideshow/slideshow.js';
 import { StyleSheet, Text, View } from 'react-native';
-import { OpenMark } from './openmark';
+import { OpenMark } from '../openmark/openmark.js';
 
 const scrollToPadding = 100;
 

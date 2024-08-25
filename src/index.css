@@ -45,8 +45,8 @@ video {
 
 @font-face {
     font-family: 'arrayregular';
-    src: url('array.woff2') format('woff2'),
-         url('array.woff') format('woff');
+    src: url('data/array.woff2') format('woff2'),
+         url('data/array.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 

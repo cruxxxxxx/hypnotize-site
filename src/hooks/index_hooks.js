@@ -1,4 +1,4 @@
-import { ProjectStates } from "../projectStatesHandler";
+import { ProjectStates } from "../components/project/projectStatesHandler";
 import React, { useState, useRef, useEffect } from 'react';
 
 export function useProjectState(projectData) {

@@ -121,7 +121,7 @@
 
 .project-info-label-cell {
   color: white;
-  background-image: url('divider2.svg');
+  background-image: url('../../data/divider2.svg');
   background-repeat: no-repeat;
   background-size: auto 120%;
   background-clip: auto;
@@ -253,6 +253,10 @@
 }
 
 @keyframes marginRevert {
+  from {
+    margin-top: var(--margin-top-hover);
+    margin-bottom: var(--margin-bottom-hover);
+  }
   to {
     margin-top: var(--margin-top-close);
     margin-bottom: var(--margin-bottom-close);

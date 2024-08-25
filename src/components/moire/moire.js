@@ -57,7 +57,7 @@ const MoirePattern = ({ bottomTexturePath, topTexturePath, onLoadComplete }) => 
   );
 };
 
-const WebGLCanvas = ({ texture1, texture2 }) => {
+const Moire = ({ texture1, texture2 }) => {
   const [loading, setLoading] = useState(true);
   const [canRunEffect, setCanRunEffect] = useState(true); 
   const coverDivRef = useRef();
@@ -107,4 +107,4 @@ const WebGLCanvas = ({ texture1, texture2 }) => {
   );
 };
 
-export default WebGLCanvas;
+export default Moire;

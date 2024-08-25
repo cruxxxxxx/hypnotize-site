@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { scrollToTop } from './util.js';
-import { ProjectStates } from './projectStatesHandler.js';
+import { scrollToTop } from '../../util.js';
+import { ProjectStates } from '../project/projectStatesHandler.js';
 import { Pressable } from 'react-native';
 
 const wipeScreen = (projectMask) => {
@@ -24,7 +24,8 @@ function filterProjectData(projectData, filterCriteria) {
 export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange }) {
   const [filtering, setFiltering] = useState(false);
   const [filterCriteria, setFilterCriteria] = useState('');
-  const [footerOpen, setFooterOpen] = useState(null);
+  const [footerOpen, setFooterOpen] = useState(false);
+  const prevFooterOpen = useRef(footerOpen);
   const footerRef = useRef();
   const arrowRef = useRef();
 
@@ -61,13 +62,12 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       } else {
         return !prevFooterOpen;
       }
-      return null;
     });
   }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (footerRef.current && !footerRef.current.contains(event.target)) {
+      if (footerRef.current && !footerRef.current.contains(event.target) && footerOpen) {
         setFooterOpen(false);
       }
     };
@@ -76,11 +76,15 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [footerOpen]);
 
   useEffect(() => {
+    if (footerOpen === prevFooterOpen.current) {
+      prevFooterOpen.current = footerOpen;
+      return;
+    }
+
     if (footerRef.current && arrowRef.current && footerOpen !== null) {
-      
       const handleFooterAnimationEnd = (event) => {
         const footerStyle = window.getComputedStyle(footerRef.current);
         footerRef.current.style.transform = footerStyle.transform;
@@ -97,13 +101,13 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
         arrowRef.current.removeEventListener('animationend', handleArrowAnimationEnd);
       };
 
-      if (footerOpen) {
+      if (footerOpen === true) {
         footerRef.current.classList.remove('close');
         arrowRef.current.classList.remove('close');
 
         footerRef.current.classList.add('open');
         arrowRef.current.classList.add('open');
-      } else {
+      } else if (footerOpen === false) {
         footerRef.current.classList.remove('open');
         arrowRef.current.classList.remove('open');
 
@@ -114,6 +118,9 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       footerRef.current.addEventListener('animationend', handleFooterAnimationEnd);
       arrowRef.current.addEventListener('animationend', handleArrowAnimationEnd);
     }
+
+    prevFooterOpen.current = footerOpen;
+
   }, [footerOpen]);
 
   return (

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
-import { ProjectStates } from './projectStatesHandler';
+import { ProjectStates } from '../project/projectStatesHandler.js';
 
 export function OpenMark({ state, onClose }) {
   const openMarkRef = useRef();

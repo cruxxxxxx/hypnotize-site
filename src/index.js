@@ -1,23 +1,22 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import './project.css';
-import './circleCursor.css';
-import './marquee.css';
-import './slideshow.css';
-import './openmark.css';
+import './components/project/project.css';
+import './components/cursor/circleCursor.css';
+import './components/slideshow/slideshow.css';
+import './components/openmark/openmark.css';
 import './svg.css';
-import './footer.css';
+import './components/footer/footer.css';
 
-import SiteData from './sitedata.json';
-import { ProjectStates } from './projectStatesHandler.js';
-import { Project } from './project.js';
-import { Header } from './header.js';
-import { CircleCursor } from './circleCursor.js';
-import { Footer } from './footer.js';
+import SiteData from './data/sitedata.json';
+import { ProjectStates } from './components/project/projectStatesHandler.js';
+import { Project } from './components/project/project.js';
+import { Header } from './components/header/header.js';
+import { CircleCursor } from './components/cursor/circleCursor.js';
+import { Footer } from './components/footer/footer.js';
 import { Pressable } from 'react-native';
 import LoadingBar from 'react-top-loading-bar'
-import WebGLCanvas from './webglCanvas.js';
+import WebGLCanvas from './components/moire/moire.js';
 
 import { useProjectState, useLoadingState } from './hooks/index_hooks.js';
 import { usePressableCallbacks } from './hooks/project_pressable_hooks.js';

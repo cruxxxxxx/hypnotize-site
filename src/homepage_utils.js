@@ -1,4 +1,4 @@
-import { ProjectStates } from './projectStatesHandler.js';
+import { ProjectStates } from './components/project/projectStatesHandler.js';
 
 export const getAnimationStartTime = (startAnimationBool, index) => {
     var startTimeRate = 150;
