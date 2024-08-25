@@ -88,6 +88,7 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       const handleFooterAnimationEnd = (event) => {
         const footerStyle = window.getComputedStyle(footerRef.current);
         footerRef.current.style.transform = footerStyle.transform;
+        footerRef.current.style.background = footerStyle.background;
         footerRef.current.classList.remove('open');
         footerRef.current.classList.remove('close');
         footerRef.current.removeEventListener('animationend', handleFooterAnimationEnd);

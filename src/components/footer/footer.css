@@ -1,6 +1,7 @@
 .outside-footer {
     --footer-open-percentage: 55%;
     transform: translateY(var(--footer-open-percentage));
+    background: rgba(23, 23, 23, 0.98);
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -13,7 +14,7 @@
   left: 0;
   width: 100%;
   text-align: center;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 9999;
   font-family: "Hiragino Kaku Gothic ProN W3", sans-serif;
 }
@@ -147,7 +148,7 @@
   }
 
   .footer-line {
-    width: 40%;
+    width: 500px;
   }
 }
 
@@ -160,17 +161,17 @@
     width: 2em;
     height: 2em;
   }
-}
 
-.filter-button-label {
-  font-size: 1em;
-}
-
-.filter-button {
-  height: 3em;
-  width: 3em;
-}
-
-.footer-line {
-  width: 50%;
+  .filter-button-label {
+    font-size: 1em;
+  }
+  
+  .filter-button {
+    height: 3em;
+    width: 3em;
+  }
+  
+  .footer-line {
+    width: 50%;
+  }
 }
