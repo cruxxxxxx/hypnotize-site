@@ -253,10 +253,6 @@
 }
 
 @keyframes marginRevert {
-  from {
-    margin-top: var(--margin-top-hover);
-    margin-bottom: var(--margin-bottom-hover);
-  }
   to {
     margin-top: var(--margin-top-close);
     margin-bottom: var(--margin-bottom-close);
