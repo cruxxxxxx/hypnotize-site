@@ -1,5 +1,5 @@
 .outside-footer {
-    --footer-open-percentage: 55%;
+    --footer-open-percentage: 65%;
     transform: translateY(var(--footer-open-percentage));
     background: rgba(23, 23, 23, 0.98);
   position: fixed;
@@ -43,11 +43,12 @@
   width: 100%;
 }
 
-.contact {
+.urls {
   color: whitesmoke;
+  font-size: 2em
 }
 
-.contact:hover {
+.urls:hover {
   color: darkgray;
 }
 
@@ -125,7 +126,7 @@
   width: 80%;
   height: 1px;
   background-color: #CCC;
-  margin: 0.5em auto;
+  margin: 1.5em auto;
 }
 
 @media (min-width: 1000px) {
@@ -149,6 +150,11 @@
 
   .footer-line {
     width: 500px;
+    margin: 0.5em auto;
+  }
+
+  .urls {
+    font-size: 1em;
   }
 }
 
@@ -173,5 +179,13 @@
   
   .footer-line {
     width: 50%;
+  }
+
+  .urls {
+    font-size: 1em;
+  }
+
+  .footer-line {
+    margin: 0.5em auto;
   }
 }
