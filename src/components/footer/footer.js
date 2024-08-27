@@ -28,6 +28,7 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
   const prevFooterOpen = useRef(footerOpen);
   const footerRef = useRef();
   const arrowRef = useRef();
+  const plusVerticalRef = useRef();
 
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -84,7 +85,7 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       return;
     }
 
-    if (footerRef.current && arrowRef.current && footerOpen !== null) {
+    if (footerRef.current && plusVerticalRef.current && footerOpen !== null) {
       const handleFooterAnimationEnd = (event) => {
         const footerStyle = window.getComputedStyle(footerRef.current);
         footerRef.current.style.transform = footerStyle.transform;
@@ -95,29 +96,29 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       };
 
       const handleArrowAnimationEnd = (event) => {
-        const arrowStyle = window.getComputedStyle(arrowRef.current);
-        arrowRef.current.style.transform = arrowStyle.transform;
-        arrowRef.current.classList.remove('open');
-        arrowRef.current.classList.remove('close');
-        arrowRef.current.removeEventListener('animationend', handleArrowAnimationEnd);
+        const plusVerticalStyle = window.getComputedStyle(plusVerticalRef.current);
+        plusVerticalRef.current.style.transform = plusVerticalStyle.transform;
+        plusVerticalRef.current.classList.remove('open');
+        plusVerticalRef.current.classList.remove('close');
+        plusVerticalRef.current.removeEventListener('animationend', handleArrowAnimationEnd);
       };
 
       if (footerOpen === true) {
         footerRef.current.classList.remove('close');
-        arrowRef.current.classList.remove('close');
+        plusVerticalRef.current.classList.remove('close');
 
         footerRef.current.classList.add('open');
-        arrowRef.current.classList.add('open');
+        plusVerticalRef.current.classList.add('open');
       } else if (footerOpen === false) {
         footerRef.current.classList.remove('open');
-        arrowRef.current.classList.remove('open');
+        plusVerticalRef.current.classList.remove('open');
 
         footerRef.current.classList.add('close');
-        arrowRef.current.classList.add('close');
+        plusVerticalRef.current.classList.add('close');
       }
 
       footerRef.current.addEventListener('animationend', handleFooterAnimationEnd);
-      arrowRef.current.addEventListener('animationend', handleArrowAnimationEnd);
+      plusVerticalRef.current.addEventListener('animationend', handleArrowAnimationEnd);
     }
 
     prevFooterOpen.current = footerOpen;
@@ -128,6 +129,8 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
     <div ref={footerRef} className="outside-footer">
       <div className="footer-arrow-container">
         <Pressable onPress={toggleFooter}>
+          <div class="line horizontal"></div>
+          <div ref={plusVerticalRef} class="line vertical"></div>
           <img ref={arrowRef} className="footer-arrow" src="arrow.svg" alt="Toggle footer" />
         </Pressable>
       </div>
@@ -137,13 +140,17 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       <div className="inside-footer">
           <div className="buttons-container">
             <div id="first-button" className="button-container">
-              <button className="filter-button" onClick={() => handleFilterChange("projects")}></button>
+              <button className="filter-button" onClick={() => handleFilterChange("projects")}>
+                <img className="filter-button-image" src="project1.svg" alt="projects" />
+              </button>
               <br/>
               <span className="filter-button-label">projects</span>
             </div>
 
             <div id="third-button" className="button-container">
-              <button className="filter-button" onClick={() => handleFilterChange("experiments")}></button>
+              <button className="filter-button" onClick={() => handleFilterChange("experiments")}>
+                <img className="filter-button-image" src="experiment1.svg" alt="experiments" />
+              </button>
               <br/>
               <span className="filter-button-label">experiments</span>
             </div>

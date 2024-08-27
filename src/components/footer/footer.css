@@ -1,5 +1,5 @@
 .outside-footer {
-    --footer-open-percentage: 65%;
+    --footer-open-percentage: 75%;
     transform: translateY(var(--footer-open-percentage));
     background: rgba(23, 23, 23, 0.98);
   position: fixed;
@@ -20,12 +20,24 @@
 }
 
 .filter-button {
-  height: 6em;
-  width: 6em;
+  background: none;
+  border: none;
+  height: 12em;
+  width: 12em;
+}
+
+.filter-button:hover {
+  transform: scale(1.1);
+}
+
+.filter-button-image {
+  border: 3px solid white;
+  border-radius: 50%;
 }
 
 .filter-button-label {
   font-size: 2em;
+  padding-left: 0.5em;
 }
 
 .inside-footer {
@@ -64,6 +76,7 @@
   width: 6em;
   height: 6em;
   transform: rotate(-90deg);
+  opacity: 0;
 }
 
 .footer-arrow-container:hover {
@@ -131,7 +144,7 @@
 
 @media (min-width: 1000px) {
     .outside-footer {
-        --footer-open-percentage: 75%;
+        --footer-open-percentage: 80%;
     }
 
   .filter-button-label {
@@ -139,8 +152,8 @@
   }
 
   .filter-button {
-    height: 3em;
-    width: 3em;
+    height: 6em;
+    width: 6em;
   }
 
   .footer-arrow {
@@ -160,7 +173,7 @@
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
     .outside-footer {
-        --footer-open-percentage: 70%;
+        --footer-open-percentage: 79%;
     }
 
   .footer-arrow {
@@ -173,8 +186,8 @@
   }
   
   .filter-button {
-    height: 3em;
-    width: 3em;
+    height: 6em;
+    width: 6em;
   }
   
   .footer-line {
@@ -188,4 +201,31 @@
   .footer-line {
     margin: 0.5em auto;
   }
+}
+
+.line {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  transition: transform 0.3s ease;
+  color: white;
+}
+
+.horizontal {
+  width: 100%;
+  height: 5px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.vertical {
+  width: 5px;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.vertical.open {
+  transform: translateX(-50%) rotate(90deg);
 }

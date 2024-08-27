@@ -105,7 +105,7 @@ function App() {
 
   return (
     <React.StrictMode>
-      <LoadingBar color="#AAA" progress={progress} onLoaderFinished={() => finishedLoading()} />
+      <LoadingBar color="#85ab54" progress={progress} onLoaderFinished={() => finishedLoading()} />
       <WebGLCanvas texture1={texture1} texture2={texture2} />
       <Header />
       <div id="main">
