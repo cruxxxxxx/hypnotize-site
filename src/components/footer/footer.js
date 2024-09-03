@@ -21,14 +21,15 @@ function filterProjectData(projectData, filterCriteria) {
   	}); 
 }
 
-export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange }) {
+export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange, loaded }) {
   const [filtering, setFiltering] = useState(false);
-  const [filterCriteria, setFilterCriteria] = useState('projects');
+  const [filterCriteria, setFilterCriteria] = useState('');
   const [footerOpen, setFooterOpen] = useState(false);
   const prevFooterOpen = useRef(footerOpen);
   const footerRef = useRef();
   const arrowRef = useRef();
   const plusVerticalRef = useRef();
+  const [firstLoad, setFirstLoad] = useState(true);
 
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -65,6 +66,14 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       }
     });
   }
+
+
+  useEffect(() => {
+    if(loaded.every(loaded => loaded) && firstLoad) {
+      setFilterCriteria('projects');
+      setFirstLoad(false);
+    }
+  }, [loaded]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

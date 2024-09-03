@@ -145,6 +145,7 @@ function App() {
               setProjectStates={setProjectStates}
               projectMaskRef={projectMaskRef}
               onFilterChange={setFilteredProjects}
+              loaded={loaded}
             />
           </div>
         </div>
