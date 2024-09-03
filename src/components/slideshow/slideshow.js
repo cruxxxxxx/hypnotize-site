@@ -7,28 +7,30 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
   const [loaded, setLoaded] = useState(new Array(mediaSrcs.length).fill(false));
   const [slideIndex, setSlideIndex] = useState(0);
   const [showStatic, setShowStatic] = useState(false);
-  const videoRefs = useRef([]);
   const carousel = useRef();
+  const playerRefs = useRef([]);
 
   useImperativeHandle(ref, () => ({
     resetSlideIndex: () => carousel.current.goToSlide(0, true)
   }));
 
   useEffect(() => {
-    videoRefs.current.forEach((video, index) => {
-      if (video) {
+    playerRefs.current.forEach((player, index) => {
+      if (player) {
         if (index === slideIndex) {
         } else {
-          video.pause();
-          video.currentTime = 0;
+          player.seekTo(0);
         }
 
         if (!isProjectOpen) {
-          video.pause();
-          video.currentTime = 0;
+          player.seekTo(0);
         }
       }
     });
+
+    if (!isProjectOpen) {
+      setSlideIndex(0);
+    }
   }, [slideIndex, isProjectOpen]);
 
   useEffect(() => {
@@ -124,7 +126,27 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   style={{ display: loaded[index] ? 'block' : 'none' }}
                 />
               ) : (mediaType === 'video' || mediaType === 'youtube') && isProjectOpen ? (
-                  <ReactPlayer loop={true} controls={isProjectOpen} height='200%' width='100%' volume={0.2} url={src} />
+                <ReactPlayer
+                  ref={el => playerRefs.current[index] = el}
+                  config={{ 
+                    youtube: {
+                      playerVars: { playsinline: 1 }
+                    },
+                    file: {
+                      attributes: {
+                        playsInline: true 
+                      }
+                    }
+                  }}
+                  loop={true} 
+                  playsinline={true}
+                  controls={isProjectOpen} 
+                  height='200%' width='100%' 
+                  volume={0.2} 
+                  url={src} 
+                  playing={index === slideIndex && isProjectOpen}
+                  onReady={() => handleLoad(index)}
+                />
               ): null}
             </div>
           );
