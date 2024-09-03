@@ -136,7 +136,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   autobuffer={true}
                   ref={(el) => videoRefs.current[index] = el}
                 >
-                  <source src={src} type="video/mp4" />
+                  <source src={`${src}${isProjectOpen ? '#t=0.1' : ''}`} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               ): null}
