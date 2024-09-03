@@ -126,7 +126,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                 <video
                   controls
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   onClick={(e) => e.target.play()} 
                   onLoadedData={() => {
                     if (videoRefs.current[index]) {
