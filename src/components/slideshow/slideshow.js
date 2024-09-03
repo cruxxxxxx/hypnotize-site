@@ -21,9 +21,14 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
           video.pause();
           video.currentTime = 0;
         }
+
+        if (!isProjectOpen) {
+          video.pause();
+          video.currentTime = 0;
+        }
       }
     });
-  }, [slideIndex]);
+  }, [slideIndex, isProjectOpen]);
 
   useEffect(() => {
     if (loaded[0]) {
@@ -42,14 +47,6 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
       return 'video';
     }
     return 'unknown';
-  };
-
-  const getYouTubeEmbedUrl = (url) => {
-    const urlObj = new URL(url);
-    if (urlObj.hostname === 'youtu.be') {
-      return `https://www.youtube.com/embed/${urlObj.pathname.slice(1)}`;
-    }
-    return `https://www.youtube.com/embed/${urlObj.searchParams.get('v')}`;
   };
 
   const handleLoad = (index) => {
@@ -72,7 +69,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 1,
-      slidesToSlide: 3 // optional, default to 1.
+      slidesToSlide: 1 // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -129,6 +126,8 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                 <video
                   controls
                   playsInline
+                  preload="metadata"
+                  onClick={(e) => e.target.play()} 
                   onLoadedData={() => {
                     if (videoRefs.current[index]) {
                       videoRefs.current[index].volume = 0.2;
@@ -140,18 +139,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   <source src={src} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
-              ) : mediaType === 'youtube' ? (
-                <iframe
-                  className={`mySlides ${loaded[index] ? 'fade-in' : 'fade-out'}`}
-                  src={getYouTubeEmbedUrl(src)}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title={projectName}
-                  onLoad={() => handleLoad(index)}
-                  style={{ display: loaded[index] ? 'block' : 'none' }}
-                ></iframe>
-              ) : null}
+              ): null}
             </div>
           );
         })}

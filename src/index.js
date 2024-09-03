@@ -9,6 +9,8 @@ import './svg.css';
 import './components/footer/footer.css';
 
 import SiteData from './data/sitedata.json';
+import Experiments from './data/experiments.json';
+
 import { ProjectStates } from './components/project/projectStatesHandler.js';
 import { Project } from './components/project/project.js';
 import { Header } from './components/header/header.js';
@@ -27,7 +29,7 @@ calculatePercentageLoaded,
 mapProjectStates,
 getIsThis } from './homepage_utils.js';
 
-const projectData = SiteData['projects'];
+const projectData = [...SiteData['projects'], ...Experiments['projects']];
 const texture1 = 'tex1_med.png';
 const texture2 = 'tex2_low.png';
 

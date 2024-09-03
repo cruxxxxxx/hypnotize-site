@@ -1,0 +1,81 @@
+{
+	"projects": [
+		{
+			"name": "Glass Shatter Transition",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-19%",
+			"marginBottomClose": "-19%",
+			"marginTopHover": "-17%",
+			"marginBottomHover": "-17%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["glass_1.png", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/glass_shatter_1.mp4", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/glass_shatter_2.mp4"],
+			"category": "vfx",
+			"group": "experiments",
+			"year": "2023",
+			"description": "Copies camera output to a glass surface, then shatters it & explodes, revealing the underlying scene. Similar to vfx in Super Smash Bros & Persona 5.",
+			"forFansOf": "lumines, tetris attack, rez"
+		},
+		{
+			"name": "Artistic MipMap",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-10%",
+			"marginBottomClose": "-29%",
+			"marginTopHover": "-8%",
+			"marginBottomHover": "-27%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["mipmap.png", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/mipmap.mp4"],
+			"category": "vfx",
+			"group": "experiments",
+			"year": "2024",
+			"description": ["Custom texture with different art for each MipMap level, and a simple shader to create the impression of water.",
+			"\n\nUsing mipmaps to create explicit artistic effects by viewing distance, such as specularity or abstractions, is a powerful & performant tool. "]
+		},
+		{
+			"name": "Toon Shader",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-19%",
+			"marginBottomClose": "-19%",
+			"marginTopHover": "-17%",
+			"marginBottomHover": "-17%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["toon_shader.png", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/toon_shader.mp4"],
+			"category": "shader",
+			"group": "experiments",
+			"year": "2023",
+			"description": "Custom Toon Shader for learning purposes with simple implementation of lambertian lighting thresholded by a color ramp texture, specular highlighting by viewing direction & light normal, rim lighting by view direction & surface normal, inverted hull outlines, and casting shadowing."
+		},
+		{
+			"name": "Dither by Distance",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-19%",
+			"marginBottomClose": "-19%",
+			"marginTopHover": "-17%",
+			"marginBottomHover": "-17%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["dither.png", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/dither.mp4"],
+			"category": "shader",
+			"group": "experiments",
+			"year": "2023",
+			"description": "Replicates transparency using dithering patterns and a mesh's distance from the camera for intensity, similar to effects in Super Mario Odyssey and Splatoon."
+		},
+		{
+			"name": "Vector Math",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-13%",
+			"marginBottomClose": "-25%",
+			"marginTopHover": "-11%",
+			"marginBottomHover": "-23%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["vector.png", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/vector_lookat.mp4", "https://hypnotize-inc.s3.us-east-2.amazonaws.com/vector_radial.mp4"],
+			"category": "math",
+			"group": "experiments",
+			"year": "2024",
+			"description": "Vector math examples, including:\n\n• Entity with a direction vector & cone of sight for looking at a target\n• Entity with a radial trigger based on distance between points"
+		}
+	]
+}

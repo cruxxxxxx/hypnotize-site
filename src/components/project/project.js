@@ -132,13 +132,12 @@ export function Project(props) {
                   <td className="project-info-value-cell">{project.category}</td>
                 </tr>
                 <tr>
-                  <td className="project-info-label-cell">foo</td>
-                  <td className="project-info-value-cell">{project.category}</td>
+                  <td className="project-info-label-cell">year</td>
+                  <td className="project-info-value-cell">{project.year}</td>
                 </tr>
               </tbody>
             </table>
             <div className="project-info-text-year-column">
-              {project.year}
             </div>
           </div>
 

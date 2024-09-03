@@ -23,7 +23,7 @@ function filterProjectData(projectData, filterCriteria) {
 
 export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange }) {
   const [filtering, setFiltering] = useState(false);
-  const [filterCriteria, setFilterCriteria] = useState('');
+  const [filterCriteria, setFilterCriteria] = useState('projects');
   const [footerOpen, setFooterOpen] = useState(false);
   const prevFooterOpen = useRef(footerOpen);
   const footerRef = useRef();
