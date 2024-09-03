@@ -123,8 +123,8 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   onLoad={() => handleLoad(index)}
                   style={{ display: loaded[index] ? 'block' : 'none' }}
                 />
-              ) : mediaType === 'video' ? (
-                  <ReactPlayer loop={true} controls={isProjectOpen} height='100%' width='100%' volume={0.2} url={src} />
+              ) : (mediaType === 'video' || mediaType === 'youtube') && isProjectOpen ? (
+                  <ReactPlayer loop={true} controls={isProjectOpen} height='200%' width='100%' volume={0.2} url={src} />
               ): null}
             </div>
           );
