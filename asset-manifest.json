@@ -1,7 +1,21 @@
 {
   "files": {
-    "main.css": "/hypnotize-site/static/css/main.0176ff9e.css",
-    "main.js": "/hypnotize-site/static/js/main.d9a7d8c8.js",
+    "main.css": "/hypnotize-site/static/css/main.c7590841.css",
+    "main.js": "/hypnotize-site/static/js/main.e895c6ff.js",
+    "reactPlayerYouTube.js": "/hypnotize-site/static/js/reactPlayerYouTube.2275154f.chunk.js",
+    "reactPlayerSoundCloud.js": "/hypnotize-site/static/js/reactPlayerSoundCloud.328020c8.chunk.js",
+    "reactPlayerVimeo.js": "/hypnotize-site/static/js/reactPlayerVimeo.caf165b9.chunk.js",
+    "reactPlayerMux.js": "/hypnotize-site/static/js/reactPlayerMux.0c9ff18d.chunk.js",
+    "reactPlayerFacebook.js": "/hypnotize-site/static/js/reactPlayerFacebook.33a9f020.chunk.js",
+    "reactPlayerStreamable.js": "/hypnotize-site/static/js/reactPlayerStreamable.32bd3704.chunk.js",
+    "reactPlayerWistia.js": "/hypnotize-site/static/js/reactPlayerWistia.781e4781.chunk.js",
+    "reactPlayerTwitch.js": "/hypnotize-site/static/js/reactPlayerTwitch.4164fa5e.chunk.js",
+    "reactPlayerDailyMotion.js": "/hypnotize-site/static/js/reactPlayerDailyMotion.93d51ea3.chunk.js",
+    "reactPlayerMixcloud.js": "/hypnotize-site/static/js/reactPlayerMixcloud.a9219b0b.chunk.js",
+    "reactPlayerVidyard.js": "/hypnotize-site/static/js/reactPlayerVidyard.8c5a12c1.chunk.js",
+    "reactPlayerKaltura.js": "/hypnotize-site/static/js/reactPlayerKaltura.3e46fece.chunk.js",
+    "reactPlayerFilePlayer.js": "/hypnotize-site/static/js/reactPlayerFilePlayer.465871a8.chunk.js",
+    "reactPlayerPreview.js": "/hypnotize-site/static/js/reactPlayerPreview.f9a4e73d.chunk.js",
     "static/media/array.woff": "/hypnotize-site/static/media/array.a2151ef66a470264e164.woff",
     "static/media/revicons.eot": "/hypnotize-site/static/media/revicons.a77de540a38981833f9e.eot",
     "static/media/revicons.ttf": "/hypnotize-site/static/media/revicons.57fd05d4ae650374c8de.ttf",
@@ -9,11 +23,25 @@
     "static/media/revicons.woff": "/hypnotize-site/static/media/revicons.e8746a624ed098489406.woff",
     "static/media/divider2.svg": "/hypnotize-site/static/media/divider2.85f98833930d17e81dcc.svg",
     "index.html": "/hypnotize-site/index.html",
-    "main.0176ff9e.css.map": "/hypnotize-site/static/css/main.0176ff9e.css.map",
-    "main.d9a7d8c8.js.map": "/hypnotize-site/static/js/main.d9a7d8c8.js.map"
+    "main.c7590841.css.map": "/hypnotize-site/static/css/main.c7590841.css.map",
+    "main.e895c6ff.js.map": "/hypnotize-site/static/js/main.e895c6ff.js.map",
+    "reactPlayerYouTube.2275154f.chunk.js.map": "/hypnotize-site/static/js/reactPlayerYouTube.2275154f.chunk.js.map",
+    "reactPlayerSoundCloud.328020c8.chunk.js.map": "/hypnotize-site/static/js/reactPlayerSoundCloud.328020c8.chunk.js.map",
+    "reactPlayerVimeo.caf165b9.chunk.js.map": "/hypnotize-site/static/js/reactPlayerVimeo.caf165b9.chunk.js.map",
+    "reactPlayerMux.0c9ff18d.chunk.js.map": "/hypnotize-site/static/js/reactPlayerMux.0c9ff18d.chunk.js.map",
+    "reactPlayerFacebook.33a9f020.chunk.js.map": "/hypnotize-site/static/js/reactPlayerFacebook.33a9f020.chunk.js.map",
+    "reactPlayerStreamable.32bd3704.chunk.js.map": "/hypnotize-site/static/js/reactPlayerStreamable.32bd3704.chunk.js.map",
+    "reactPlayerWistia.781e4781.chunk.js.map": "/hypnotize-site/static/js/reactPlayerWistia.781e4781.chunk.js.map",
+    "reactPlayerTwitch.4164fa5e.chunk.js.map": "/hypnotize-site/static/js/reactPlayerTwitch.4164fa5e.chunk.js.map",
+    "reactPlayerDailyMotion.93d51ea3.chunk.js.map": "/hypnotize-site/static/js/reactPlayerDailyMotion.93d51ea3.chunk.js.map",
+    "reactPlayerMixcloud.a9219b0b.chunk.js.map": "/hypnotize-site/static/js/reactPlayerMixcloud.a9219b0b.chunk.js.map",
+    "reactPlayerVidyard.8c5a12c1.chunk.js.map": "/hypnotize-site/static/js/reactPlayerVidyard.8c5a12c1.chunk.js.map",
+    "reactPlayerKaltura.3e46fece.chunk.js.map": "/hypnotize-site/static/js/reactPlayerKaltura.3e46fece.chunk.js.map",
+    "reactPlayerFilePlayer.465871a8.chunk.js.map": "/hypnotize-site/static/js/reactPlayerFilePlayer.465871a8.chunk.js.map",
+    "reactPlayerPreview.f9a4e73d.chunk.js.map": "/hypnotize-site/static/js/reactPlayerPreview.f9a4e73d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0176ff9e.css",
-    "static/js/main.d9a7d8c8.js"
+    "static/css/main.c7590841.css",
+    "static/js/main.e895c6ff.js"
   ]
 }
