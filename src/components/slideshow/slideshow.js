@@ -1,6 +1,7 @@
 import React, { useState, useImperativeHandle, forwardRef, useEffect, useRef } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import ReactPlayer from 'react-player/lazy'
 
 const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLoaded }, ref) => {
   const [loaded, setLoaded] = useState(new Array(mediaSrcs.length).fill(false));
@@ -123,22 +124,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   style={{ display: loaded[index] ? 'block' : 'none' }}
                 />
               ) : mediaType === 'video' ? (
-                <video
-                  controls
-                  playsInline
-                  preload={`${isProjectOpen ? 'auto' : 'none'}`}
-                  onClick={(e) => e.target.play()} 
-                  onLoadedData={() => {
-                    if (videoRefs.current[index]) {
-                      videoRefs.current[index].volume = 0.2;
-                    }
-                    handleLoad(index)}}
-                  autobuffer={true}
-                  ref={(el) => videoRefs.current[index] = el}
-                >
-                  <source src={`${src}${isProjectOpen ? '#t=0.1' : ''}`} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                  <ReactPlayer loop={true} controls={isProjectOpen} height='100%' width='100%' volume={0.2} url={src} />
               ): null}
             </div>
           );
