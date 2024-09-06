@@ -14,8 +14,7 @@
 			"group": "projects",
 			"year": "2024",
 			"description": ["Music Puzzle Action game with a unique twist: you can only match notes that are in sync with the beat.", 
-			"\n\nTools: Unity, C#, GLSL, Koreographer, SuperTextMesh, DOTween, Ableton, Photoshop, After Effects"],
-			"forFansOf": "lumines, tetris attack, rez"
+			"\n\nTools: Unity, C#, GLSL, Koreographer, SuperTextMesh, DOTween, Ableton, Photoshop, After Effects"]
 		},
 		{
 			"name": "\"The Write to Bear Claws\"\nPublic Phone School",
@@ -34,8 +33,22 @@
 				"'PPS' is a synth-punk supergroup of Blank Body & Peace Enforcer.",
 				"\nTheir self-titled project was released in June 2023, with 'The Write to Bear Claws' as the lead single. Hypnotize Inc was comissioned to create the music video.",
 				"\n\ntools: Premiere Pro, Procreate, After Effects, Analog Video Glitching & Collaging"
-			  ],
-			  "forFansOf": ""
+			  ]
+		},
+		{
+			"name": "Lush Shirt",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-25%",
+			"marginBottomClose": "-25%",
+			"marginTopHover": "-23%",
+			"marginBottomHover": "-23%",
+			"marginCloseDiff": "-100",
+			"mediaSrcs": ["lush_shirt.png", "lush_acetate.png"],
+			"category": "clothing",
+			"group": "projects",
+			"year": "2023",
+			"description": ["Created a fan shirt for Lush, a shoegaze band active from 1987 to 1996. Designed in Photoshop and separated colors into 3 layers for hand screenprinting."]
 		},
 		{
 			"name": "vjx",
@@ -50,8 +63,7 @@
 			"category": "VJ tool",
 			"group": "projects",
 			"year": "2020",
-			"description": "Framework for managing Unity scenes through Resolume, a VJ tool.\n\nUnity scenes are segmented into layers and each camera outputs a video stream via NDI.\n\nScenes appear as source clips in Resolume and are activated by playback, which sends a message to Unity.",
-			"forFansOf": ""
+			"description": "Framework for managing Unity scenes through Resolume, a VJ tool.\n\nUnity scenes are segmented into layers and each camera outputs a video stream via NDI.\n\nScenes appear as source clips in Resolume and are activated by playback, which sends a message to Unity."
 		},
 		{
 			"name": "Peace Enforcer at SPF420",
@@ -67,8 +79,7 @@
 			"group": "projects",
 			"year": "2020",
 			"description": ["Pre-Recorded visuals for Peace Enforcer on a live stream concert.",
-			"\n\nTools: Unity, Resolume, Premiere Pro, RunwayML"],
-			"forFansOf": ""
+			"\n\nTools: Unity, Resolume, Premiere Pro, RunwayML"]
 		},
 		{
 			"name": "Skylar Spence at Elsewhere",
@@ -84,8 +95,7 @@
 			"group": "projects",
 			"year": "2020",
 			"description": ["Live visuals for Skylar Spence at Elsewhere in Brooklyn, NY. Performed in real-time using a custom Unity VJ tool with shaders for effects & transitions.",
-			"\n\nTools: Unity"],
-			"forFansOf": ""
+			"\n\nTools: Unity"]
 		}
 	]
 }

@@ -12,9 +12,23 @@
 			"mediaSrcs": ["glass_1.png", "https://d1yrgsd0mpwmck.cloudfront.net/glass_shatter_1.mp4", "https://d1yrgsd0mpwmck.cloudfront.net/glass_shatter_2.mp4"],
 			"category": "vfx",
 			"group": "experiments",
-			"year": "2023",
-			"description": "Copies camera output to a glass surface, then shatters it & explodes, revealing the underlying scene. Similar to vfx in Super Smash Bros & Persona 5.",
-			"forFansOf": "lumines, tetris attack, rez"
+			"year": "2024",
+			"description": "Copies camera output to a glass surface, then shatters it & explodes, revealing the underlying scene. Similar to vfx in Super Smash Bros & Persona 5."
+		},
+		{
+			"name": "Stencil Buffer Point Lights",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-35%",
+			"marginBottomClose": "-3%",
+			"marginTopHover": "-33%",
+			"marginBottomHover": "-1%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["streetlights.png", "https://d1yrgsd0mpwmck.cloudfront.net/street_lamps2.mp4"],
+			"category": "shader",
+			"group": "experiments",
+			"year": "2024",
+			"description": "By writing a sphere volume where it intersects with geometry to the stencil buffer, we can use that as a mask to brighten pixels, creating a simple illusion of point lights in the style of Zelda: The Wind Waker.\n\n"
 		},
 		{
 			"name": "Artistic MipMap",
@@ -30,7 +44,7 @@
 			"group": "experiments",
 			"year": "2024",
 			"description": ["Custom texture with different art for each MipMap level, and a simple shader to create the impression of water.",
-			"\n\nUsing mipmaps to create explicit artistic effects by viewing distance, such as specularity or abstractions, is a powerful & performant tool. "]
+			"\n\nUsing MipMaps to create explicit artistic effects by viewing distance, such as specularity or abstractions, is a powerful & performant tool. "]
 		},
 		{
 			"name": "Toon Shader",
@@ -45,7 +59,7 @@
 			"category": "shader",
 			"group": "experiments",
 			"year": "2023",
-			"description": "Custom Toon Shader for learning purposes with simple implementation of lambertian lighting thresholded by a color ramp texture, specular highlighting by viewing direction & light normal, rim lighting by view direction & surface normal, inverted hull outlines, and casting shadowing."
+			"description": "Custom Toon Shader for learning purposes with simple implementation of lambertian lighting thresholded by a color ramp texture, specular highlighting by viewing direction & light normal, rim lighting by view direction & surface normal, inverted hull outlines, and shadow casting."
 		},
 		{
 			"name": "Dither by Distance",
@@ -63,7 +77,22 @@
 			"description": "Replicates transparency using dithering patterns and a mesh's distance from the camera for intensity, similar to effects in Super Mario Odyssey and Splatoon."
 		},
 		{
-			"name": "Vector Math",
+			"name": "Stripes",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-20%",
+			"marginBottomClose": "-19%",
+			"marginTopHover": "-18%",
+			"marginBottomHover": "-17%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["stripes2.png", "https://d1yrgsd0mpwmck.cloudfront.net/stripes.mp4"],
+			"category": "shader",
+			"group": "experiments",
+			"year": "2023",
+			"description": "Stripes drawn using UV tiling, UV displacement by time, toggable smoothstep falloff or harsh step, and sin wave warping."
+		},
+		{
+			"name": "Vector Math & Shapes",
 			"marginTopOpen": "2%",
 			"marginBottomOpen": "2%",
 			"marginTopClose": "-13%",
@@ -75,7 +104,25 @@
 			"category": "math",
 			"group": "experiments",
 			"year": "2024",
-			"description": "Vector math examples, including:\n\n• Entity with a direction vector & cone of sight for looking at a target\n• Entity with a radial trigger based on distance between points"
+			"description": ["Vector math examples for game development, including:\n",
+			"\n• Calculating the dot product of the player's look direction & direction towards the enemy with cone of view threshold",
+			"\n\n• Entity with a radial trigger based on distance between center points",
+			"\n\nDrawn using the Shapes library from Freya Holmer"]
+		},
+		{
+			"name": "Recolor",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-20%",
+			"marginBottomClose": "-19%",
+			"marginTopHover": "-18%",
+			"marginBottomHover": "-17%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["recolor.png"],
+			"category": "shader",
+			"group": "experiments",
+			"year": "2023",
+			"description": "Finds the luminosity of a fragment and samples a 1D color texture to recolor it, very useful for things like player icons, player skins, color palettes, etc."
 		}
 	]
 }
