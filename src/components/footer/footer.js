@@ -168,7 +168,7 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
           <div className="footer-line"></div>
 
 
-          <span> <a className="urls" href="mailto:info@hypnotize.inc">contact</a> </span>
+          <span> <a className="urls" href="mailto:contact@hypnotize.works">contact</a> </span>
         </div>
     </div>
   );
