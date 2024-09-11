@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "https://hypnotize.works/static/css/main.65cbe6b1.css",
-    "main.js": "https://hypnotize.works/static/js/main.0039a756.js",
+    "main.js": "https://hypnotize.works/static/js/main.c1befaab.js",
     "reactPlayerYouTube.js": "https://hypnotize.works/static/js/reactPlayerYouTube.2275154f.chunk.js",
     "reactPlayerSoundCloud.js": "https://hypnotize.works/static/js/reactPlayerSoundCloud.328020c8.chunk.js",
     "reactPlayerVimeo.js": "https://hypnotize.works/static/js/reactPlayerVimeo.caf165b9.chunk.js",
@@ -24,7 +24,7 @@
     "static/media/divider2.svg": "https://hypnotize.works/static/media/divider2.85f98833930d17e81dcc.svg",
     "index.html": "https://hypnotize.works/index.html",
     "main.65cbe6b1.css.map": "https://hypnotize.works/static/css/main.65cbe6b1.css.map",
-    "main.0039a756.js.map": "https://hypnotize.works/static/js/main.0039a756.js.map",
+    "main.c1befaab.js.map": "https://hypnotize.works/static/js/main.c1befaab.js.map",
     "reactPlayerYouTube.2275154f.chunk.js.map": "https://hypnotize.works/static/js/reactPlayerYouTube.2275154f.chunk.js.map",
     "reactPlayerSoundCloud.328020c8.chunk.js.map": "https://hypnotize.works/static/js/reactPlayerSoundCloud.328020c8.chunk.js.map",
     "reactPlayerVimeo.caf165b9.chunk.js.map": "https://hypnotize.works/static/js/reactPlayerVimeo.caf165b9.chunk.js.map",
@@ -42,6 +42,6 @@
   },
   "entrypoints": [
     "static/css/main.65cbe6b1.css",
-    "static/js/main.0039a756.js"
+    "static/js/main.c1befaab.js"
   ]
 }
