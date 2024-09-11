@@ -9,10 +9,10 @@
 			"marginTopHover": "-48%",
 			"marginBottomHover": "-32%",
 			"marginCloseDiff": "-30",
-			"mediaSrcs": ["pulsync.png", "https://d1yrgsd0mpwmck.cloudfront.net/pulsync_trailer.mp4"],
+			"mediaSrcs": ["pulsync.png", "https://d1yrgsd0mpwmck.cloudfront.net/pulsync_trailer_square.mp4"],
 			"category": "game",
 			"group": "projects",
-			"year": "2024",
+			"year": "2025",
 			"description": ["Music Puzzle Action game with a unique twist: you can only match notes that are in sync with the beat.", 
 			"\n\nTools: Unity, C#, GLSL, Koreographer, SuperTextMesh, DOTween, Ableton, Photoshop, After Effects"]
 		},
