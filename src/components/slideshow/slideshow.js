@@ -2,6 +2,7 @@ import React, { useState, useImperativeHandle, forwardRef, useEffect, useRef } f
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ReactPlayer from 'react-player/lazy'
+import MioPlayerWrapper from '../mio/mioPlayerWrapper.js';
 
 const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLoaded }, ref) => {
   const [loaded, setLoaded] = useState(new Array(mediaSrcs.length).fill(false));
@@ -48,6 +49,8 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
       return 'image';
     } else if (['mp4', 'webm', 'ogg'].includes(extension)) {
       return 'video';
+    } else if (extension === 'mio') { 
+      return 'mio';
     }
     return 'unknown';
   };
@@ -147,7 +150,12 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   playing={index === slideIndex && isProjectOpen}
                   onReady={() => handleLoad(index)}
                 />
-              ): null}
+              ): mediaType === 'mio' && isProjectOpen ? (
+                <MioPlayerWrapper
+                  src={src}
+                  onLoaded={() => handleLoad(index)}
+                />
+            ) : null}
             </div>
           );
         })}

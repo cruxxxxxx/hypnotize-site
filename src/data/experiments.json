@@ -1,6 +1,24 @@
 {
 	"projects": [
 		{
+			"name": "WarioWare DIY Mini-Game",
+			"marginTopOpen": "2%",
+			"marginBottomOpen": "2%",
+			"marginTopClose": "-17%",
+			"marginBottomClose": "-30%",
+			"marginTopHover": "-12%",
+			"marginBottomHover": "-25%",
+			"marginCloseDiff": "-30",
+			"mediaSrcs": ["warioware4.png", "warioware.mio", "warioware2.png", "warioware3.png"],
+			"category": "game",
+			"group": "experiments",
+			"year": "2025",
+			"description": ["WarioWare DIY is a game / tool for Nintendo DS that allows you to draw, animate, compose music, and program a microgame.",
+				"\n\nThis year for my birthday, I created one that replicated my experience of getting a commemorative tattoo.", 
+				"\n\nI also asked my closest friends to make microgames as a gift. I wanted to share the experience of making things.",
+				"\n\nMany of my friends are artists of various mediums and we all agreed that it was very fun to work within the limitations of the tool."
+		]},
+		{
 			"name": "Glass Shatter Transition",
 			"marginTopOpen": "2%",
 			"marginBottomOpen": "2%",

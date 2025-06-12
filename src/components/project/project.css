@@ -24,7 +24,7 @@
 .line-container {
   position: absolute;
   z-index: 9999;
-  pointer-events: none;
+  pointer-events: auto;
   mix-blend-mode: difference;
   width: 100%;
   height: 100%;
@@ -258,4 +258,10 @@
     margin-top: var(--margin-top-close);
     margin-bottom: var(--margin-bottom-close);
   }
+}
+
+canvas {
+  position: relative;
+  z-index: 10000; /* above .line-container */
+  pointer-events: auto;
 }
