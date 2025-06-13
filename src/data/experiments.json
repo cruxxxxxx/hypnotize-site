@@ -9,7 +9,7 @@
 			"marginTopHover": "-12%",
 			"marginBottomHover": "-25%",
 			"marginCloseDiff": "-30",
-			"mediaSrcs": ["warioware4.png", "warioware.mio", "warioware2.png", "warioware3.png"],
+			"mediaSrcs": ["warioware4.png", "warioware/ww_tattoo.mio", "warioware2.png", "warioware3.png"],
 			"category": "game",
 			"group": "experiments",
 			"year": "2025",

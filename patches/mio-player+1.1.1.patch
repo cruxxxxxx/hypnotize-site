@@ -1,5 +1,5 @@
 diff --git a/node_modules/mio-player/src/player.js b/node_modules/mio-player/src/player.js
-index 46e7399..0c873d7 100644
+index 46e7399..70d0c8e 100644
 --- a/node_modules/mio-player/src/player.js
 +++ b/node_modules/mio-player/src/player.js
 @@ -274,7 +274,7 @@ class Player extends EventEmitter {

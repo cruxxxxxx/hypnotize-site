@@ -16,9 +16,27 @@ const MioPlayerWrapper = ({ src, onLoaded }) => {
     mioPlayerRef.current = mioPlayer;
 
     const loadSound = (name) => {
-      const audio = new Audio(`audio/${name}.ogg`);
-      audio.volume = 1;
+      const audio = new Audio(`warioware/audio/${name}.ogg`);
+      audio.volume = 0.3;
       return audio;
+    };
+
+    const oggSrc = src.replace(/\.mio$/, '.ogg');
+    const backgroundAudio = new Audio(oggSrc);
+    backgroundAudio.loop = true; 
+    backgroundAudio.volume = 0.5; 
+
+    const customMusicPlayer = {
+      playMusic: () => {
+        backgroundAudio.currentTime = 0;
+        backgroundAudio.play().catch(err => console.warn("Audio play error:", err));
+        return true;
+      },
+      stopMusic: () => {
+        backgroundAudio.pause();
+        backgroundAudio.currentTime = 0;
+        return true;
+      }
     };
 
     const winSounds = ['win1', 'win2', 'win3'].map(loadSound);
@@ -28,13 +46,14 @@ const MioPlayerWrapper = ({ src, onLoaded }) => {
     mioPlayer.sounds = sounds;
     mioPlayer.winSounds = winSounds;
     mioPlayer.loseSounds = loseSounds;
+    mioPlayer.musicPlayer = customMusicPlayer;
 
     const fontBitmap = new Image();
-    fontBitmap.src = 'images/miofont.png';
+    fontBitmap.src = 'warioware/images/miofont.png';
     mioPlayer.fontBitmap = fontBitmap;
 
     const confettiBitmap = new Image();
-    confettiBitmap.src = 'images/confetti.png';
+    confettiBitmap.src = 'warioware/images/confetti.png';
     mioPlayer.confettiBitmap = confettiBitmap;
 
     const windowSize = () => [window.innerWidth, window.innerHeight];

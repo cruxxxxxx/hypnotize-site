@@ -150,7 +150,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   playing={index === slideIndex && isProjectOpen}
                   onReady={() => handleLoad(index)}
                 />
-              ): mediaType === 'mio' && isProjectOpen ? (
+              ): mediaType === 'mio' && isProjectOpen && index === slideIndex ? (
                 <MioPlayerWrapper
                   src={src}
                   onLoaded={() => handleLoad(index)}
