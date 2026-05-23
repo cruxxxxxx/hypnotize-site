@@ -1,7 +1,7 @@
 {
 	"projects": [
 		{
-			"name": "pulsync",
+			"name": "db",
 			"marginTopOpen": "2%",
 			"marginBottomOpen": "2%",
 			"marginTopClose": "-50%",
@@ -9,11 +9,11 @@
 			"marginTopHover": "-48%",
 			"marginBottomHover": "-32%",
 			"marginCloseDiff": "-30",
-			"mediaSrcs": ["pulsync.png", "https://d1yrgsd0mpwmck.cloudfront.net/pulsync_trailer_square.mp4"],
+			"mediaSrcs": ["db.png", "https://d1yrgsd0mpwmck.cloudfront.net/pulsync_trailer_square.mp4"],
 			"category": "game",
 			"group": "projects",
-			"year": "2025",
-			"description": ["Music Puzzle Action game with a unique twist: you can only match notes that are in sync with the beat.", 
+			"year": "2026",
+			"description": ["Music Puzzle Action game with a unique twist: you tap on the beat to make color matches.", 
 			"\n\nTools: Unity, C#, GLSL, Koreographer, SuperTextMesh, DOTween, Ableton, Photoshop, After Effects"]
 		},
 		{
