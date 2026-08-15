@@ -112,18 +112,40 @@ const MioPlayerWrapper = ({ src, onLoaded }) => {
 
     handleResize();
 
+    // Guard against the async fetch resolving AFTER this effect is torn down.
+    // Without it, cleanup calls mioPlayer.stop() but a later loadAndStart()
+    // restarts the raf loop + music on an orphaned player → zombie that never
+    // stops and piles up on every carousel navigation.
+    let cancelled = false;
+
     fetch(src)
       .then(res => res.arrayBuffer())
       .then(buffer => {
+        if (cancelled) return;
         const mioData = new Uint8Array(buffer);
         mioPlayer.loadAndStart(mioData);
         if (onLoaded) onLoaded();
       })
-      .catch(err => console.error("Failed to load MIO data:", err));
+      .catch(err => {
+        if (!cancelled) console.error("Failed to load MIO data:", err);
+      });
 
-  return () => {
-  };
-}, [src]);
+    return () => {
+      cancelled = true;
+
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mouseup', handleMouseUp);
+      canvas.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchend', handleTouchEnd);
+
+      mioPlayer.stop(); // halts the raf loop (gameId bump) and stops music
+      backgroundAudio.pause();
+      backgroundAudio.currentTime = 0;
+      mioPlayerRef.current = null;
+    };
+  }, [src]);
 
   return <canvas ref={canvasRef} width={800} height={600} style={{ width: '100%', // force visual size
     height: '100%',  zIndex: 1001, pointerEvents: 'auto' }} />;

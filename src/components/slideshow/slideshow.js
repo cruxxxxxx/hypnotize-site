@@ -38,7 +38,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     if (loaded[0]) {
       onMediaLoaded();
     }
-  }, [loaded]);
+  }, [loaded, onMediaLoaded]);
 
   const getMediaType = (src) => {
     if (src.includes('youtube.com') || src.includes('youtu.be')) {
@@ -63,9 +63,16 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     });
   };
 
+  const slideChangeTimeout = useRef(null);
+
+  useEffect(() => {
+    return () => clearTimeout(slideChangeTimeout.current);
+  }, []);
+
   const handleSlideChange = (newIndex) => {
     setShowStatic(true);
-    setTimeout(() => {
+    clearTimeout(slideChangeTimeout.current);
+    slideChangeTimeout.current = setTimeout(() => {
       setShowStatic(false);
       setSlideIndex(newIndex);
     }, 200);
@@ -116,6 +123,9 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
         customTransition="all"
         beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(nextSlide)}
         dotListClass="custom-dot-list-style">
+        {/* Images use opacity (not display:none) to hide until loaded: a
+            display:none element has no layout box, so loading="lazy" never
+            intersects the viewport and never loads. Cover (index 0) is eager. */}
         {mediaSrcs.map((src, index) => {
           const mediaType = getMediaType(src);
           return (
@@ -125,8 +135,10 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   className={`mySlides ${loaded[index] ? 'fade-in' : 'fade-out'}`}
                   src={src}
                   alt={projectName}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
                   onLoad={() => handleLoad(index)}
-                  style={{ display: loaded[index] ? 'block' : 'none' }}
+                  style={{ opacity: loaded[index] ? 1 : 0, transition: 'opacity 0.2s' }}
                 />
               ) : (mediaType === 'video' || mediaType === 'youtube') && isProjectOpen ? (
                 <ReactPlayer

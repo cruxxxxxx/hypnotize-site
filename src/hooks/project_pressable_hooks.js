@@ -51,10 +51,6 @@ export function usePressableCallbacks({
     }
   }, [isNotActive, hovering, resetHover, openProject, touchStartRef]);
 
-  const onLongPress = useCallback((e, index) => {
-    // Implement long press logic if needed
-  }, []);
-
   const onHoverIn = useCallback((e, index) => {
     setHovering(true);
     setHover(index);
@@ -64,5 +60,5 @@ export function usePressableCallbacks({
     resetHover();
   }, [resetHover]);
 
-  return { onPressIn, onPressOut, onLongPress, onHoverIn, onHoverOut };
+  return { onPressIn, onPressOut, onHoverIn, onHoverOut };
 }
