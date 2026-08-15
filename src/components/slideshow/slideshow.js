@@ -8,6 +8,9 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
   const [loaded, setLoaded] = useState(new Array(mediaSrcs.length).fill(false));
   const [slideIndex, setSlideIndex] = useState(0);
   const [showStatic, setShowStatic] = useState(false);
+  // per-index flag: has the real video started playing yet? Until it has, the
+  // poster stays overlaid so opening looks instant (no black/buffering gap).
+  const [videoStarted, setVideoStarted] = useState({});
   const carousel = useRef();
   const playerRefs = useRef([]);
 
@@ -31,6 +34,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
 
     if (!isProjectOpen) {
       setSlideIndex(0);
+      setVideoStarted({}); // reopen should show the poster again until video plays
     }
   }, [slideIndex, isProjectOpen]);
 
@@ -190,27 +194,37 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   style={{ opacity: loaded[index] ? 1 : 0, transition: 'opacity 0.2s' }}
                 />
               ) : isVideoLike && isProjectOpen ? (
-                <ReactPlayer
-                  ref={el => playerRefs.current[index] = el}
-                  config={{
-                    youtube: {
-                      playerVars: { playsinline: 1 }
-                    },
-                    file: {
-                      attributes: {
-                        playsInline: true
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <ReactPlayer
+                    ref={el => playerRefs.current[index] = el}
+                    config={{
+                      youtube: {
+                        playerVars: { playsinline: 1 }
+                      },
+                      file: {
+                        attributes: {
+                          playsInline: true
+                        }
                       }
-                    }
-                  }}
-                  loop={true}
-                  playsinline={true}
-                  controls={isProjectOpen}
-                  height='200%' width='100%'
-                  volume={0.2}
-                  url={src}
-                  playing={index === slideIndex && isProjectOpen}
-                  onReady={() => handleLoad(index)}
-                />
+                    }}
+                    loop={true}
+                    playsinline={true}
+                    controls={isProjectOpen}
+                    height='200%' width='100%'
+                    volume={0.2}
+                    url={src}
+                    playing={index === slideIndex && isProjectOpen}
+                    onReady={() => handleLoad(index)}
+                    onStart={() => setVideoStarted(prev => ({ ...prev, [index]: true }))}
+                  />
+                  {poster && !['mp4', 'webm'].includes(poster.split('.').pop().toLowerCase()) && !videoStarted[index] && (
+                    <img
+                      src={poster}
+                      alt={projectName}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 2, pointerEvents: 'none' }}
+                    />
+                  )}
+                </div>
               ) : isVideoLike && poster ? (
                 renderPoster(poster, index)
               ): mediaType === 'mio' && isProjectOpen && index === slideIndex ? (
