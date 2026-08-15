@@ -63,6 +63,52 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     });
   };
 
+  // A media entry is either a string URL, or { src, poster } to enable a
+  // video slide to "lead" on the closed grid. The poster shows while closed;
+  // the real player takes over when the project opens.
+  const getEntrySrc = (entry) => (typeof entry === 'string' ? entry : entry.src);
+  const getEntryPoster = (entry) => (typeof entry === 'string' ? null : entry.poster);
+
+  // Closed-grid preview for a video slide. Poster type is auto-detected by
+  // extension: mp4/webm -> muted looping low-fi video; anything else
+  // (png/jpg/webp/gif) -> image (a .gif animates on its own).
+  const renderPoster = (poster, index) => {
+    const ext = poster.split('.').pop().toLowerCase();
+    const style = {
+      opacity: loaded[index] ? 1 : 0,
+      transition: 'opacity 0.2s',
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+    };
+    if (ext === 'mp4' || ext === 'webm') {
+      return (
+        <video
+          className={`mySlides ${loaded[index] ? 'fade-in' : 'fade-out'}`}
+          src={poster}
+          muted
+          loop
+          autoPlay
+          playsInline
+          preload="metadata"
+          onLoadedData={() => handleLoad(index)}
+          style={style}
+        />
+      );
+    }
+    return (
+      <img
+        className={`mySlides ${loaded[index] ? 'fade-in' : 'fade-out'}`}
+        src={poster}
+        alt={projectName}
+        loading={index === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+        onLoad={() => handleLoad(index)}
+        style={style}
+      />
+    );
+  };
+
   const slideChangeTimeout = useRef(null);
 
   useEffect(() => {
@@ -126,8 +172,11 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
         {/* Images use opacity (not display:none) to hide until loaded: a
             display:none element has no layout box, so loading="lazy" never
             intersects the viewport and never loads. Cover (index 0) is eager. */}
-        {mediaSrcs.map((src, index) => {
+        {mediaSrcs.map((entry, index) => {
+          const src = getEntrySrc(entry);
+          const poster = getEntryPoster(entry);
           const mediaType = getMediaType(src);
+          const isVideoLike = mediaType === 'video' || mediaType === 'youtube';
           return (
             <div key={index}>
               {mediaType === 'image' ? (
@@ -140,28 +189,30 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   onLoad={() => handleLoad(index)}
                   style={{ opacity: loaded[index] ? 1 : 0, transition: 'opacity 0.2s' }}
                 />
-              ) : (mediaType === 'video' || mediaType === 'youtube') && isProjectOpen ? (
+              ) : isVideoLike && isProjectOpen ? (
                 <ReactPlayer
                   ref={el => playerRefs.current[index] = el}
-                  config={{ 
+                  config={{
                     youtube: {
                       playerVars: { playsinline: 1 }
                     },
                     file: {
                       attributes: {
-                        playsInline: true 
+                        playsInline: true
                       }
                     }
                   }}
-                  loop={true} 
+                  loop={true}
                   playsinline={true}
-                  controls={isProjectOpen} 
-                  height='200%' width='100%' 
-                  volume={0.2} 
-                  url={src} 
+                  controls={isProjectOpen}
+                  height='200%' width='100%'
+                  volume={0.2}
+                  url={src}
                   playing={index === slideIndex && isProjectOpen}
                   onReady={() => handleLoad(index)}
                 />
+              ) : isVideoLike && poster ? (
+                renderPoster(poster, index)
               ): mediaType === 'mio' && isProjectOpen && index === slideIndex ? (
                 <MioPlayerWrapper
                   src={src}
