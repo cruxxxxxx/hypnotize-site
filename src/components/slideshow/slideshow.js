@@ -72,6 +72,9 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
   // the real player takes over when the project opens.
   const getEntrySrc = (entry) => (typeof entry === 'string' ? entry : entry.src);
   const getEntryPoster = (entry) => (typeof entry === 'string' ? null : entry.poster);
+  // optional start time (seconds): the poster is the frame at this time and the
+  // video seeks here on open, so the still and first video frame match exactly.
+  const getEntryPosterTime = (entry) => (typeof entry === 'string' ? null : entry.posterTime);
 
   // Closed-grid preview for a video slide. Poster type is auto-detected by
   // extension: mp4/webm -> muted looping low-fi video; anything else
@@ -179,6 +182,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
         {mediaSrcs.map((entry, index) => {
           const src = getEntrySrc(entry);
           const poster = getEntryPoster(entry);
+          const posterTime = getEntryPosterTime(entry);
           const mediaType = getMediaType(src);
           const isVideoLike = mediaType === 'video' || mediaType === 'youtube';
           return (
@@ -214,8 +218,18 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                     volume={0.2}
                     url={src}
                     playing={index === slideIndex && isProjectOpen}
-                    onReady={() => handleLoad(index)}
-                    onStart={() => setVideoStarted(prev => ({ ...prev, [index]: true }))}
+                    onReady={() => {
+                      handleLoad(index);
+                      if (posterTime && playerRefs.current[index]) {
+                        playerRefs.current[index].seekTo(posterTime, 'seconds');
+                      }
+                    }}
+                    onStart={() => {
+                      if (posterTime && playerRefs.current[index]) {
+                        playerRefs.current[index].seekTo(posterTime, 'seconds');
+                      }
+                      setVideoStarted(prev => ({ ...prev, [index]: true }));
+                    }}
                   />
                   {poster && !['mp4', 'webm'].includes(poster.split('.').pop().toLowerCase()) && !videoStarted[index] && (
                     <img
