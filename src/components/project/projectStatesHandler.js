@@ -25,7 +25,11 @@ export class ProjectStateHandler {
 
     this.projectDescriptionElem.classList.add('hidden');
 
-    this.innerProjectElem.display = 'hidden';
+    // NOTE: do NOT set innerProjectElem display:none here. react-multi-carousel
+    // measures the container via getBoundingClientRect; a display:none ancestor
+    // reports width 0, so the carousel renders zero slides, images never fire
+    // onLoad, the loading gate never completes, and the page stays blank.
+    // (The original code set a bogus `.display` property that was a harmless no-op.)
     this.innerProjectElem.style.marginTop = this.project.marginTopClose;
     this.innerProjectElem.style.marginBottom = this.project.marginBottomClose;
   }
@@ -71,13 +75,19 @@ export class ProjectStateHandler {
       this.innerProjectElem.classList.remove('margin-change');
       this.innerProjectElem.classList.add('margin-revert');
 
+      if (this.marginRevertHandler) {
+        this.innerProjectElem.removeEventListener('animationend', this.marginRevertHandler);
+      }
+
       const onMarginRevertEnd = () => {
         this.innerProjectElem.style.marginTop = this.project.marginTopClose;
         this.innerProjectElem.style.marginBottom = this.project.marginBottomClose;
         this.innerProjectElem.classList.remove('margin-revert');
         this.innerProjectElem.removeEventListener('animationend', onMarginRevertEnd);
+        this.marginRevertHandler = null;
       };
 
+      this.marginRevertHandler = onMarginRevertEnd;
       this.innerProjectElem.addEventListener('animationend', onMarginRevertEnd);
     }
 

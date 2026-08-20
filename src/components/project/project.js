@@ -1,13 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ProjectStates, ProjectStateHandler } from './projectStatesHandler';
-import { scrollToElementWithPadding } from '../../util.js';
 import Slideshow from '../slideshow/slideshow.js';
-import { StyleSheet, Text, View } from 'react-native';
 import { OpenMark } from '../openmark/openmark.js';
 
-const scrollToPadding = 100;
-
-export function Project(props) {
+function ProjectComponent(props) {
   const { project, state, onClose, onMediaLoaded, startAnimationTime } = props;
 
   const outerProject = useRef();
@@ -27,10 +23,6 @@ export function Project(props) {
     const innerProjectElem = innerProject.current;
     const projectDescriptionElem = projectDescriptionRef.current;
 
-    const scrollToCallback = () => {
-      //scrollToElementWithPadding(outerProject.current, scrollToPadding);
-    };
-
     const stateHandler = new ProjectStateHandler(projectInfoElem, innerProjectElem, projectDescriptionElem, project);
 
     if(project.mediaSrcs.length > 1) {
@@ -41,10 +33,10 @@ export function Project(props) {
 
     if (!isPlaying && (prevState.current === ProjectStates.LOADING && state === ProjectStates.CLOSED)) {
     } else if(prevClosed) {
-      stateHandler.onStateChange(ProjectStates.LOADING, scrollToCallback);
+      stateHandler.onStateChange(ProjectStates.LOADING);
     }
     else if(!isPlaying) {
-      stateHandler.onStateChange(state, scrollToCallback);
+      stateHandler.onStateChange(state);
     }
 
     if (prevState.current === ProjectStates.OPEN && state === ProjectStates.CLOSED && slideshowRef.current) {
@@ -53,10 +45,6 @@ export function Project(props) {
     }
 
     prevState.current = state;
-
-    return () => {
-      innerProjectElem.removeEventListener('animationend', scrollToCallback);
-    };
   }, [state]);
 
   useEffect(() => {
@@ -75,25 +63,31 @@ export function Project(props) {
   }, [state]);
 
   useEffect(() => {
-    if (innerProject.current && startAnimationTime > 0) {
+    const innerProjectElem = innerProject.current;
+    if (!innerProjectElem) {
+      return;
+    }
+
+    if (startAnimationTime > 0) {
       setPlaying(true);
-      innerProject.current.style.opacity = 0;
-      innerProject.current.style.display = 'block';
-      innerProject.current.style.animationDelay = `${startAnimationTime*1.5}ms`;
-      innerProject.current.classList.add('fade-in');
+      innerProjectElem.style.opacity = 0;
+      innerProjectElem.style.display = 'block';
+      innerProjectElem.style.animationDelay = `${startAnimationTime * 1.5}ms`;
+      innerProjectElem.classList.add('fade-in');
     }
 
     const handleAnimationEnd = () => {
-        setPlaying(false);
-        innerProject.current.style.opacity = 1;
-        innerProject.current.classList.remove('fade-in');
-        innerProject.current.style.animationDelay = null
-        innerProject.current.removeEventListener('animationend', handleAnimationEnd);
-      };
+      setPlaying(false);
+      innerProjectElem.style.opacity = 1;
+      innerProjectElem.classList.remove('fade-in');
+      innerProjectElem.style.animationDelay = null;
+    };
 
-      innerProject.current.addEventListener('animationend', handleAnimationEnd);
+    innerProjectElem.addEventListener('animationend', handleAnimationEnd);
 
-
+    return () => {
+      innerProjectElem.removeEventListener('animationend', handleAnimationEnd);
+    };
   }, [startAnimationTime]);
 
   return (
@@ -151,10 +145,18 @@ export function Project(props) {
           onMediaLoaded={onMediaLoaded}
         />
       </div>
-      <div ref={projectDescriptionRef} class="project-description">
+      <div ref={projectDescriptionRef} className="project-description">
         {project.description}
       </div>
 
     </div>
   );
 }
+
+// onClose / onMediaLoaded are recreated inline each parent render but are
+// behaviorally stable per index, so only re-render on meaningful prop changes.
+export const Project = React.memo(ProjectComponent, (prev, next) =>
+  prev.state === next.state &&
+  prev.startAnimationTime === next.startAnimationTime &&
+  prev.project === next.project
+);

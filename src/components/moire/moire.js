@@ -81,8 +81,11 @@ const Moire = ({ texture1, texture2 }) => {
     const isCapable = canRunIntensiveEffect();
     setCanRunEffect(isCapable);
 
-    if (!isCapable && coverDivRef.current) {
-      canvasDivRef.current.style.display = 'none';
+    if (!isCapable) {
+      if (canvasDivRef.current) {
+        canvasDivRef.current.style.display = 'none';
+      }
+      setLoading(false); // no Canvas will mount, so release the cover overlay
     }
   }, []); 
 
@@ -100,9 +103,11 @@ const Moire = ({ texture1, texture2 }) => {
   return (
     <div ref={canvasDivRef} id="canvasDiv">
       <div ref={coverDivRef} className="cover-div" style={{ display: loading ? 'block' : 'none' }}></div>
-      <Canvas>
-        <MoirePattern bottomTexturePath={texture1} topTexturePath={texture2} onLoadComplete={handleLoadComplete} />
-      </Canvas>
+      {canRunEffect && (
+        <Canvas>
+          <MoirePattern bottomTexturePath={texture1} topTexturePath={texture2} onLoadComplete={handleLoadComplete} />
+        </Canvas>
+      )}
     </div>
   );
 };

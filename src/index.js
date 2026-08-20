@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './components/project/project.css';
-import './components/cursor/circleCursor.css';
 import './components/slideshow/slideshow.css';
 import './components/openmark/openmark.css';
 import './svg.css';
@@ -14,7 +13,6 @@ import Experiments from './data/experiments.json';
 import { ProjectStates } from './components/project/projectStatesHandler.js';
 import { Project } from './components/project/project.js';
 import { Header } from './components/header/header.js';
-import { CircleCursor } from './components/cursor/circleCursor.js';
 import { Footer } from './components/footer/footer.js';
 import { Pressable } from 'react-native';
 import LoadingBar from 'react-top-loading-bar'
@@ -40,14 +38,13 @@ function App() {
 
   const [hovering, setHovering] = useState(false);
 
-  const circleCursorRef = useRef();
   const columnRef = useRef();
   const touchStartRef = useRef(null);
   const projectMaskRef = useRef();
 
   useEffect(() => {
     setProjectStates(projectData.map(() => ProjectStates.CLOSED));
-  }, []);
+  }, [setProjectStates]);
 
   const onMediaLoaded = useCallback((index) => {
     setLoaded(prevLoaded => {
@@ -60,7 +57,7 @@ function App() {
   useEffect(() => {
     const percentage = calculatePercentageLoaded(loaded);
     setProgress(percentage);
-  }, [loaded]);
+  }, [loaded, setProgress]);
 
   const openProject = (index) => {
     setActiveIndex(isActive(index) ? null : index);
@@ -87,7 +84,7 @@ function App() {
       (state, i) => state !== ProjectStates.OPEN ? ProjectStates.CLOSED : state);
   };
 
-  const { onPressIn, onPressOut, onLongPress, onHoverIn, onHoverOut } = usePressableCallbacks({
+  const { onPressIn, onPressOut, onHoverIn, onHoverOut } = usePressableCallbacks({
     isNotActive,
     hovering,
     setHover,
@@ -111,7 +108,6 @@ function App() {
       <WebGLCanvas texture1={texture1} texture2={texture2} />
       <Header />
       <div id="main">
-        <CircleCursor ref={circleCursorRef} />
         <div className="row">
           <div id="projects" className="column" ref={columnRef}>
             <div ref={projectMaskRef} id="projectMask" className="white-background"></div>
@@ -122,8 +118,6 @@ function App() {
                 onPressOut={(event) => onPressOut(event, index)}
                 onHoverIn={(event) => onHoverIn(event, index)}
                 onHoverOut={(event) => onHoverOut(event, index)}
-                onLongPress={(event) => onLongPress(event, index)}
-                delayLongPress={100}
                 disabled={projectStates[index] === ProjectStates.OPEN}>
                 <Project 
                   project={project} 
@@ -133,7 +127,7 @@ function App() {
                   startAnimationTime={getAnimationStartTime(startAnimation, index)}/>
               </Pressable>
             ))}
-            <div class="trail">
+            <div className="trail">
               <span>.</span><br/>
               <span>.</span><br/>
               <span>.</span><br/>

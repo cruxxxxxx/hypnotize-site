@@ -8,6 +8,9 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
   const [loaded, setLoaded] = useState(new Array(mediaSrcs.length).fill(false));
   const [slideIndex, setSlideIndex] = useState(0);
   const [showStatic, setShowStatic] = useState(false);
+  // per-index flag: has the real video started playing yet? Until it has, the
+  // poster stays overlaid so opening looks instant (no black/buffering gap).
+  const [videoStarted, setVideoStarted] = useState({});
   const carousel = useRef();
   const playerRefs = useRef([]);
 
@@ -31,6 +34,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
 
     if (!isProjectOpen) {
       setSlideIndex(0);
+      setVideoStarted({}); // reopen should show the poster again until video plays
     }
   }, [slideIndex, isProjectOpen]);
 
@@ -38,7 +42,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     if (loaded[0]) {
       onMediaLoaded();
     }
-  }, [loaded]);
+  }, [loaded, onMediaLoaded]);
 
   const getMediaType = (src) => {
     if (src.includes('youtube.com') || src.includes('youtu.be')) {
@@ -63,9 +67,65 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
     });
   };
 
+  // A media entry is either a string URL, or { src, poster } to enable a
+  // video slide to "lead" on the closed grid. The poster shows while closed;
+  // the real player takes over when the project opens.
+  const getEntrySrc = (entry) => (typeof entry === 'string' ? entry : entry.src);
+  const getEntryPoster = (entry) => (typeof entry === 'string' ? null : entry.poster);
+  // optional start time (seconds): the poster is the frame at this time and the
+  // video seeks here on open, so the still and first video frame match exactly.
+  const getEntryPosterTime = (entry) => (typeof entry === 'string' ? null : entry.posterTime);
+
+  // Closed-grid preview for a video slide. Poster type is auto-detected by
+  // extension: mp4/webm -> muted looping low-fi video; anything else
+  // (png/jpg/webp/gif) -> image (a .gif animates on its own).
+  const renderPoster = (poster, index) => {
+    const ext = poster.split('.').pop().toLowerCase();
+    const style = {
+      opacity: loaded[index] ? 1 : 0,
+      transition: 'opacity 0.2s',
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+    };
+    if (ext === 'mp4' || ext === 'webm') {
+      return (
+        <video
+          className={`mySlides ${loaded[index] ? 'fade-in' : 'fade-out'}`}
+          src={poster}
+          muted
+          loop
+          autoPlay
+          playsInline
+          preload="metadata"
+          onLoadedData={() => handleLoad(index)}
+          style={style}
+        />
+      );
+    }
+    return (
+      <img
+        className={`mySlides ${loaded[index] ? 'fade-in' : 'fade-out'}`}
+        src={poster}
+        alt={projectName}
+        loading={index === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+        onLoad={() => handleLoad(index)}
+        style={style}
+      />
+    );
+  };
+
+  const slideChangeTimeout = useRef(null);
+
+  useEffect(() => {
+    return () => clearTimeout(slideChangeTimeout.current);
+  }, []);
+
   const handleSlideChange = (newIndex) => {
     setShowStatic(true);
-    setTimeout(() => {
+    clearTimeout(slideChangeTimeout.current);
+    slideChangeTimeout.current = setTimeout(() => {
       setShowStatic(false);
       setSlideIndex(newIndex);
     }, 200);
@@ -116,8 +176,15 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
         customTransition="all"
         beforeChange={(nextSlide, { currentSlide, onMove }) => handleSlideChange(nextSlide)}
         dotListClass="custom-dot-list-style">
-        {mediaSrcs.map((src, index) => {
+        {/* Images use opacity (not display:none) to hide until loaded: a
+            display:none element has no layout box, so loading="lazy" never
+            intersects the viewport and never loads. Cover (index 0) is eager. */}
+        {mediaSrcs.map((entry, index) => {
+          const src = getEntrySrc(entry);
+          const poster = getEntryPoster(entry);
+          const posterTime = getEntryPosterTime(entry);
           const mediaType = getMediaType(src);
+          const isVideoLike = mediaType === 'video' || mediaType === 'youtube';
           return (
             <div key={index}>
               {mediaType === 'image' ? (
@@ -125,31 +192,55 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   className={`mySlides ${loaded[index] ? 'fade-in' : 'fade-out'}`}
                   src={src}
                   alt={projectName}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
                   onLoad={() => handleLoad(index)}
-                  style={{ display: loaded[index] ? 'block' : 'none' }}
+                  style={{ opacity: loaded[index] ? 1 : 0, transition: 'opacity 0.2s' }}
                 />
-              ) : (mediaType === 'video' || mediaType === 'youtube') && isProjectOpen ? (
-                <ReactPlayer
-                  ref={el => playerRefs.current[index] = el}
-                  config={{ 
-                    youtube: {
-                      playerVars: { playsinline: 1 }
-                    },
-                    file: {
-                      attributes: {
-                        playsInline: true 
+              ) : isVideoLike && isProjectOpen ? (
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <ReactPlayer
+                    ref={el => playerRefs.current[index] = el}
+                    config={{
+                      youtube: {
+                        playerVars: { playsinline: 1 }
+                      },
+                      file: {
+                        attributes: {
+                          playsInline: true
+                        }
                       }
-                    }
-                  }}
-                  loop={true} 
-                  playsinline={true}
-                  controls={isProjectOpen} 
-                  height='200%' width='100%' 
-                  volume={0.2} 
-                  url={src} 
-                  playing={index === slideIndex && isProjectOpen}
-                  onReady={() => handleLoad(index)}
-                />
+                    }}
+                    loop={true}
+                    playsinline={true}
+                    controls={isProjectOpen}
+                    height='200%' width='100%'
+                    volume={0.2}
+                    url={src}
+                    playing={index === slideIndex && isProjectOpen}
+                    onReady={() => {
+                      handleLoad(index);
+                      if (posterTime && playerRefs.current[index]) {
+                        playerRefs.current[index].seekTo(posterTime, 'seconds');
+                      }
+                    }}
+                    onStart={() => {
+                      if (posterTime && playerRefs.current[index]) {
+                        playerRefs.current[index].seekTo(posterTime, 'seconds');
+                      }
+                      setVideoStarted(prev => ({ ...prev, [index]: true }));
+                    }}
+                  />
+                  {poster && !['mp4', 'webm'].includes(poster.split('.').pop().toLowerCase()) && !videoStarted[index] && (
+                    <img
+                      src={poster}
+                      alt={projectName}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 2, pointerEvents: 'none' }}
+                    />
+                  )}
+                </div>
+              ) : isVideoLike && poster ? (
+                renderPoster(poster, index)
               ): mediaType === 'mio' && isProjectOpen && index === slideIndex ? (
                 <MioPlayerWrapper
                   src={src}

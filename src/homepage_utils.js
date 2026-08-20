@@ -12,7 +12,6 @@ export function calculatePercentageLoaded (loaded) {
     const totalItems = loaded.length;
     const percentageLoaded = (loadedItems / totalItems) * 100;
 
-    console.log(`Percentage loaded: ${percentageLoaded}%`);
     return percentageLoaded;
 }
 

@@ -4,7 +4,7 @@ import { ProjectStates } from '../project/projectStatesHandler.js';
 import { Pressable } from 'react-native';
 
 const wipeScreen = (projectMask) => {
-    projectMask.style.background_position_y = '-100vh';
+    projectMask.style.backgroundPositionY = '-100vh';
     projectMask.style.display = 'block';
     projectMask.classList.remove('wipe');
     projectMask.classList.add('wipe');
@@ -58,13 +58,7 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
   };
 
   const toggleFooter = () => {
-    setFooterOpen(prevFooterOpen => {
-      if(prevFooterOpen === null) {
-        return true;
-      } else {
-        return !prevFooterOpen;
-      }
-    });
+    setFooterOpen(prevFooterOpen => !prevFooterOpen);
   }
 
 
@@ -138,8 +132,8 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
     <div ref={footerRef} className="outside-footer">
       <div className="footer-arrow-container">
         <Pressable onPress={toggleFooter}>
-          <div class="line horizontal"></div>
-          <div ref={plusVerticalRef} class="line vertical"></div>
+          <div className="line horizontal"></div>
+          <div ref={plusVerticalRef} className="line vertical"></div>
           <img ref={arrowRef} className="footer-arrow" src="arrow.svg" alt="Toggle footer" />
         </Pressable>
       </div>
