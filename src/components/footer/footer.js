@@ -23,13 +23,12 @@ function filterProjectData(projectData, filterCriteria) {
 
 export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange, loaded }) {
   const [filtering, setFiltering] = useState(false);
-  const [filterCriteria, setFilterCriteria] = useState('');
+  const [filterCriteria, setFilterCriteria] = useState('projects');
   const [footerOpen, setFooterOpen] = useState(true);
   const prevFooterOpen = useRef(false);
   const footerRef = useRef();
   const arrowRef = useRef();
   const plusVerticalRef = useRef();
-  const [firstLoad, setFirstLoad] = useState(true);
 
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -61,13 +60,6 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
     setFooterOpen(prevFooterOpen => !prevFooterOpen);
   }
 
-
-  useEffect(() => {
-    if(loaded.every(loaded => loaded) && firstLoad) {
-      setFilterCriteria('projects');
-      setFirstLoad(false);
-    }
-  }, [loaded]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

@@ -28,13 +28,19 @@ mapProjectStates,
 getIsThis } from './homepage_utils.js';
 
 const projectData = [...SiteData['projects'], ...Experiments['projects']];
+// Default view is the "projects" group. Render only these on first load so the
+// browser doesn't download the (hidden) experiment covers up front.
+const defaultProjects = projectData.filter((p) => p.group === 'projects');
 const texture1 = 'tex1_med.png';
 const texture2 = 'tex2_low.png';
 
 function App() {
   const { projectStates, setProjectStates, activeIndex, setActiveIndex, resetActiveIndex, isActive, isNotActive } = useProjectState(projectData);
-  const { loaded, setLoaded, progress, setProgress, startAnimation, setStartAnimation } = useLoadingState(projectData);
-  const [filteredProjects, setFilteredProjects] = useState(projectData);
+  const { loaded, setLoaded, progress, setProgress, startAnimation, setStartAnimation } = useLoadingState(defaultProjects);
+  const [filteredProjects, setFilteredProjects] = useState(defaultProjects);
+  // the initial loading bar / mask only gates the first paint; filter changes
+  // afterward must not re-trigger it.
+  const [firstLoadComplete, setFirstLoadComplete] = useState(false);
 
   const [hovering, setHovering] = useState(false);
 
@@ -55,9 +61,12 @@ function App() {
   }, [setLoaded]);
 
   useEffect(() => {
+    if (firstLoadComplete) {
+      return; // gate only the first paint; later filter changes use the wipe
+    }
     const percentage = calculatePercentageLoaded(loaded);
     setProgress(percentage);
-  }, [loaded, setProgress]);
+  }, [loaded, setProgress, firstLoadComplete]);
 
   const openProject = (index) => {
     setActiveIndex(isActive(index) ? null : index);
@@ -95,6 +104,7 @@ function App() {
   });
 
   const finishedLoading = () => {
+    setFirstLoadComplete(true);
     setProgress(0);
     projectMaskRef.current.style.display = 'none';
     projectMaskRef.current.classList.remove('white-background');
