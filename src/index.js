@@ -121,6 +121,13 @@ function App() {
         mapProjectStates(setProjectStates,
           (state, i) => (i === idx ? ProjectStates.OPEN : ProjectStates.CLOSED));
         setProjectHash(target);
+        // scroll the opened project into view once its expand animation settles
+        setTimeout(() => {
+          const el = columnRef.current?.querySelectorAll('.outer-project')?.[idx];
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 500);
       }, 60);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
