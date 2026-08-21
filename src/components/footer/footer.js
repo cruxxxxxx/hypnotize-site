@@ -21,7 +21,7 @@ function filterProjectData(projectData, filterCriteria) {
   	}); 
 }
 
-export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange, loaded }) {
+export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange }) {
   const [filtering, setFiltering] = useState(false);
   const [filterCriteria, setFilterCriteria] = useState('projects');
   const [footerOpen, setFooterOpen] = useState(true);

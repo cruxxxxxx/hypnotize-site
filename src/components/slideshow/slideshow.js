@@ -197,7 +197,7 @@ const Slideshow = forwardRef(({ mediaSrcs, projectName, isProjectOpen, onMediaLo
                   onLoad={() => handleLoad(index)}
                   style={{ opacity: loaded[index] ? 1 : 0, transition: 'opacity 0.2s' }}
                 />
-              ) : isVideoLike && isProjectOpen ? (
+              ) : isVideoLike && isProjectOpen && index === slideIndex ? (
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                   <ReactPlayer
                     ref={el => playerRefs.current[index] = el}

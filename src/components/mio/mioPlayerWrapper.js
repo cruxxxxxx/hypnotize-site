@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { Player, ORIGINAL_CANVAS_WIDTH, ORIGINAL_CANVAS_HEIGHT } from 'mio-player';
-import * as MioLoader from 'mio-loader';
 
 const MioPlayerWrapper = ({ src, onLoaded }) => {
   const canvasRef = useRef(null);

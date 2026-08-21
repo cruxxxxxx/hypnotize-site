@@ -34,8 +34,18 @@ const defaultProjects = projectData.filter((p) => p.group === 'projects');
 const texture1 = 'tex1_med.png';
 const texture2 = 'tex2_low.png';
 
+// Deep-linking: the open project is reflected in the URL hash (e.g. #db) and a
+// matching hash on load opens that project.
+const slugify = (name) =>
+  name.toLowerCase().replace(/["']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const setProjectHash = (project) => {
+  const base = `${window.location.pathname}${window.location.search}`;
+  window.history.replaceState(null, '', project ? `${base}#${slugify(project.name)}` : base);
+};
+
 function App() {
-  const { projectStates, setProjectStates, activeIndex, setActiveIndex, resetActiveIndex, isActive, isNotActive } = useProjectState(projectData);
+  const { projectStates, setProjectStates, setActiveIndex, resetActiveIndex, isActive, isNotActive } = useProjectState(projectData);
   const { loaded, setLoaded, progress, setProgress, startAnimation, setStartAnimation } = useLoadingState(defaultProjects);
   const [filteredProjects, setFilteredProjects] = useState(defaultProjects);
   // the initial loading bar / mask only gates the first paint; filter changes
@@ -69,18 +79,57 @@ function App() {
   }, [loaded, setProgress, firstLoadComplete]);
 
   const openProject = (index) => {
-    setActiveIndex(isActive(index) ? null : index);
+    const opening = !isActive(index);
+    setActiveIndex(opening ? index : null);
     const isThis = getIsThis(index);
-    mapProjectStates(setProjectStates, 
+    mapProjectStates(setProjectStates,
       (state, i) => isThis(i) ? (state === ProjectStates.OPEN ? ProjectStates.CLOSED : ProjectStates.OPEN) : ProjectStates.CLOSED);
+    setProjectHash(opening ? filteredProjects[index] : null);
   };
 
   const closeProject = (index) => {
     resetActiveIndex();
     const isThis = getIsThis(index);
-    mapProjectStates(setProjectStates, 
+    mapProjectStates(setProjectStates,
       (state, i) => isThis(i) ? ProjectStates.CLOSED : state);
+    setProjectHash(null);
   };
+
+  // Deep-link: once the first paint is done, open the project named in the URL
+  // hash (switching to its group if it's an experiment). Runs once.
+  const [deepLinkHandled, setDeepLinkHandled] = useState(false);
+  useEffect(() => {
+    if (!firstLoadComplete || deepLinkHandled) {
+      return;
+    }
+    setDeepLinkHandled(true);
+    const slug = window.location.hash.replace(/^#/, '');
+    if (!slug) {
+      return;
+    }
+    const target = projectData.find((p) => slugify(p.name) === slug);
+    if (!target) {
+      return;
+    }
+    const list = target.group === 'projects'
+      ? defaultProjects
+      : projectData.filter((p) => p.group === target.group);
+    if (target.group !== 'projects') {
+      setFilteredProjects(list);
+    }
+    const idx = list.findIndex((p) => slugify(p.name) === slug);
+    if (idx >= 0) {
+      // open directly (not via openProject, which closes over the pre-filter
+      // list) so the state and hash both refer to the deep-linked project
+      setTimeout(() => {
+        setActiveIndex(idx);
+        mapProjectStates(setProjectStates,
+          (state, i) => (i === idx ? ProjectStates.OPEN : ProjectStates.CLOSED));
+        setProjectHash(target);
+      }, 60);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firstLoadComplete, deepLinkHandled]);
 
   const setHover = (index) => {
     const isThis = getIsThis(index);
@@ -149,7 +198,6 @@ function App() {
               setProjectStates={setProjectStates}
               projectMaskRef={projectMaskRef}
               onFilterChange={setFilteredProjects}
-              loaded={loaded}
             />
           </div>
         </div>

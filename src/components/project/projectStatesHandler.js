@@ -67,7 +67,7 @@ export class ProjectStateHandler {
     const currentMarginTop = window.getComputedStyle(this.innerProjectElem).marginTop;
     const currentMarginBottom = window.getComputedStyle(this.innerProjectElem).marginBottom;
 
-    if(currentMarginTop != this.project.marginTopClose || currentMarginBottom != this.project.marginBottomClose) {
+    if(currentMarginTop !== this.project.marginTopClose || currentMarginBottom !== this.project.marginBottomClose) {
       this.innerProjectElem.style.marginTop = currentMarginTop;
       this.innerProjectElem.style.marginBottom = currentMarginBottom;
 

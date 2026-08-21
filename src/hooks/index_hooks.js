@@ -1,5 +1,5 @@
 import { ProjectStates } from "../components/project/projectStatesHandler";
-import React, { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 
 export function useProjectState(projectData) {
     const [projectStates, setProjectStates] = useState(
