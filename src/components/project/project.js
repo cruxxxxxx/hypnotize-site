@@ -35,6 +35,12 @@ function ProjectComponent(props) {
     } else if(prevClosed) {
       stateHandler.onStateChange(ProjectStates.LOADING);
     }
+    // an explicit OPEN (e.g. a deep link) must apply even mid intro-animation,
+    // otherwise the project is state-OPEN (Pressable disabled) but never visually
+    // opened, so it looks closed and is unclickable.
+    else if(state === ProjectStates.OPEN) {
+      stateHandler.onStateChange(ProjectStates.OPEN);
+    }
     else if(!isPlaying) {
       stateHandler.onStateChange(state);
     }
