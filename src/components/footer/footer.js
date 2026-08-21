@@ -15,42 +15,49 @@ const closeAll = (setActiveIndex, setProjectStates) => {
     setProjectStates((prev) => prev.map((state, i) => ProjectStates.CLOSED));
   }
 
-function filterProjectData(projectData, filterCriteria) {
-	return projectData.filter(project => {
-    	return filterCriteria === '' || project.group === filterCriteria;
-  	}); 
+// group toggles are boolean: show every project whose group is active, sorted
+// newest-first so projects and experiments interweave by year.
+function filterProjectData(projectData, activeGroups) {
+	return projectData
+		.filter(project => activeGroups.includes(project.group))
+		.sort((a, b) => Number(b.year) - Number(a.year));
 }
 
 export function Footer({ projectData, setActiveIndex, setProjectStates, projectMaskRef, onFilterChange }) {
   const [filtering, setFiltering] = useState(false);
-  const [filterCriteria, setFilterCriteria] = useState('projects');
+  // activeGroups drives the button look (updated instantly on click); appliedGroups
+  // drives the grid (updated under the wipe) so the button feels responsive.
+  const [activeGroups, setActiveGroups] = useState(['projects', 'experiments']);
+  const [appliedGroups, setAppliedGroups] = useState(['projects', 'experiments']);
   const [footerOpen, setFooterOpen] = useState(true);
   const prevFooterOpen = useRef(false);
   const footerRef = useRef();
-  const arrowRef = useRef();
-  const plusVerticalRef = useRef();
 
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
   useEffect(() => {
-    const filteredData = filterProjectData(projectData, filterCriteria);
-    onFilterChange(filteredData);
-  }, [filterCriteria, projectData, onFilterChange]);
+    onFilterChange(filterProjectData(projectData, appliedGroups));
+  }, [appliedGroups, projectData, onFilterChange]);
 
-  const handleFilterChange = async (type) => {
+  // clicking a category selects it exclusively (like tabs) — it never deselects.
+  const selectGroup = async (group) => {
     if (filtering) return;
+    if (activeGroups.length === 1 && activeGroups[0] === group) return; // already sole selection
 
+    const next = [group];
+
+    setActiveGroups(next);        // instant button feedback
     setFiltering(true);
     closeAll(setActiveIndex, setProjectStates);
     scrollToTop();
 
-    await delay(400);
+    await delay(250);
     wipeScreen(projectMaskRef.current);
 
-    await delay(200);
-    setFilterCriteria(type);
+    await delay(150);
+    setAppliedGroups(next);       // grid swaps under the wipe
 
-    await delay(1000);
+    await delay(900);
     projectMaskRef.current.style.display = 'none';
     setFiltering(false);
     scrollToTop();
@@ -59,7 +66,6 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
   const toggleFooter = () => {
     setFooterOpen(prevFooterOpen => !prevFooterOpen);
   }
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -80,8 +86,8 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       return;
     }
 
-    if (footerRef.current && plusVerticalRef.current && footerOpen !== null) {
-      const handleFooterAnimationEnd = (event) => {
+    if (footerRef.current) {
+      const handleFooterAnimationEnd = () => {
         const footerStyle = window.getComputedStyle(footerRef.current);
         footerRef.current.style.transform = footerStyle.transform;
         footerRef.current.style.background = footerStyle.background;
@@ -90,43 +96,27 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
         footerRef.current.removeEventListener('animationend', handleFooterAnimationEnd);
       };
 
-      const handleArrowAnimationEnd = (event) => {
-        const plusVerticalStyle = window.getComputedStyle(plusVerticalRef.current);
-        plusVerticalRef.current.style.transform = plusVerticalStyle.transform;
-        plusVerticalRef.current.classList.remove('open');
-        plusVerticalRef.current.classList.remove('close');
-        plusVerticalRef.current.removeEventListener('animationend', handleArrowAnimationEnd);
-      };
-
-      if (footerOpen === true) {
-        footerRef.current.classList.remove('close');
-        plusVerticalRef.current.classList.remove('close');
-
-        footerRef.current.classList.add('open');
-        plusVerticalRef.current.classList.add('open');
-      } else if (footerOpen === false) {
-        footerRef.current.classList.remove('open');
-        plusVerticalRef.current.classList.remove('open');
-
-        footerRef.current.classList.add('close');
-        plusVerticalRef.current.classList.add('close');
-      }
-
+      footerRef.current.classList.remove('open', 'close');
+      footerRef.current.classList.add(footerOpen ? 'open' : 'close');
       footerRef.current.addEventListener('animationend', handleFooterAnimationEnd);
-      plusVerticalRef.current.addEventListener('animationend', handleArrowAnimationEnd);
     }
 
     prevFooterOpen.current = footerOpen;
-
   }, [footerOpen]);
 
   return (
     <div ref={footerRef} className="outside-footer">
       <div className="footer-arrow-container">
         <Pressable onPress={toggleFooter}>
-          <div className="line horizontal"></div>
-          <div ref={plusVerticalRef} className="line vertical"></div>
-          <img ref={arrowRef} className="footer-arrow" src="arrow.svg" alt="Toggle footer" />
+          {/* two strokes sharing the vertex; they fan through flat into
+              ^ (collapsed) or V (expanded) */}
+          <svg
+            className={`footer-caret ${footerOpen ? 'open' : ''}`}
+            viewBox="0 0 44 26"
+            aria-label="Toggle footer">
+            <line className="footer-caret-line left" x1="6" y1="13" x2="22" y2="13" />
+            <line className="footer-caret-line right" x1="22" y1="13" x2="38" y2="13" />
+          </svg>
         </Pressable>
       </div>
 
@@ -135,7 +125,9 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
       <div className="inside-footer">
           <div className="buttons-container">
             <div id="first-button" className="button-container">
-              <button className="filter-button" onClick={() => handleFilterChange("projects")}>
+              <button
+                className={`filter-button ${activeGroups.includes('projects') ? 'active' : ''}`}
+                onClick={() => selectGroup('projects')}>
                 <img className="filter-button-image" src="project1.svg" alt="projects" />
               </button>
               <br/>
@@ -143,7 +135,9 @@ export function Footer({ projectData, setActiveIndex, setProjectStates, projectM
             </div>
 
             <div id="third-button" className="button-container">
-              <button className="filter-button" onClick={() => handleFilterChange("experiments")}>
+              <button
+                className={`filter-button ${activeGroups.includes('experiments') ? 'active' : ''}`}
+                onClick={() => selectGroup('experiments')}>
                 <img className="filter-button-image" src="experiment1.svg" alt="experiments" />
               </button>
               <br/>

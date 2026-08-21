@@ -28,9 +28,10 @@ mapProjectStates,
 getIsThis } from './homepage_utils.js';
 
 const projectData = [...SiteData['projects'], ...Experiments['projects']];
-// Default view is the "projects" group. Render only these on first load so the
-// browser doesn't download the (hidden) experiment covers up front.
-const defaultProjects = projectData.filter((p) => p.group === 'projects');
+// Default view mixes both groups, sorted newest-first so projects and
+// experiments interweave by year.
+const byYearDesc = (a, b) => Number(b.year) - Number(a.year);
+const allProjectsSorted = [...projectData].sort(byYearDesc);
 const texture1 = 'tex1_med.png';
 const texture2 = 'tex2_low.png';
 
@@ -46,8 +47,8 @@ const setProjectHash = (project) => {
 
 function App() {
   const { projectStates, setProjectStates, setActiveIndex, resetActiveIndex, isActive, isNotActive } = useProjectState(projectData);
-  const { loaded, setLoaded, progress, setProgress, startAnimation, setStartAnimation } = useLoadingState(defaultProjects);
-  const [filteredProjects, setFilteredProjects] = useState(defaultProjects);
+  const { loaded, setLoaded, progress, setProgress, startAnimation, setStartAnimation } = useLoadingState(projectData);
+  const [filteredProjects, setFilteredProjects] = useState(allProjectsSorted);
   // the initial loading bar / mask only gates the first paint; filter changes
   // afterward must not re-trigger it.
   const [firstLoadComplete, setFirstLoadComplete] = useState(false);
@@ -96,7 +97,7 @@ function App() {
   };
 
   // Deep-link: once the first paint is done, open the project named in the URL
-  // hash (switching to its group if it's an experiment). Runs once.
+  // hash. The default view shows all groups, so the target is already rendered.
   const [deepLinkHandled, setDeepLinkHandled] = useState(false);
   useEffect(() => {
     if (!firstLoadComplete || deepLinkHandled) {
@@ -107,17 +108,11 @@ function App() {
     if (!slug) {
       return;
     }
-    const target = projectData.find((p) => slugify(p.name) === slug);
+    const target = allProjectsSorted.find((p) => slugify(p.name) === slug);
     if (!target) {
       return;
     }
-    const list = target.group === 'projects'
-      ? defaultProjects
-      : projectData.filter((p) => p.group === target.group);
-    if (target.group !== 'projects') {
-      setFilteredProjects(list);
-    }
-    const idx = list.findIndex((p) => slugify(p.name) === slug);
+    const idx = allProjectsSorted.findIndex((p) => slugify(p.name) === slug);
     if (idx >= 0) {
       // open directly (not via openProject, which closes over the pre-filter
       // list) so the state and hash both refer to the deep-linked project
