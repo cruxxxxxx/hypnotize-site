@@ -32,7 +32,7 @@
 
 .project-title {
   text-align: left;
-  font-size: 5.2em;
+  font-size: 3em;
   font-family: 'arrayregular';
   white-space: pre-line;
   margin-bottom: 0.3em;
@@ -66,7 +66,7 @@
   padding-left: 1em;
   padding-bottom: 1em;
   color: black;
-  font-size: 2em;
+  font-size: max(0.8em, 13px); /* stays readable in a narrow column */
   text-align: left;
   font-family: "Hiragino Kaku Gothic ProN W3", sans-serif;
   width: 95%;
@@ -75,10 +75,10 @@
 }
 
 .project-info-text-container {
-  margin-top: 0.7em;
+  margin-top: 0.85em;
   padding-bottom: 1em;
   color: black;
-  font-size: 2.3em;
+  font-size: 1.2em;
   font-family: "Hiragino Kaku Gothic ProN W3", sans-serif;
   width: 81%;
   display: flex;
@@ -87,7 +87,8 @@
 .project-info-table {
   display: block;
   overflow:hidden;
-  min-width: 70%;
+  min-width: 60%;
+  max-width: 70%;
   border-collapse: collapse; 
   border-left: 1px solid black;
   border-right: 1px solid black;
@@ -134,6 +135,7 @@
 
 .project-info-text-year-column {
   flex: 1;
+  margin-top: 0.2em;
   text-align: right;
 }
 
@@ -142,55 +144,6 @@
   text-align: right;
   padding-right: 1em;
 }
-
-@media (min-width: 1000px) {
-  .project-title {
-    font-size: 3em;
-  }
-
-  .project-info-text-container {
-    font-size: 1.2em;
-    margin-top: 0.85em;
-  }
-
-  .project-description {
-    font-size: 0.8em;
-  }
-
-  .project-info-table {
-    min-width: 60%;
-    max-width: 70%;
-  }
-
-  .project-info-text-year-column {
-    margin-top: 0.2em;
-  }
-}
-
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-  .project-title {
-    font-size: 3em;
-  }
-
-  .project-info-text-container {
-    font-size: 1.15em;
-    margin-top: 0.9em;
-  }
-
-  .project-description {
-    font-size: 1em;
-  }
-
-  .project-info-table {
-    min-width: 50%;
-    max-width: 60%;
-  }
-
-  .project-info-text-year-column {
-    margin-top: 0.25em;
-  }
-}
-
 .inner-project.margin-change {
   animation: marginChange 0.5s forwards;
 }
@@ -242,11 +195,8 @@
   }
 }
 
+/* no `from`: starts at the current (inline) margins, see onHoverIn */
 @keyframes marginHover {
-  from {
-    margin-top: var(--margin-top-close);
-    margin-bottom: var(--margin-bottom-close);
-  }
   to {
     margin-top: var(--margin-top-hover);
     margin-bottom: var(--margin-bottom-hover);

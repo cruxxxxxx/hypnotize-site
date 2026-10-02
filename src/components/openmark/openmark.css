@@ -1,19 +1,12 @@
 .open-mark-container {
   position: absolute;
   text-align: left;
-  font-size: 3em;
+  font-size: 1.1em;
   margin-left: -0.6em;
   margin-top: -0.5em;
   overflow: visible;
   z-index: 9999;
 }
-
-@media (min-width: 1000px) {
-  .open-mark-container {
-    font-size: 1.1em;
-  }
-}
-
 @keyframes rotateElement {
   from {
     transform: rotate(0deg);

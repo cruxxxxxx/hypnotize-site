@@ -51,8 +51,27 @@ export class ProjectStateHandler {
   }
 
   onHoverIn(callback) {
+    // hover can land mid-close (e.g. the cursor is still over the card after
+    // pressing its close mark), so animate from wherever the margins are now
+    // instead of snapping to the closed position first.
+    this.freezeCurrentMargins();
+    this.cancelMarginRevert();
+
     this.innerProjectElem.classList.remove('margin-revert');
     this.innerProjectElem.classList.add('margin-hover');
+  }
+
+  freezeCurrentMargins() {
+    const computedStyle = window.getComputedStyle(this.innerProjectElem);
+    this.innerProjectElem.style.marginTop = computedStyle.marginTop;
+    this.innerProjectElem.style.marginBottom = computedStyle.marginBottom;
+  }
+
+  cancelMarginRevert() {
+    if (this.marginRevertHandler) {
+      this.innerProjectElem.removeEventListener('animationend', this.marginRevertHandler);
+      this.marginRevertHandler = null;
+    }
   }
 
   onClosed() {
@@ -75,11 +94,13 @@ export class ProjectStateHandler {
       this.innerProjectElem.classList.remove('margin-change');
       this.innerProjectElem.classList.add('margin-revert');
 
-      if (this.marginRevertHandler) {
-        this.innerProjectElem.removeEventListener('animationend', this.marginRevertHandler);
-      }
+      this.cancelMarginRevert();
 
-      const onMarginRevertEnd = () => {
+      const onMarginRevertEnd = (event) => {
+        // ignore animations bubbling up from children (e.g. the info fade-out)
+        if (event.target !== this.innerProjectElem) {
+          return;
+        }
         this.innerProjectElem.style.marginTop = this.project.marginTopClose;
         this.innerProjectElem.style.marginBottom = this.project.marginBottomClose;
         this.innerProjectElem.classList.remove('margin-revert');

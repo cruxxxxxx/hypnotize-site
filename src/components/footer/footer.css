@@ -1,6 +1,9 @@
 .outside-footer {
-    --footer-open-percentage: 75%;
-    transform: translateY(var(--footer-open-percentage));
+    /* collapsed footer shows a fixed strip (just the caret), not a percentage of
+       its own height — the mobile footer is tall, so a % left a big slab visible */
+    --footer-peek: 2.2em;
+    --footer-collapsed-offset: calc(100% - var(--footer-peek));
+    transform: translateY(var(--footer-collapsed-offset));
     background: rgba(23, 23, 23, 0.98);
   position: fixed;
   display: flex;
@@ -17,13 +20,14 @@
   background: rgba(0, 0, 0, 0.8);
   z-index: 9999;
   font-family: "Hiragino Kaku Gothic ProN W3", sans-serif;
+  font-size: max(var(--base), 13px);
 }
 
 .filter-button {
   background: none;
   border: none;
-  height: 12em;
-  width: 12em;
+  height: 6em;
+  width: 6em;
   opacity: 0.4;
   transition: opacity 0.25s ease, transform 0.2s ease;
   cursor: pointer;
@@ -45,7 +49,7 @@
 }
 
 .filter-button-label {
-  font-size: 2em;
+  font-size: 1em;
   padding-left: 0.5em;
 }
 
@@ -66,7 +70,7 @@
 
 .urls {
   color: whitesmoke;
-  font-size: 2em
+  font-size: 1em;
 }
 
 .urls:hover {
@@ -82,8 +86,8 @@
 
 .footer-arrow {
   filter: invert(1);
-  width: 6em;
-  height: 6em;
+  width: 2em;
+  height: 2em;
   transform: rotate(-90deg);
   opacity: 0;
 }
@@ -123,13 +127,13 @@
     transform: translateY(0%);
   }
   to {
-    transform: translateY(var(--footer-open-percentage));
+    transform: translateY(var(--footer-collapsed-offset));
   }
 }
 
 @keyframes translateFooterUp {
   from {
-    transform: translateY(var(--footer-open-percentage));
+    transform: translateY(var(--footer-collapsed-offset));
   }
   to {
     transform: translateY(0%);
@@ -145,87 +149,16 @@
 }
 
 .footer-line {
-  width: 80%;
+  width: min(500px, 80%);
   height: 1px;
   background-color: #CCC;
-  margin: 1.5em auto;
+  margin: 0.5em auto;
 }
-
-@media (min-width: 1000px) {
-    .outside-footer {
-        --footer-open-percentage: 80%;
-    }
-
-  .filter-button-label {
-    font-size: 1em;
-  }
-
-  .filter-button {
-    height: 6em;
-    width: 6em;
-  }
-
-  .footer-arrow {
-    width: 2em;
-    height: 2em;
-  }
-
-  .footer-caret {
-    width: 1.3em;
-    height: 0.8em;
-  }
-
-  .footer-caret-line {
-    stroke-width: 5;
-  }
-
-  .footer-line {
-    width: 500px;
-    margin: 0.5em auto;
-  }
-
-  .urls {
-    font-size: 1em;
-  }
-}
-
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-    .outside-footer {
-        --footer-open-percentage: 79%;
-    }
-
-  .footer-arrow {
-    width: 2em;
-    height: 2em;
-  }
-
-  .filter-button-label {
-    font-size: 1em;
-  }
-  
-  .filter-button {
-    height: 6em;
-    width: 6em;
-  }
-  
-  .footer-line {
-    width: 50%;
-  }
-
-  .urls {
-    font-size: 1em;
-  }
-
-  .footer-line {
-    margin: 0.5em auto;
-  }
-}
-
 /* toggle caret: an SVG whose two strokes share the vertex, so the join is sharp
    (no overlap blob). They fan through flat into ^ (collapsed) or V (expanded). */
 .footer-caret {
-  width: 1.7em;
-  height: 1em;
+  width: 1.3em;
+  height: 0.8em;
   overflow: visible;
   display: block;
   margin: 0 auto;
